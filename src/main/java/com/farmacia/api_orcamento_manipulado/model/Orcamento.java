@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Entity // Diz ao JPA que esta classe é uma tabela no banco
 @Getter // O Lombok cria todos os métodos get (inclusive o getStatus())
 @Setter // O Lombok cria todos os métodos set
@@ -20,6 +22,7 @@ public class Orcamento {
     // O método getStatus() manual foi removido! O @Getter faz o trabalho.
 
 
+
     /*Abaixo, codigo criado antes de criar Entidade JPA e usar o Lombok
 
      Criamos o método, mas retornamos null ou vazio para o teste falhar no valor
@@ -33,4 +36,21 @@ public class Orcamento {
     public String getStatus() {
         return this.status;
     }*/
+
+    // Adicione os campos e métodos na classe Orcamento
+    private BigDecimal valorTotal = BigDecimal.ZERO;
+    private static final BigDecimal TAXA_MANIPULACAO = new BigDecimal("10.00");
+
+    public void adicionarItem(String nome, BigDecimal preco) {
+        // Lógica simples para fazer o teste passar
+        if (this.valorTotal.equals(BigDecimal.ZERO)) {
+            this.valorTotal = this.valorTotal.add(TAXA_MANIPULACAO);
+        }
+        this.valorTotal = this.valorTotal.add(preco);
+    }
+
+    public BigDecimal getValorTotal() {
+        return this.valorTotal;
+    }
+
 }
