@@ -2,6 +2,8 @@ package com.farmacia.api_orcamento_manipulado.model;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.farmacia.api_orcamento_manipulado.model.Orcamento;
+import com.farmacia.api_orcamento_manipulado.model.ItemOrcamento;
+
 
 import java.math.BigDecimal;
 
@@ -23,9 +25,13 @@ public class OrcamentoTest {
     void deveCalcularValorTotalComTaxaFixa() {
         Orcamento orcamento = new Orcamento();
 
-        // Imagine que temos um método para adicionar itens
+        /* Imagine que temos um método para adicionar itens
         orcamento.adicionarItem("Vitamina C", new BigDecimal("20.00"));
-        orcamento.adicionarItem("Zinco", new BigDecimal("20.00"));
+        orcamento.adicionarItem("Zinco", new BigDecimal("20.00"));*/
+
+        // Ajuste para o novo objeto
+        orcamento.adicionarItem(new ItemOrcamento("Vitamina C", new BigDecimal("20.00")));
+        orcamento.adicionarItem(new ItemOrcamento("Zinco", new BigDecimal("20.00")));
 
         // O total esperado é 20 + 20 + 10 (taxa) = 50
         assertEquals(new BigDecimal("50.00"), orcamento.getValorTotal());
