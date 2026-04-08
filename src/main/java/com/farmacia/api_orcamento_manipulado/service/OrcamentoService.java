@@ -9,7 +9,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor // Lombok gera o construtor para injeção de dependência
+@RequiredArgsConstructor // Lombok gera o construtor para injeção de dependência,
+// padrão Dependency Injection (Injeção de Dependência) Em vez de o Service dar um new OrcamentoRepository(), o Spring "injeta" a
+// instância pronta. Isso é o que permite o Mocking nos seus testes: você injeta um "dublê" no teste e a instância real na produção.
+
 public class OrcamentoService {
 
     private final OrcamentoRepository repository;

@@ -6,6 +6,9 @@ import org.springframework.stereotype.Repository;
 
 
     // src/main/java/com/farmacia/api_orcamento_manipulado/repository/OrcamentoRepository.java
+    //Repository Pattern: separa a lógica de negócio (Java) da lógica de acesso a dados (SQL).
+    // Você lida com objetos e o repositório cuida da persistência, permitindo trocar o banco de dados.
+
 
 
     @Repository

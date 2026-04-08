@@ -19,6 +19,7 @@ public class ItemOrcamento {
     private String nome;
     private BigDecimal preco;
 
+
     // Construtor conveniente para o teste
     public ItemOrcamento(String nome, BigDecimal preco) {
         this.nome = nome;

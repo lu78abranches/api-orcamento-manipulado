@@ -18,6 +18,7 @@ import java.math.BigDecimal;
     @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE) // Usa o MySQL real, não o H2
     public class OrcamentoRepositoryTest {
 
+        // Dependency Injection (Injeção de Dependência)
         @Autowired
         private OrcamentoRepository repository;
 
