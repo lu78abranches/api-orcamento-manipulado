@@ -3,7 +3,12 @@ package com.farmacia.api_orcamento_manipulado.controller;
 import com.farmacia.api_orcamento_manipulado.service.OrcamentoService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
@@ -13,6 +18,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 // src/test/java/com/farmacia/api_orcamento_manipulado/controller/OrcamentoControllerTest.java
 @WebMvcTest(OrcamentoController.class)
+@TestPropertySource(properties = {
+        "DB_USERNAME=teste",
+        "DB_PASSWORD=teste",
+        "OPENAI_API_KEY=teste"
+})
+@ImportAutoConfiguration(exclude = {
+        DataSourceAutoConfiguration.class,
+        HibernateJpaAutoConfiguration.class,
+        DataSourceTransactionManagerAutoConfiguration.class
+})
 public class OrcamentoControllerTest {
 
     @Autowired
