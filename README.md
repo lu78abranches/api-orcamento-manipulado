@@ -37,6 +37,26 @@ This project demonstrates strong capabilities in **backend engineering, system i
 
 ---
 
+## 📈 Project Status / Roadmap
+
+Based on the **System Requirements Document (DRS)**, the following modules are either functional or pending implementation.
+
+### ✅ What has been developed
+* **AI Data Extraction (RF-02):** Functional integration with Google Gemini Vision to extract medications, concentrations, and quantities from images sent via HTTP REST.
+* **Base Data Persistence:** Initial database configuration (MySQL/H2) via Spring Data JPA with robustly mapped business entities.
+* **Credentials Security (RNF-05):** Structural protection through secure reading of the `.env` file.
+* **Initial Automated Tests (RNF-03 partial):** Unit tests configured and running with JUnit 5 and Mockito.
+
+### 🚧 What is left to develop
+* **WhatsApp Webhook Integration (RF-01, RF-05):** Enable receiving messages and directly sending approved budgets through the Meta WhatsApp Business API.
+* **Pharmacist Validation Panel (RF-04, RN-01, RN-02):** The extracted budget needs to be pending; every submission requires human review and authorization before being sent to the client.
+* **Price Calculation Engine (RF-03, RN-03):** Create/Configure the logic that calculates: `(Supplies Cost + Packaging) * Markup + Fixed Handling Fee (R$ 10)`.
+* **Controlled Substances Alert (RN-04):** Logic to check if the mapped active ingredient is under Ordinance 344/98 (Brazil) and trigger a system warning.
+* **Cloud Object Storage (RF-06):** Permanent storage of the original file (prescription photo) in Amazon S3 / Google Cloud Storage with a URL linked to the budget.
+* **Authentication and Permission (RNF-01, RNF-02):** Protect access using Spring Security (profiles and JWT tokens), encrypting user passwords with BCrypt.
+
+---
+
 ## 🏃‍♂️ Running the Project Locally
 
 ### Prerequisites
