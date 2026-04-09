@@ -74,8 +74,9 @@ This project demonstrates strong capabilities in **backend engineering, system i
 ## 📬 Contact & Developer
 
 **[Luis Abranches / [Your GitHub Profile](https://github.com/lu78abranches)]**
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/luis-abranches/)
 
-[![Gmail](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:luisabranches.violao@gmail.com)
+*[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/luis-abranches/)
+
+*[![Gmail](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:luisabranches.violao@gmail.com)
 
 > *Note for Recruiters: This project highlights my ability to integrate modern cloud AI services into enterprise-grade Java backends, handle unstructured data formats, and build robust REST APIs using the Spring ecosystem.*
