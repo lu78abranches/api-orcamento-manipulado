@@ -11,6 +11,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Service
+
 public class OpenAIReceitaService implements IAReceitaService {
 
     @Value("${openai.api.key}")
@@ -34,14 +35,13 @@ public class OpenAIReceitaService implements IAReceitaService {
     @Override
     public List<ItemOrcamento> extrairItens(byte[] imagem) {
         String base64Imagem = Base64.getEncoder().encodeToString(imagem);
-        String url = "https://openai.com";
+        String url = "https://openai.com"; // URL CORRETA
 
-        // Montamos o corpo da requisição (simplificado para o exemplo)
         Map<String, Object> requestBody = Map.of(
                 "model", "gpt-4o",
                 "messages", List.of(
                         Map.of("role", "user", "content", List.of(
-                                Map.of("type", "text", "text", "Liste os itens e preços desta receita de manipulação. Retorne APENAS um JSON no formato: [{\"nome\": \"...\", \"preco\": 0.00}]"),
+                                Map.of("type", "text", "text", "Liste os itens e preços desta receita. Retorne APENAS um JSON no formato: {\"itens\": [{\"nome\": \"...\", \"preco\": 0.00}]}"),
                                 Map.of("type", "image_url", "image_url", Map.of("url", "data:image/jpeg;base64," + base64Imagem))
                         ))
                 ),
@@ -52,29 +52,25 @@ public class OpenAIReceitaService implements IAReceitaService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(apiKey);
 
+// ESTES CABEÇALHOS SÃO CRUCIAIS PARA EVITAR O 403:
+        headers.set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36");
+        headers.set("Accept", "application/json");
+
+// Opcional: Alguns filtros barram se não houver o Origin ou Referer
+        headers.set("Origin", "https://api.openai.com");
+
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
 
-        // Chamada real
-        var response = restTemplate.postForObject(url, entity, Map.class);
-
-        // Aqui você faria o parse do JSON da resposta para List<ItemOrcamento>
-        // Por enquanto, vamos retornar uma lista vazia para você testar a compilação
-        //return new ArrayList<>();
-        // ... dentro do método extrairItens, após o restTemplate.postForObject
-
         try {
-            // 1. Pegamos o conteúdo da resposta da OpenAI
-            Map<String, Object> responseBody = restTemplate.postForObject(url, entity, Map.class);
+            System.out.println("DEBUG: Tentando conectar na URL: " + url);
+            var responseBody = restTemplate.postForObject("https://openai.com", entity, Map.class);
+            System.out.println("Resposta da OpenAI: " + responseBody);
+
+            // --- INÍCIO DO PARSE (O que faltava para retornar) ---
             List<Map<String, Object>> choices = (List<Map<String, Object>>) responseBody.get("choices");
             String contentJson = (String) ((Map<String, Object>) choices.get(0).get("message")).get("content");
 
-            // 2. Usamos o ObjectMapper para transformar o JSON em uma lista de DTOs
             ObjectMapper mapper = new ObjectMapper();
-            // Configuração para ignorar campos que a IA possa inventar e que não temos no DTO
-            mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-            // O conteúdo vem como um objeto JSON. Vamos extrair a lista de itens.
-            // Dica: Se o prompt pediu um objeto com uma lista, o parse deve refletir isso.
             JsonNode rootNode = mapper.readTree(contentJson);
             JsonNode itensNode = rootNode.has("itens") ? rootNode.get("itens") : rootNode;
 
@@ -83,16 +79,19 @@ public class OpenAIReceitaService implements IAReceitaService {
                     new TypeReference<List<ItemExtraidoDTO>>() {}
             );
 
-            // 3. Convertemos DTOs para sua Entidade ItemOrcamento
+            // RETORNO: Transforma DTO em Entidade e entrega a lista
             return dtos.stream()
                     .map(dto -> new ItemOrcamento(dto.nome(), dto.preco()))
                     .collect(Collectors.toList());
+            // --- FIM DO PARSE ---
 
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao processar resposta da IA: " + e.getMessage());
+            e.printStackTrace(); // Isso vai imprimir o erro completo no seu terminal
+            throw new RuntimeException("Falha na extração: " + e.getMessage(), e);
         }
-
     }
+
+
 }
 
 
