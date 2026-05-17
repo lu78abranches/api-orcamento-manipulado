@@ -37,6 +37,51 @@ This project demonstrates strong capabilities in **backend engineering, system i
 
 ---
 
+## 📂 Directory Structure
+
+```text
+api-orcamento-manipulado/
+├── src/
+│   ├── main/
+│   │   ├── java/com/farmacia/api_orcamento_manipulado/
+│   │   │   ├── config/
+│   │   │   │   └── JpaConfig.java
+│   │   │   ├── controller/
+│   │   │   │   └── OrcamentoController.java
+│   │   │   ├── dto/
+│   │   │   │   └── ItemExtraidoDTO.java
+│   │   │   ├── model/
+│   │   │   │   ├── ItemOrcamento.java
+│   │   │   │   └── Orcamento.java
+│   │   │   ├── repository/
+│   │   │   │   └── OrcamentoRepository.java
+│   │   │   ├── service/
+│   │   │   │   ├── GeminiReceitaService.java
+│   │   │   │   ├── IAReceitaService.java
+│   │   │   │   ├── OpenAIReceitaService.java
+│   │   │   │   └── OrcamentoService.java
+│   │   │   └── ApiOrcamentoManipuladoApplication.java
+│   │   └── resources/
+│   │       └── application.properties
+│   └── test/
+│       └── java/com/farmacia/api_orcamento_manipulado/
+│           ├── controller/
+│           │   └── OrcamentoControllerTest.java
+│           ├── model/
+│           │   └── OrcamentoTest.java
+│           ├── repository/
+│           │   └── OrcamentoRepositoryTest.java
+│           ├── service/
+│           │   └── OrcamentoServiceTest.java
+│           └── ApiOrcamentoManipuladoApplicationTests.java
+├── pom.xml
+├── README.md
+├── HELP.md
+└── Documento_de_Requisitos_API_Farmacia.docx
+```
+
+---
+
 ## 📈 Project Status / Roadmap
 
 Based on the **System Requirements Document (DRS)**, the following modules are either functional or pending implementation.
