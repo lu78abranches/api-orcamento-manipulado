@@ -16,8 +16,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+
 // src/test/java/com/farmacia/api_orcamento_manipulado/controller/OrcamentoControllerTest.java
 @WebMvcTest(OrcamentoController.class)
+@AutoConfigureMockMvc(addFilters = false)
 @TestPropertySource(properties = {
         "DB_USERNAME=teste",
         "DB_PASSWORD=teste",

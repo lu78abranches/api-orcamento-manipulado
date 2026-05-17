@@ -24,6 +24,7 @@ import java.math.BigDecimal;
 
         @Test
         void deveSalvarERecuperarUmOrcamento() {
+            long countAntes = repository.count();
             Orcamento orcamento = new Orcamento();
             // Adicione um item para testar o relacionamento
             orcamento.adicionarItem(new ItemOrcamento("Vitamina D", new BigDecimal("30.00")));
@@ -31,7 +32,7 @@ import java.math.BigDecimal;
             Orcamento salvo = repository.save(orcamento);
 
             assertNotNull(salvo.getId());
-            assertEquals(1, repository.count());
+            assertEquals(countAntes + 1, repository.count());
         }
     }
 
