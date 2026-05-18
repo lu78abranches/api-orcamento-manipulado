@@ -26,5 +26,12 @@ public class OrcamentoService {
 
         return repository.save(orcamento);
     }
+
+    public Orcamento criarOrcamentoPreliminar(String clienteWhatsapp, List<ItemOrcamento> itens) {
+        Orcamento orcamento = new Orcamento();
+        orcamento.setClienteWhatsapp(clienteWhatsapp);
+        itens.forEach(orcamento::adicionarItem);
+        return repository.save(orcamento);
+    }
 }
 

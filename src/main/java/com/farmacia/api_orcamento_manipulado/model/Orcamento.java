@@ -21,7 +21,7 @@ public class Orcamento {
     // Definimos o valor padrão diretamente no atributo
     private String status = "PENDENTE_REVISAO";
 
-    // O método getStatus() manual foi removido! O @Getter faz o trabalho.
+    private String clienteWhatsapp;
 
 
 
