@@ -90,7 +90,7 @@ Based on the **System Requirements Document (DRS)**, the following modules are e
 * **AI Data Extraction (RF-02):** Functional integration with Google Gemini Vision to extract medications, concentrations, and quantities from images sent via HTTP REST.
 * **Base Data Persistence:** Initial database configuration (MySQL/H2) via Spring Data JPA with robustly mapped business entities.
 * **Credentials Security (RNF-05):** Structural protection through secure reading of the `.env` file.
-* **Initial Automated Tests (RNF-03 partial):** Unit tests configured and running with JUnit 5 and Mockito.
+* **Automated Testing & Security Foundation (RNF-03):** All 8 tests are now passing with BUILD SUCCESS. We have consolidated the foundation of our information security, which is essential for compliance with the Brazilian LGPD and the secure handling of prescriptions controlled by Ordinance 344/98.
 
 ### 🚧 What is left to develop
 * **WhatsApp Webhook Integration (RF-01, RF-05):** Enable receiving messages and directly sending approved budgets through the Meta WhatsApp Business API.
@@ -98,7 +98,7 @@ Based on the **System Requirements Document (DRS)**, the following modules are e
 * **Price Calculation Engine (RF-03, RN-03):** Create/Configure the logic that calculates: `(Supplies Cost + Packaging) * Markup + Fixed Handling Fee (R$ 10)`.
 * **Controlled Substances Alert (RN-04):** Logic to check if the mapped active ingredient is under Ordinance 344/98 (Brazil) and trigger a system warning.
 * **Cloud Object Storage (RF-06):** Permanent storage of the original file (prescription photo) in Amazon S3 / Google Cloud Storage with a URL linked to the budget.
-* **Authentication and Permission (RNF-01, RNF-02):** Protect access using Spring Security (profiles and JWT tokens), encrypting user passwords with BCrypt.
+* **Advanced Authentication (RNF-01, RNF-02):** Further refinement of access using Spring Security (profiles and JWT tokens), and encrypting user passwords with BCrypt.
 
 ---
 

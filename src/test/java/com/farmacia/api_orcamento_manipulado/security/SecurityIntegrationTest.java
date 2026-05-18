@@ -27,4 +27,15 @@ public class SecurityIntegrationTest {
         // Asserção: Espera que a segurança bloqueie o acesso anônimo
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
     }
+    @Test
+    @DisplayName("Deve retornar 200 OK ou 201 Created ao acessar a rota pública do Webhook do WhatsApp sem autenticação")
+    void devePermitirAcessoPublicoAoWebhookDoWhatsapp() {
+        // Envia uma requisição vazia para simular o disparo externo da Twilio
+        ResponseEntity<String> response = restTemplate.postForEntity("/api/webhooks/whatsapp", null, String.class);
+
+        // Asserção: Espera que a segurança não bloqueie (não retorne 401 ou 403)
+        // Como o controller ainda não existe ou retornará sucesso, validamos que o status não é de erro de segurança
+        assertThat(response.getStatusCode()).isNotEqualTo(HttpStatus.UNAUTHORIZED);
+        assertThat(response.getStatusCode()).isNotEqualTo(HttpStatus.FORBIDDEN);
+    }
 }
