@@ -27,7 +27,7 @@ public class AuthControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    @DisplayName("Deve autenticar com sucesso e retornar o token JWT")
+    @DisplayName("Deve autenticar com sucesso e retornar o token JWT criptografado real")
     void deveAutenticarComSucesso() throws Exception {
         LoginRequestDTO loginRequest = new LoginRequestDTO("farmaceutico1", "senha123");
 
@@ -35,9 +35,10 @@ public class AuthControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(loginRequest)))
                 .andExpect(status().isOk())
-                // Garante que a estrutura básica do DTO de resposta está correta
-                .andExpect(jsonPath("$.token").value("mocked-jwt-token-string-para-testes"))
-                .andExpect(jsonPath("$.type").value("Bearer"));
+                .andExpect(jsonPath("$.type").value("Bearer"))
+                // Altera a asserção: em vez do texto fixo, valida se a String retornada
+                // possui o formato criptográfico de 3 partes de um JWT real (contém pontos)
+                .andExpect(jsonPath("$.token").value(org.hamcrest.Matchers.containsString(".")));
     }
 
 }
