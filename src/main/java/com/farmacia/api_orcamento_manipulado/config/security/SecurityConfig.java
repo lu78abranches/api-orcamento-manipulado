@@ -24,6 +24,7 @@ public class SecurityConfig {
                         .dispatcherTypeMatchers(jakarta.servlet.DispatcherType.ERROR).permitAll()
                         // Libera explicitamente o endpoint POST do webhook para acesso público
                         .requestMatchers(HttpMethod.POST, "/api/webhooks/whatsapp").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                         // Todas as demais rotas exigem autenticação obrigatória
                         .anyRequest().authenticated())
                 .exceptionHandling(exception -> exception
