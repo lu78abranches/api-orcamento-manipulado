@@ -105,18 +105,11 @@ Based on the **System Requirements Document (DRS)**, the following modules are e
 
 ---
 
-# 📱 🌟 Test the Real WhatsApp Bot Directly From Your Phone!
-
-You can experience the fully automated workflow in real-time by interacting directly with the system using your own WhatsApp device. 
-
-#### 👣 Step-by-Step Guide:
-1. **Connect to the Sandbox:** Click [this link to open WhatsApp](https://wa.me) or scan the Twilio Sandbox QR Code on your device.
-2. **Send the Activation Code:** Send the message `join your-twilio-keyword` (Replace with your actual Twilio Sandbox keyword, e.g., `join strict-box`) to the chat. This safely pairs your phone to the testing environment.
-3. **Send a Prescription:** Take a picture or upload an image of a medical prescription (e.g., *Amoxicilina 500mg*).
-4. **Instant AI Feedback:** The bot will instantly reply with an automated XML TwiML message acknowledging the reception and triggering the Gemini AI processing engine in the cloud background.
-
-> 💡 **Pro-Tip for Reviewers:** After sending the picture in step 3, copy the JWT token from **Step 1** and trigger the **Step 3 (Approval Endpoint)** using Postman/cURL. You will immediately see the budget status switch to `APROVADO` on your PostgreSQL instance, completing the full enterprise software simulation!
-
+### 🔄 Interactive End-to-End Workflow
+1. **Upload Prescription:** Send a medical prescription image directly to the cloud backend.
+2. **AI Automated Processing:** Google Gemini Vision reads the image, running NLP data extraction in the background.
+3. **Instant Budget Engine:** The system structures the data, runs the specialized pricing engine, and automatically saves a new record to the PostgreSQL instance.
+4. **Real-Time Data Sync:** The record is instantly made available for real-time dashboard polling.
 
 ## 🌐 Live Demo & Recruiter Testing Guide (Render Cloud)
 
