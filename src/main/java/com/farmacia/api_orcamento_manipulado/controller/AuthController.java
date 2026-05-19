@@ -44,6 +44,8 @@ public class AuthController {
             return ResponseEntity.ok(new LoginResponseDTO(jwt, "Bearer"));
 
         } catch (Exception e) {
+            System.err.println("=== ERRO NA AUTENTICAÇÃO ===");
+            e.printStackTrace();
             // Em caso de credenciais inválidas (BadCredentialsException), retorna 401
             // Unauthorized
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
