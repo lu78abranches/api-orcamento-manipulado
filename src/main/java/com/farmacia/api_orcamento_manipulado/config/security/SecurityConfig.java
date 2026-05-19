@@ -45,11 +45,19 @@ public class SecurityConfig {
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
 
         http.cors(cors -> cors.configurationSource(request -> {
+
             var config = new org.springframework.web.cors.CorsConfiguration();
+
             config.setAllowCredentials(true);
+
             config.addAllowedOrigin("http://localhost:5173");
+
+            config.addAllowedOrigin("https://api-orcamento-manipulado.netlify.app");
+
             config.addAllowedHeader("*");
+
             config.addAllowedMethod("*");
+
             return config;
         }));
 
