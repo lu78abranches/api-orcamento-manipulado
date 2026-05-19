@@ -178,6 +178,40 @@ curl -X POST https://onrender.com/api/webhooks/whatsapp \
     <Message>Receita recebida com sucesso! 📝 Nossa inteligência artificial está extraindo os dados e nosso farmacêutico já vai validar o seu orçamento. Você receberá o valor em breve!</Message>
 </Response>
 ```
+### 💊 3. Pharmacist Budget Approval Endpoint (`PUT /api/orcamentos/{id}/aprovar`)
+
+In compliance with Brazilian health regulations (Anvisa Ordinance 344/98 & LGPD), no automated AI budget is dispatched directly to the customer without a human professional review. 
+
+Once an entry is generated via the WhatsApp Webhook, a pharmacist uses this protected route to review the extracted items and authorize the dispatch. The system automatically triggers the calculation engine (Supplies + Fixed Handling Fee of R$ 10,00) and returns the final pricing.
+
+* **Security:** Requires the `Authorization: Bearer <JWT_TOKEN>` header obtained in Step 1.
+
+#### 💻 cURL Request:
+```bash
+curl -X PUT https://onrender.com \
+     -H "Authorization: Bearer INSERT_YOUR_JWT_TOKEN_HERE" \
+     -H "Content-Type: application/json"
+```
+
+#### 📥 Expected JSON Response (200 OK):
+```json
+{
+  "id": 1,
+  "clienteWhatsapp": "whatsapp:+5511999999999",
+  "status": "APROVADO",
+  "valorTotal": 35.00,
+  "itens": [
+    {
+      "id": 1,
+      "nome": "Amoxicilina 500mg",
+      "preco": 25.00
+    }
+  ]
+}
+```
+
+> 🌟 **Workflow Complete:** Once approved, the backend triggers the communication dispatcher to forward this final formatted quote directly back to the customer's WhatsApp chat screen.
+
 
 ---
 
