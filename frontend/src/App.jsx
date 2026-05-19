@@ -1,17 +1,55 @@
-import UploadCard from "./components/UploadCard";
+import UploadZone from "./components/UploadZone";
 
 export default function App() {
 
   return (
-    <div>
+    <div
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: 24
+      }}
+    >
 
-      <h1>
-        AI Prescription Analyzer
-      </h1>
+      <div
+        style={{
+          width: "100%",
+          maxWidth: 900
+        }}
+      >
 
-      <UploadCard />
+        <div
+          style={{
+            marginBottom: 40
+          }}
+        >
+
+          <h1
+            style={{
+              fontSize: 42,
+              marginBottom: 12
+            }}
+          >
+            💊 AI Prescription Analyzer
+          </h1>
+
+          <p
+            style={{
+              color: "#94a3b8",
+              fontSize: 18
+            }}
+          >
+            Upload de receitas médicas com processamento por IA
+          </p>
+
+        </div>
+
+        <UploadZone />
+
+      </div>
 
     </div>
   );
-
 }
