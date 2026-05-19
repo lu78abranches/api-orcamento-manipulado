@@ -30,8 +30,8 @@ public class TwilioWebhookController {
         this.restTemplate = restTemplate;
     }
 
-    @PostMapping(value = "/whatsapp", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity<Void> receberMensagemWhatsapp(@RequestParam Map<String, String> payload) {
+    @PostMapping(value = "/whatsapp", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<String> receberMensagemWhatsapp(@RequestParam Map<String, String> payload) {
         String numMedia = payload.get("NumMedia");
 
         if (numMedia != null && Integer.parseInt(numMedia) > 0) {
@@ -52,10 +52,15 @@ public class TwilioWebhookController {
             } catch (Exception e) {
                 // Logar a exceção em produção. Mantemos o retorno 200 para a Twilio não
                 // retentar requisições com erro interno.
-                return ResponseEntity.ok().build();
+                return ResponseEntity.ok()
+                        .contentType(MediaType.APPLICATION_XML)
+                        .body("<Response><Message>Ocorreu um erro ao processar sua receita. Por favor, tente novamente.</Message></Response>");
             }
         }
 
-        return ResponseEntity.ok().build();
+        String twiml = "<Response><Message>Recebemos sua receita! Estamos processando o seu orçamento.</Message></Response>";
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_XML)
+                .body(twiml);
     }
 }

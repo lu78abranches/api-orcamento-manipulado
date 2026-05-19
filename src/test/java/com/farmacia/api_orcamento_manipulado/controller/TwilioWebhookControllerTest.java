@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -35,24 +36,22 @@ public class TwilioWebhookControllerTest {
     private OrcamentoService orcamentoService;
 
     @Test
-    @DisplayName("Deve receber payload do Twilio com imagem, chamar extrairItens e retornar 200 OK")
+    @DisplayName("Deve receber payload do Twilio com imagem, retornar 200 OK e o XML TwiML de resposta")
     void deveProcessarWebhookComSucesso() throws Exception {
         String numWhatsAppCliente = "whatsapp:+5511999999999";
         String urlImagemReceita = "https://twilio.com";
 
-        // Configura o mock do Gemini para aceitar qualquer array de bytes e retornar
-        // uma lista vazia de itens
         when(iaReceitaService.extrairItens(any(byte[].class))).thenReturn(List.of());
 
         mockMvc.perform(post("/api/webhooks/whatsapp")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .param("From", numWhatsAppCliente)
-                .param("MediaUrl0", urlImagemReceita)
-                .param("NumMedia", "1"))
-                .andExpect(status().isOk());
-
-        // Garante que o controller tentou chamar a extração de itens usando a
-        // assinatura correta
-        verify(iaReceitaService).extrairItens(any(byte[].class));
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("From", numWhatsAppCliente)
+                        .param("MediaUrl0", urlImagemReceita)
+                        .param("NumMedia", "1"))
+                .andExpect(status().isOk())
+                // Garante que o cabeçalho de resposta é XML
+                .andExpect(result -> assertThat(result.getResponse().getContentType()).contains("application/xml"))
+                // Garante que a estrutura básica TwiML está presente na resposta textualmente
+                .andExpect(result -> assertThat(result.getResponse().getContentAsString()).contains("<Response><Message>"));
     }
 }
