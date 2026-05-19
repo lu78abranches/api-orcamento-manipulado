@@ -1,5 +1,5 @@
-# Estágio 1: Build da aplicação utilizando Maven e Java 17
-FROM maven:3.8.5-openjdk-17 AS build
+# Estágio 1: Build da aplicação utilizando Maven e Java 17 (Temurin)
+FROM maven:3.8.6-eclipse-temurin-17 AS build
 WORKDIR /app
 
 # Copia o arquivo de dependências e baixa para o cache do contêiner
@@ -10,8 +10,8 @@ COPY src ./src
 # Compila o projeto gerando o arquivo .jar (ignora testes para o deploy ser ultra veloz)
 RUN mvn clean package -DskipTests
 
-# Estágio 2: Execução da aplicação em uma imagem leve e segura
-FROM openjdk:17-jdk-slim
+# Estágio 2: Execução da aplicação em uma imagem leve e segura (Temurin JRE)
+FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 
 # Copia apenas o .jar gerado no estágio anterior para a imagem final
