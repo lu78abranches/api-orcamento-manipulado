@@ -93,7 +93,7 @@ Based on the **System Requirements Document (DRS)**, the following modules are e
 * **AI Data Extraction (RF-02):** Functional integration with Google Gemini Vision to extract medications, concentrations, and quantities from images sent via HTTP REST.
 * **Base Data Persistence:** Initial database configuration (MySQL/H2) via Spring Data JPA with robustly mapped business entities.
 * **Credentials Security (RNF-05):** Structural protection through secure reading of the `.env` file.
-* **Automated Testing & Security Foundation (RNF-03):** All 17 tests are now passing with BUILD SUCCESS. We have consolidated the foundation of our information security, which is essential for compliance with the Brazilian LGPD and the secure handling of prescriptions controlled by Ordinance 344/98.
+* **Automated Testing & Security Foundation (RNF-03):** All 26s tests are now passing with BUILD SUCCESS. We have consolidated the foundation of our information security, which is essential for compliance with the Brazilian LGPD and the secure handling of prescriptions controlled by Ordinance 344/98.
 
 ### 🚧 What is left to develop
 * **WhatsApp Webhook Integration (RF-01, RF-05):** Enable receiving messages and directly sending approved budgets through the Meta WhatsApp Business API.
