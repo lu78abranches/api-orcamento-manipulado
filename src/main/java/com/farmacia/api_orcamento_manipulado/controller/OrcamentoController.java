@@ -18,11 +18,18 @@ public class OrcamentoController {
     private final OrcamentoService orcamentoService;
 
     @PostMapping("/upload")
-    public ResponseEntity<Orcamento> criarOrcamentoPorImagem(@RequestParam("imagem") MultipartFile arquivo) throws IOException {
+    public ResponseEntity<Orcamento> criarOrcamentoPorImagem(@RequestParam("imagem") MultipartFile arquivo)
+            throws IOException {
         // Transformamos o arquivo em bytes para enviar ao serviço
         Orcamento orcamento = orcamentoService.processarNovaReceita(arquivo.getBytes());
 
         return ResponseEntity.ok(orcamento);
     }
-}
 
+    @PutMapping("/{id}/aprovar")
+    public ResponseEntity<Orcamento> aprovarOrcamento(@PathVariable Long id) {
+        Orcamento orcamentoAprovado = orcamentoService.aprovarOrcamento(id);
+        return ResponseEntity.ok(orcamentoAprovado);
+    }
+
+}
