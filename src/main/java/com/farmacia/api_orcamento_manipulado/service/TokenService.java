@@ -15,8 +15,18 @@ public class TokenService {
     @Value("${api.security.token.secret:minha-chave-secreta-padrao-super-longa-para-o-jwt-da-farmacia-de-manipulacao}")
     private String secret;
 
+    private SecretKey getSigningKey() {
+        try {
+            java.security.MessageDigest digest = java.security.MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(secret.getBytes(StandardCharsets.UTF_8));
+            return Keys.hmacShaKeyFor(hash);
+        } catch (java.security.NoSuchAlgorithmException e) {
+            throw new RuntimeException("Erro ao inicializar o algoritmo SHA-256 para assinatura do JWT", e);
+        }
+    }
+
     public String gerarToken(String username) {
-        SecretKey key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+        SecretKey key = getSigningKey();
         return Jwts.builder()
                 .subject(username)
                 .issuedAt(new Date())
@@ -26,7 +36,7 @@ public class TokenService {
     }
 
     public String getSubject(String token) {
-        SecretKey key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+        SecretKey key = getSigningKey();
         return Jwts.parser()
                 .verifyWith(key)
                 .build()
