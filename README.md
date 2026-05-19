@@ -4,6 +4,9 @@
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.x-brightgreen.svg)](https://spring.io/projects/spring-boot)
 [![Gemini AI](https://img.shields.io/badge/Google%20Gemini-AI%20Integration-blue.svg)](https://ai.google.dev/)
 [![MySQL](https://img.shields.io/badge/Database-MySQL-lightgrey.svg)](https://www.mysql.com/)
+[![PostgreSQL](https://shields.io)](https://postgresql.org)
+[![Render](https://shields.io)](https://render.com)
+
 
 A modern, highly efficient RESTful API designed for compounding pharmacies (farmácias de manipulação). This application leverages **Google's Generative AI (Gemini)** to automatically scan, analyze, and extract structured data (items and prices) directly from images of medical prescriptions and receipts.
 
@@ -90,7 +93,7 @@ Based on the **System Requirements Document (DRS)**, the following modules are e
 * **AI Data Extraction (RF-02):** Functional integration with Google Gemini Vision to extract medications, concentrations, and quantities from images sent via HTTP REST.
 * **Base Data Persistence:** Initial database configuration (MySQL/H2) via Spring Data JPA with robustly mapped business entities.
 * **Credentials Security (RNF-05):** Structural protection through secure reading of the `.env` file.
-* **Automated Testing & Security Foundation (RNF-03):** All 8 tests are now passing with BUILD SUCCESS. We have consolidated the foundation of our information security, which is essential for compliance with the Brazilian LGPD and the secure handling of prescriptions controlled by Ordinance 344/98.
+* **Automated Testing & Security Foundation (RNF-03):** All 17 tests are now passing with BUILD SUCCESS. We have consolidated the foundation of our information security, which is essential for compliance with the Brazilian LGPD and the secure handling of prescriptions controlled by Ordinance 344/98.
 
 ### 🚧 What is left to develop
 * **WhatsApp Webhook Integration (RF-01, RF-05):** Enable receiving messages and directly sending approved budgets through the Meta WhatsApp Business API.
@@ -101,6 +104,82 @@ Based on the **System Requirements Document (DRS)**, the following modules are e
 * **Advanced Authentication (RNF-01, RNF-02):** Further refinement of access using Spring Security (profiles and JWT tokens), and encrypting user passwords with BCrypt.
 
 ---
+
+## 🌐 Live Demo & Recruiter Testing Guide (Render Cloud)
+
+The API is fully deployed in a cloud production environment using **Render** and integrated with a managed **PostgreSQL** database instances. As a reviewer or recruiter, you do not need to clone the repository or run the application locally to test its behavior.
+
+> ⚠️ **Technical Note About Hosting (Free Plan):** The application is hosted on Render’s free-tier infrastructure. If the system remains inactive for a few minutes, the server will enter hibernation mode (cold start). The first API request (such as trying to log in or sending the webhook payload) may take around **45 to 60 seconds** to wake up the Java/Spring Boot environment and establish the connection with the managed PostgreSQL instance. Subsequent requests will process instantaneously.
+
+
+### 🔗 Live Production Base URL
+```text
+https://onrender.com
+```
+*(Replace `://onrender.com` with your actual Render deployment domain name once live)*
+
+---
+
+### 🔐 1. Authentication Endpoint (`POST /api/auth/login`)
+
+The application seeds a default pharmacist user into the cloud database upon its first boot execution via `CommandLineRunner`. You can request an access token using these pre-configured credentials:
+
+* **Username:** `farmaceutico1`
+* **Password:** `senha123`
+
+#### 💻 cURL Request:
+```bash
+curl -X POST https://onrender.com/api/auth/login \
+     -H "Content-Type: application/json" \
+     -d '{"username": "farmaceutico1", "password": "senha123"}'
+```
+
+#### 📦 Postman / Insomnia JSON Payload:
+```json
+{
+  "username": "farmaceutico1",
+  "password": "senha123"
+}
+```
+
+#### 📥 Expected JSON Response (200 OK):
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "type": "Bearer"
+}
+```
+
+---
+
+### 💬 2. WhatsApp Incoming Simulator Webhook (`POST /api/webhooks/whatsapp`)
+
+This public endpoint handles production asynchronous requests forwarded from the Twilio/Meta Sandbox. You can simulate an incoming user chat message containing a medical prescription image attachment.
+
+#### 💻 cURL Request:
+```bash
+curl -X POST https://onrender.com/api/webhooks/whatsapp \
+     -H "Content-Type: application/x-www-form-urlencoded" \
+     --data-urlencode "From=whatsapp:+5511999999999" \
+     --data-urlencode "MediaUrl0=https://examples.com" \
+     --data-urlencode "NumMedia=1"
+```
+
+#### 📦 Postman / Insomnia Form URL-Encoded Body:
+
+| Key | Value | Description |
+| :--- | :--- | :--- |
+| `From` | `whatsapp:+5511999999999` | The sender's simulated phone number |
+| `MediaUrl0` | `https://examples.com` | A public URL of a prescription image |
+| `NumMedia` | `1` | Forces the attachment processor logic |
+
+#### 📥 Expected TwiML XML Response (200 OK):
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+    <Message>Receita recebida com sucesso! 📝 Nossa inteligência artificial está extraindo os dados e nosso farmacêutico já vai validar o seu orçamento. Você receberá o valor em breve!</Message>
+</Response>
+```
 
 ## 🏃‍♂️ Running the Project Locally
 
