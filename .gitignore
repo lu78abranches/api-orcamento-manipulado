@@ -4,6 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 Documento_de_Requisitos_API_Farmacia.docx
+instrucoes-teste-api-orcamento-manipulado.txt
 
 ### STS ###
 .apt_generated
