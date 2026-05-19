@@ -116,8 +116,6 @@ The API is fully deployed in a cloud production environment using **Render** and
 ```text
 https://onrender.com
 ```
-*(Replace `://onrender.com` with your actual Render deployment domain name once live)*
-
 ---
 
 ### 🔐 1. Authentication Endpoint (`POST /api/auth/login`)
@@ -180,6 +178,8 @@ curl -X POST https://onrender.com/api/webhooks/whatsapp \
     <Message>Receita recebida com sucesso! 📝 Nossa inteligência artificial está extraindo os dados e nosso farmacêutico já vai validar o seu orçamento. Você receberá o valor em breve!</Message>
 </Response>
 ```
+
+---
 
 ## 🏃‍♂️ Running the Project Locally
 
