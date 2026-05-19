@@ -80,4 +80,27 @@ public class OrcamentoControllerTest {
                                 .andExpect(jsonPath("$.id").value(orcamentoId))
                                 .andExpect(jsonPath("$.clienteWhatsapp").value("whatsapp:+5511999999999"));
         }
+
+        @Test
+        @WithMockUser(username = "farmaceutico1", roles = { "FARMACEUTICO" })
+        @DisplayName("Deve recusar o orcamento com sucesso e retornar o status 200 OK")
+        void deveRecusarOrcamentoComSucesso() throws Exception {
+                Long orcamentoId = 1L;
+
+                Orcamento orcamentoRecusado = new Orcamento();
+                orcamentoRecusado.setId(orcamentoId);
+                orcamentoRecusado.setClienteWhatsapp("whatsapp:+5511999999999");
+                orcamentoRecusado.setStatus("RECUSADO"); // Define o status simulado de retorno
+
+                // Configura o comportamento esperado do mock do Service
+                when(orcamentoService.recusarOrcamento(orcamentoId)).thenReturn(orcamentoRecusado);
+
+                // Executa a chamada PUT simulando o clique de recusa do painel
+                mockMvc.perform(put("/api/orcamentos/" + orcamentoId + "/recusar"))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.id").value(orcamentoId))
+                                .andExpect(jsonPath("$.status").value("RECUSADO"))
+                                .andExpect(jsonPath("$.clienteWhatsapp").value("whatsapp:+5511999999999"));
+        }
+
 }

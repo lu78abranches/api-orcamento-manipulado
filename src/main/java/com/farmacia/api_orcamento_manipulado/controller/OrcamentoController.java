@@ -32,4 +32,10 @@ public class OrcamentoController {
         return ResponseEntity.ok(orcamentoAprovado);
     }
 
+    @PutMapping("/{id}/recusar")
+    public ResponseEntity<Orcamento> recusarOrcamento(@PathVariable Long id) {
+        Orcamento orcamentoRecusado = orcamentoService.recusarOrcamento(id);
+        return ResponseEntity.ok(orcamentoRecusado);
+    }
+
 }
