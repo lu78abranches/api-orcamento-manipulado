@@ -1,5 +1,7 @@
 package com.farmacia.api_orcamento_manipulado.controller;
 
+import com.farmacia.api_orcamento_manipulado.dto.ItemExtraidoDTO;
+import com.farmacia.api_orcamento_manipulado.dto.OrcamentoPendenteDTO;
 import com.farmacia.api_orcamento_manipulado.model.Orcamento;
 import com.farmacia.api_orcamento_manipulado.service.OrcamentoService;
 
@@ -16,8 +18,13 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.http.MediaType;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -101,6 +108,23 @@ public class OrcamentoControllerTest {
                                 .andExpect(jsonPath("$.id").value(orcamentoId))
                                 .andExpect(jsonPath("$.status").value("RECUSADO"))
                                 .andExpect(jsonPath("$.clienteWhatsapp").value("whatsapp:+5511999999999"));
+        }
+
+        @Test
+        @WithMockUser(username = "farmaceutico1") // Simula o usuário autenticado via JWT
+        @DisplayName("GET /api/orcamentos/pendentes deve retornar 200 OK e a lista de pendentes")
+        void deveRetornarListaDePendentesComSucesso() throws Exception {
+                ItemExtraidoDTO item = new ItemExtraidoDTO("Teste", BigDecimal.TEN);
+                OrcamentoPendenteDTO dto = new OrcamentoPendenteDTO(1L, "123", "PENDENTE", BigDecimal.TEN,
+                                List.of(item));
+
+                when(orcamentoService.listarPendentes()).thenReturn(List.of(dto));
+
+                mockMvc.perform(get("/api/orcamentos/pendentes")
+                                .contentType(MediaType.APPLICATION_JSON))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$[0].clienteWhatsapp").value("123"))
+                                .andExpect(jsonPath("$[0].status").value("PENDENTE"));
         }
 
 }

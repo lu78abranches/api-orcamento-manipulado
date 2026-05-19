@@ -23,8 +23,7 @@ public class Orcamento {
 
     private String clienteWhatsapp;
 
-
-
+    private BigDecimal valorTotal;
     /*Abaixo, codigo criado antes de criar Entidade JPA e usar o Lombok
 
      Criamos o método, mas retornamos null ou vazio para o teste falhar no valor
@@ -63,6 +62,9 @@ public class Orcamento {
     }
 
     public BigDecimal getValorTotal() {
+        if (this.valorTotal != null) {
+            return this.valorTotal;
+        }
         BigDecimal somaItens = itens.stream()
                 .map(ItemOrcamento::getPreco)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);

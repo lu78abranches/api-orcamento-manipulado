@@ -6,6 +6,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
+import com.farmacia.api_orcamento_manipulado.dto.OrcamentoPendenteDTO;
 import com.farmacia.api_orcamento_manipulado.model.ItemOrcamento;
 import com.farmacia.api_orcamento_manipulado.model.Orcamento;
 import com.farmacia.api_orcamento_manipulado.repository.OrcamentoRepository;
@@ -29,6 +32,9 @@ public class OrcamentoServiceTest {
 
     @Mock
     private IAReceitaService iaService;
+
+    @Mock
+    private PriceCalculationEngine priceCalculationEngine;
 
     @InjectMocks
     private OrcamentoService orcamentoService;
@@ -93,8 +99,9 @@ public class OrcamentoServiceTest {
         orcamentoExistente.setClienteWhatsapp("whatsapp:+5511999999999");
         // O status inicial por padrão já vem como PENDENTE_REVISAO na sua entidade
 
-        // Configura os mocks do repositório (procurar e salvar)
+        // Configura os mocks do repositório (procurar e salvar) e do motor matemático
         when(repository.findById(orcamentoId)).thenReturn(Optional.of(orcamentoExistente));
+        when(priceCalculationEngine.calcular(any())).thenReturn(BigDecimal.valueOf(10.00));
         when(repository.save(any(Orcamento.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         // Ação (When)
@@ -137,6 +144,24 @@ public class OrcamentoServiceTest {
 
         verify(repository).findById(orcamentoId);
         verify(repository).save(orcamentoExistente);
+    }
+
+    @Test
+    @DisplayName("Deve retornar listagem de orçamentos pendentes mapeados para DTO")
+    void deveRetornarListaDePendentesMapeados() {
+        Orcamento pendente = new Orcamento();
+        pendente.setId(10L);
+        pendente.setStatus("PENDENTE");
+        pendente.setClienteWhatsapp("+5511999999999");
+
+        when(repository.findByStatus("PENDENTE")).thenReturn(List.of(pendente));
+
+        List<OrcamentoPendenteDTO> resultado = orcamentoService.listarPendentes();
+
+        assertFalse(resultado.isEmpty());
+        assertEquals(1, resultado.size());
+        assertEquals(10L, resultado.get(0).id());
+        assertEquals("PENDENTE", resultado.get(0).status());
     }
 
 }
