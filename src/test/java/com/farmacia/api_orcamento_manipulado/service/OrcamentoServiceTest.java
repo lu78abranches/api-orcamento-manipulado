@@ -18,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 // src/test/java/com/farmacia/api_orcamento_manipulado/service/OrcamentoServiceTest.java
 @ExtendWith(MockitoExtension.class)
@@ -80,6 +81,62 @@ public class OrcamentoServiceTest {
         assertThat(resultado.getValorTotal()).isEqualByComparingTo(BigDecimal.valueOf(35.00));
 
         verify(repository).save(any(Orcamento.class));
+    }
+
+    @Test
+    @DisplayName("Deve buscar o orcamento pendente no banco, alterar seu status para APROVADO e persistir")
+    void deveAprovarOrcamentoComSucesso() {
+        // Arranjo (Given)
+        Long orcamentoId = 1L;
+        Orcamento orcamentoExistente = new Orcamento();
+        orcamentoExistente.setId(orcamentoId);
+        orcamentoExistente.setClienteWhatsapp("whatsapp:+5511999999999");
+        // O status inicial por padrão já vem como PENDENTE_REVISAO na sua entidade
+
+        // Configura os mocks do repositório (procurar e salvar)
+        when(repository.findById(orcamentoId)).thenReturn(Optional.of(orcamentoExistente));
+        when(repository.save(any(Orcamento.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        // Ação (When)
+        Orcamento resultado = orcamentoService.aprovarOrcamento(orcamentoId);
+
+        // Asserções (Then)
+        assertThat(resultado).isNotNull();
+        assertThat(resultado.getId()).isEqualTo(orcamentoId);
+        // Altere para o nome do seu Enum de Status se usar uma classe específica (ex:
+        // StatusOrcamento.APROVADO)
+        assertThat(resultado.getStatus().toString()).isEqualTo("APROVADO");
+
+        // Verifica se o fluxo interagiu perfeitamente com o banco de dados
+        verify(repository).findById(orcamentoId);
+        verify(repository).save(orcamentoExistente);
+    }
+
+    @Test
+    @DisplayName("Deve buscar o orcamento pendente no banco, alterar seu status para RECUSADO e persistir")
+    void deveRecusarOrcamentoComSucesso() {
+        // Arranjo (Given)
+        Long orcamentoId = 2L;
+        Orcamento orcamentoExistente = new Orcamento();
+        orcamentoExistente.setId(orcamentoId);
+        orcamentoExistente.setClienteWhatsapp("whatsapp:+5511999999999");
+
+        // Configura os mocks do repositório
+        when(repository.findById(orcamentoId)).thenReturn(Optional.of(orcamentoExistente));
+        when(repository.save(any(Orcamento.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        // Ação (When)
+        Orcamento resultado = orcamentoService.recusarOrcamento(orcamentoId);
+
+        // Asserções (Then)
+        assertThat(resultado).isNotNull();
+        assertThat(resultado.getId()).isEqualTo(orcamentoId);
+        // Altere para o valor do seu Enum de Status se usar uma classe específica (ex:
+        // StatusOrcamento.RECUSADO)
+        assertThat(resultado.getStatus().toString()).isEqualTo("RECUSADO");
+
+        verify(repository).findById(orcamentoId);
+        verify(repository).save(orcamentoExistente);
     }
 
 }

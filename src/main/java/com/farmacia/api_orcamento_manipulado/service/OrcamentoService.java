@@ -37,16 +37,30 @@ public class OrcamentoService {
     }
 
     public Orcamento aprovarOrcamento(Long id) {
-        // Retorno limpo provisório apenas para o Mockito não estourar a Exception nos
-        // testes do Controller
-        Orcamento mock = new Orcamento();
-        mock.setId(id);
-        mock.setClienteWhatsapp("whatsapp:+5511999999999");
-        return mock;
+        // 1. Busca o orçamento na base de dados ou lança exceção caso não encontre
+        Orcamento orcamento = repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Orçamento não encontrado para o ID: " + id));
+
+        // 2. Modifica o status para APROVADO (se usar String ou Enum, ajustar aqui)
+        // Caso use Enum, mude para: orcamento.setStatus(StatusOrcamento.APROVADO);
+        orcamento.setStatus("APROVADO");
+
+        // 3. Persiste a alteração no banco de dados (MySQL local / PostgreSQL do
+        // Render)
+        return repository.save(orcamento);
     }
 
     public Orcamento recusarOrcamento(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'recusarOrcamento'");
+        // 1. Busca o orçamento na base ou lança exceção
+        Orcamento orcamento = repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Orçamento não encontrado para o ID: " + id));
+
+        // 2. Modifica o status para RECUSADO (se usar Enum, mude para:
+        // orcamento.setStatus(StatusOrcamento.RECUSADO);)
+        orcamento.setStatus("RECUSADO");
+
+        // 3. Salva a modificação na base de dados
+        return repository.save(orcamento);
     }
+
 }
