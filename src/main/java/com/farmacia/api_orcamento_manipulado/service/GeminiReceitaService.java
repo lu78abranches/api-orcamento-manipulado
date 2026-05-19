@@ -31,24 +31,23 @@ public class GeminiReceitaService implements IAReceitaService {
         this.restTemplate = restTemplate;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public List<ItemOrcamento> extrairItens(byte[] imagem) {
         String base64Imagem = Base64.getEncoder().encodeToString(imagem);
 
-        // CORREÇÃO AQUI: Usamos a apiUrl do properties e concatenamos a chave corretamente
+        // CORREÇÃO AQUI: Usamos a apiUrl do properties e concatenamos a chave
+        // corretamente
         String urlFinal = apiUrl + "?key=" + apiKey;
 
         Map<String, Object> requestBody = Map.of(
                 "contents", List.of(
                         Map.of("parts", List.of(
-                                Map.of("text", "Liste os itens e preços desta receita. Retorne APENAS um JSON no formato: {\"itens\": [{\"nome\": \"...\", \"preco\": 0.00}]}"),
+                                Map.of("text",
+                                        "Liste os itens e preços desta receita. Retorne APENAS um JSON no formato: {\"itens\": [{\"nome\": \"...\", \"preco\": 0.00}]}"),
                                 Map.of("inline_data", Map.of(
                                         "mime_type", "image/jpeg",
-                                        "data", base64Imagem
-                                ))
-                        ))
-                )
-        );
+                                        "data", base64Imagem))))));
 
         try {
             // Usamos a urlFinal corrigida
@@ -58,7 +57,9 @@ public class GeminiReceitaService implements IAReceitaService {
                 throw new RuntimeException("Resposta inválida do Gemini");
             }
 
+            @SuppressWarnings("unchecked")
             List<Map<String, Object>> candidates = (List<Map<String, Object>>) response.get("candidates");
+            @SuppressWarnings("unchecked")
             Map<String, Object> content = (Map<String, Object>) candidates.get(0).get("content");
             List<Map<String, Object>> parts = (List<Map<String, Object>>) content.get("parts");
             String text = (String) parts.get(0).get("text");
@@ -72,8 +73,8 @@ public class GeminiReceitaService implements IAReceitaService {
 
             List<ItemExtraidoDTO> dtos = mapper.readValue(
                     itensNode.toString(),
-                    new TypeReference<List<ItemExtraidoDTO>>() {}
-            );
+                    new TypeReference<List<ItemExtraidoDTO>>() {
+                    });
 
             return dtos.stream()
                     .map(dto -> new ItemOrcamento(dto.nome(), dto.preco()))
@@ -86,4 +87,3 @@ public class GeminiReceitaService implements IAReceitaService {
         }
     }
 }
-

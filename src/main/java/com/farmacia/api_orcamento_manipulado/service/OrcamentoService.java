@@ -1,15 +1,9 @@
 package com.farmacia.api_orcamento_manipulado.service;
 
-import com.farmacia.api_orcamento_manipulado.dto.ItemExtraidoDTO;
-import com.farmacia.api_orcamento_manipulado.dto.OrcamentoPendenteDTO;
 import com.farmacia.api_orcamento_manipulado.model.ItemOrcamento;
 import com.farmacia.api_orcamento_manipulado.model.Orcamento;
 import com.farmacia.api_orcamento_manipulado.model.OrcamentoStatus;
-import com.farmacia.api_orcamento_manipulado.repository.OrcamentoRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.math.BigDecimal;
 import java.util.List;
 
