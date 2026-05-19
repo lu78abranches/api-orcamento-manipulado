@@ -19,40 +19,45 @@ public class Orcamento {
     private Long id;
 
     // Definimos o valor padrão diretamente no atributo
-    private String status = "PENDENTE_REVISAO";
+    @Enumerated(EnumType.STRING)
+    private OrcamentoStatus status = OrcamentoStatus.PENDENTE_REVISAO;
 
     private String clienteWhatsapp;
 
     private BigDecimal valorTotal;
-    /*Abaixo, codigo criado antes de criar Entidade JPA e usar o Lombok
+    /*
+     * Abaixo, codigo criado antes de criar Entidade JPA e usar o Lombok
+     * 
+     * Criamos o método, mas retornamos null ou vazio para o teste falhar no valor
+     * public String getStatus() {
+     * return null;
+     * }
+     * // 1. Definimos o valor que o teste espera
+     * private String status = "PENDENTE_REVISAO";
+     * 
+     * // 2. Retornamos esse valor no método
+     * public String getStatus() {
+     * return this.status;
+     * }
+     */
 
-     Criamos o método, mas retornamos null ou vazio para o teste falhar no valor
-    public String getStatus() {
-        return null;
-    }
-    // 1. Definimos o valor que o teste espera
-    private String status = "PENDENTE_REVISAO";
-
-    // 2. Retornamos esse valor no método
-    public String getStatus() {
-        return this.status;
-    }*/
-
-    /* Adicione os campos e métodos na classe Orcamento
-    private BigDecimal valorTotal = BigDecimal.ZERO;
-    private static final BigDecimal TAXA_MANIPULACAO = new BigDecimal("10.00");
-
-    public void adicionarItem(String nome, BigDecimal preco) {
-        // Lógica simples para fazer o teste passar
-        if (this.valorTotal.equals(BigDecimal.ZERO)) {
-            this.valorTotal = this.valorTotal.add(TAXA_MANIPULACAO);
-        }
-        this.valorTotal = this.valorTotal.add(preco);
-    }
-
-    public BigDecimal getValorTotal() {
-        return this.valorTotal;
-    }*/
+    /*
+     * Adicione os campos e métodos na classe Orcamento
+     * private BigDecimal valorTotal = BigDecimal.ZERO;
+     * private static final BigDecimal TAXA_MANIPULACAO = new BigDecimal("10.00");
+     * 
+     * public void adicionarItem(String nome, BigDecimal preco) {
+     * // Lógica simples para fazer o teste passar
+     * if (this.valorTotal.equals(BigDecimal.ZERO)) {
+     * this.valorTotal = this.valorTotal.add(TAXA_MANIPULACAO);
+     * }
+     * this.valorTotal = this.valorTotal.add(preco);
+     * }
+     * 
+     * public BigDecimal getValorTotal() {
+     * return this.valorTotal;
+     * }
+     */
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<ItemOrcamento> itens = new ArrayList<>();
@@ -71,6 +76,5 @@ public class Orcamento {
 
         return somaItens.add(new BigDecimal("10.00")); // Taxa fixa
     }
-
 
 }

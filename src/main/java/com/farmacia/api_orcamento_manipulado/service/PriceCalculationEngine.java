@@ -23,43 +23,37 @@ public class PriceCalculationEngine {
             "vitamina c", BigDecimal.valueOf(12.00),
             "zinco", BigDecimal.valueOf(9.50),
             "magnesio", BigDecimal.valueOf(15.00),
-            "melatonina", BigDecimal.valueOf(19.90)
-    );
+            "melatonina", BigDecimal.valueOf(19.90));
 
     public BigDecimal calcular(List<ItemOrcamento> itens) {
-        if (itens == null || itens.isEmpty()) {
-            return TAXA_FIXA;
-        }
 
         BigDecimal somaInsumos = BigDecimal.ZERO;
 
         for (ItemOrcamento item : itens) {
+
             BigDecimal preco = item.getPreco();
 
-            // Se o preço for nulo ou zero (caso em que a IA não extraiu valor do papel), definimos um valor fictício realista
             if (preco == null || preco.compareTo(BigDecimal.ZERO) == 0) {
-                String nomeLimpo = item.getNome() != null ? item.getNome().toLowerCase().trim() : "";
-                
-                // Busca se há correspondência na nossa tabela de preços fictícios
-                BigDecimal precoFicticio = TABELA_PRECOS.entrySet().stream()
+
+                String nomeLimpo = item.getNome() != null
+                        ? item.getNome().toLowerCase().trim()
+                        : "";
+
+                preco = TABELA_PRECOS.entrySet().stream()
                         .filter(entry -> nomeLimpo.contains(entry.getKey()))
                         .map(java.util.Map.Entry::getValue)
                         .findFirst()
                         .orElseGet(() -> {
-                            // Caso não esteja na tabela, gera um preço determinístico baseado no tamanho do nome do insumo
-                            int tamanho = item.getNome() != null ? item.getNome().length() : 10;
+                            int tamanho = nomeLimpo.length();
                             double valor = (tamanho * 1.20) + 5.00;
-                            return BigDecimal.valueOf(valor).setScale(2, java.math.RoundingMode.HALF_UP);
+                            return BigDecimal.valueOf(valor)
+                                    .setScale(2, java.math.RoundingMode.HALF_UP);
                         });
-
-                item.setPreco(precoFicticio);
-                preco = precoFicticio;
             }
 
             somaInsumos = somaInsumos.add(preco);
         }
 
-        // Retorna a soma dos insumos + a taxa fixa regulatória de manipulação
         return somaInsumos.add(TAXA_FIXA);
     }
 }
