@@ -1,6 +1,7 @@
 package com.farmacia.api_orcamento_manipulado.repository;
 
 import com.farmacia.api_orcamento_manipulado.model.Orcamento;
+import com.farmacia.api_orcamento_manipulado.model.OrcamentoStatus;
 
 import java.util.List;
 
@@ -14,5 +15,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OrcamentoRepository extends JpaRepository<Orcamento, Long> {
     // O JpaRepository já traz métodos como save(), findById(), delete(), etc.
-    List<Orcamento> findByStatus(String status);
+    List<Orcamento> findByStatus(OrcamentoStatus status);
 }
