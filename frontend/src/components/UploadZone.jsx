@@ -64,10 +64,10 @@ Aguarde alguns instantes...`;
                 }
             };
 
-            if (elapsed >= 6000) {
+            if (elapsed >= 8000) {
                 showFinal();
             } else {
-                timerRef.current = setTimeout(showFinal, 6000 - elapsed);
+                timerRef.current = setTimeout(showFinal, 8000 - elapsed);
             }
 
         } catch (error) {

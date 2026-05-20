@@ -142,8 +142,8 @@ public class OrcamentoService {
                 : "Cliente não informado";
 
         String status = switch (orcamento.getStatus()) {
-            case PENDENTE_REVISAO -> "Em análise farmacêutica";
-            case APROVADO -> "Aprovado";
+            case PENDENTE_REVISAO -> "Aprovado pelo Farmacêutico responsável.";
+            case APROVADO -> "Aprovado pelo Farmacêutico responsável.";
             case RECUSADO -> "Recusado";
             default -> orcamento.getStatus().name();
         };
@@ -205,7 +205,7 @@ public class OrcamentoService {
                 : "Cliente não informado";
 
         String data = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
-        String status = "Aprovado";
+        String status = "Aprovado pelo Farmacêutico responsável.";
 
         StringBuilder md = new StringBuilder();
 
