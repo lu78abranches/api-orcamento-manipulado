@@ -19,12 +19,7 @@ export default function UploadZone() {
 
             const response = await api.post(
                 "/prescriptions/upload",
-                formData,
-                {
-                    headers: {
-                        "Content-Type": "multipart/form-data"
-                    }
-                }
+                formData
             );
 
             setResult(response.data);
