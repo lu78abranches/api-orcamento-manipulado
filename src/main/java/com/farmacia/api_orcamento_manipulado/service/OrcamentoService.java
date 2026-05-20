@@ -7,6 +7,8 @@ import com.farmacia.api_orcamento_manipulado.dto.OrcamentoApprovedDTO;
 import com.farmacia.api_orcamento_manipulado.dto.OrcamentoFinalQuoteDTO;
 import com.farmacia.api_orcamento_manipulado.dto.OrcamentoProcessadoDTO;
 import com.farmacia.api_orcamento_manipulado.model.ItemOrcamento;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import com.farmacia.api_orcamento_manipulado.model.Orcamento;
 import com.farmacia.api_orcamento_manipulado.model.OrcamentoStatus;
 import com.farmacia.api_orcamento_manipulado.repository.OrcamentoRepository;
@@ -134,6 +136,35 @@ public class OrcamentoService {
                 "Prescrição enviada para análise farmacêutica");
     }
 
+    public OrcamentoProcessadoDTO criarRespostaProcessado(Orcamento orcamento) {
+        String cliente = orcamento.getClienteNome() != null && !orcamento.getClienteNome().isBlank()
+                ? orcamento.getClienteNome()
+                : "Cliente não informado";
+
+        String status = switch (orcamento.getStatus()) {
+            case PENDENTE_REVISAO -> "Em análise farmacêutica";
+            case APROVADO -> "Aprovado";
+            case RECUSADO -> "Recusado";
+            default -> orcamento.getStatus().name();
+        };
+
+        String data = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+
+        BigDecimal totalValue = orcamento.getValorTotal();
+        if (totalValue == null) {
+            totalValue = priceCalculationEngine.calcular(orcamento.getItens());
+        }
+
+        String markdownContent = construirMarkdownProcessado(orcamento, cliente, status, data, totalValue);
+
+        return new OrcamentoProcessadoDTO(
+                orcamento.getId(),
+                status,
+                cliente,
+                data,
+                markdownContent);
+    }
+
     // ========== STEP 2: Create Approval Response ==========
     /**
      * Creates STEP 2 response: Pharmacist approval (requires JWT)
@@ -169,33 +200,103 @@ public class OrcamentoService {
      * Constructs Markdown formatted quote for clean frontend display
      */
     private String construirMarkdownQuota(Orcamento orcamento, BigDecimal totalValue) {
+        String cliente = orcamento.getClienteNome() != null && !orcamento.getClienteNome().isBlank()
+                ? orcamento.getClienteNome()
+                : "Cliente não informado";
+
+        String data = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+        String status = "Aprovado";
+
         StringBuilder md = new StringBuilder();
 
-        md.append("# 💊 Orçamento Aprovado\n\n");
-        md.append(String.format("**Protocolo:** %d\n\n", orcamento.getId()));
-        md.append(String.format("**Status:** %s\n\n", OrcamentoStatus.APROVADO.name()));
-
-        md.append("## Itens Solicitados\n\n");
+        md.append("# 💊 Orçamento de Manipulação\n\n");
+        md.append("## ✅ Orçamento aprovado com sucesso\n\n");
+        md.append(String.format("**Protocolo:** #%d  \n", orcamento.getId()));
+        md.append(String.format("**Status:** %s  \n", status));
+        md.append(String.format("**Cliente:** %s  \n", cliente));
+        md.append(String.format("**Data:** %s\n\n", data));
+        md.append("---\n\n");
+        md.append("## 🧾 Itens identificados na receita\n\n");
+        md.append("| Medicamento | Valor |\n");
+        md.append("|---|---:|\n");
 
         BigDecimal subtotal = BigDecimal.ZERO;
         for (ItemOrcamento item : orcamento.getItens()) {
             BigDecimal preco = item.getPreco() != null ? item.getPreco() : BigDecimal.ZERO;
-            md.append(String.format("- **%s:** R$ %.2f\n", item.getNome(), preco));
+            md.append(String.format("| %s | R$ %.2f |\n", item.getNome(), preco));
             subtotal = subtotal.add(preco);
         }
 
         BigDecimal taxaManipulacao = BigDecimal.valueOf(10.00);
 
-        md.append("\n## Resumo de Valores\n\n");
-        md.append(String.format("| Descrição | Valor |\n"));
-        md.append(String.format("|-----------|-------|\n"));
-        md.append(String.format("| Subtotal dos Insumos | R$ %.2f |\n", subtotal));
-        md.append(String.format("| Taxa de Manipulação | R$ %.2f |\n", taxaManipulacao));
-        md.append(String.format("| **VALOR TOTAL** | **R$ %.2f** |\n\n", totalValue));
+        md.append("\n---\n\n");
+        md.append("## 💰 Resumo financeiro\n\n");
+        md.append("| Descrição | Valor |\n");
+        md.append("|---|---:|\n");
+        md.append(String.format("| Subtotal dos insumos | R$ %.2f |\n", subtotal));
+        md.append(String.format("| Taxa de manipulação | R$ %.2f |\n", taxaManipulacao));
+        md.append(String.format("| **Total estimado** | **R$ %.2f** |\n\n", totalValue));
+        md.append("---\n\n");
+        md.append("## 📌 Observações\n\n");
+        md.append("- Este orçamento foi gerado automaticamente por IA.\n");
+        md.append("- Os valores podem sofrer ajustes após validação farmacêutica.\n");
+        md.append("- Você receberá a confirmação final via WhatsApp.\n\n");
+        md.append("---\n\n");
+        md.append("## 🚀 Próximos passos\n\n");
+        md.append("✅ Receita recebida  \n");
+        md.append("⏳ Revisão farmacêutica em andamento  \n");
+        md.append("📲 Aprovação e envio do pagamento via WhatsApp\n\n");
+        md.append("---\n\n");
+        md.append("### 🏥 Farmácia Magistral AI\n");
+        md.append("Sistema inteligente de pré-orçamento farmacêutico\n");
 
-        md.append("✅ Seu orçamento foi aprovado por nosso farmacêutico!\n");
-        md.append("🚀 Seu pedido já pode ser enviado para manipulação.\n");
-        md.append("📞 Entre em contato para confirmar a entrega.\n");
+        return md.toString();
+    }
+
+    private String construirMarkdownProcessado(Orcamento orcamento, String cliente, String status, String data,
+            BigDecimal totalValue) {
+        StringBuilder md = new StringBuilder();
+
+        md.append("# 💊 Orçamento de Manipulação\n\n");
+        md.append("## ✅ Receita processada com sucesso\n\n");
+        md.append(String.format("**Protocolo:** #%d  \n", orcamento.getId()));
+        md.append(String.format("**Status:** %s  \n", status));
+        md.append(String.format("**Cliente:** %s  \n", cliente));
+        md.append(String.format("**Data:** %s\n\n", data));
+        md.append("---\n\n");
+        md.append("## 🧾 Itens identificados na receita\n\n");
+        md.append("| Medicamento | Valor |\n");
+        md.append("|---|---:|\n");
+
+        BigDecimal subtotal = BigDecimal.ZERO;
+        for (ItemOrcamento item : orcamento.getItens()) {
+            BigDecimal preco = item.getPreco() != null ? item.getPreco() : BigDecimal.ZERO;
+            md.append(String.format("| %s | R$ %.2f |\n", item.getNome(), preco));
+            subtotal = subtotal.add(preco);
+        }
+
+        BigDecimal taxaManipulacao = BigDecimal.valueOf(10.00);
+
+        md.append("\n---\n\n");
+        md.append("## 💰 Resumo financeiro\n\n");
+        md.append("| Descrição | Valor |\n");
+        md.append("|---|---:|\n");
+        md.append(String.format("| Subtotal dos insumos | R$ %.2f |\n", subtotal));
+        md.append(String.format("| Taxa de manipulação | R$ %.2f |\n", taxaManipulacao));
+        md.append(String.format("| **Total estimado** | **R$ %.2f** |\n\n", totalValue));
+        md.append("---\n\n");
+        md.append("## 📌 Observações\n\n");
+        md.append("- Este orçamento foi gerado automaticamente por IA.\n");
+        md.append("- Os valores podem sofrer ajustes após validação farmacêutica.\n");
+        md.append("- Você receberá a confirmação final via WhatsApp.\n\n");
+        md.append("---\n\n");
+        md.append("## 🚀 Próximos passos\n\n");
+        md.append("✅ Receita recebida  \n");
+        md.append("⏳ Revisão farmacêutica em andamento  \n");
+        md.append("📲 Aprovação e envio do pagamento via WhatsApp\n\n");
+        md.append("---\n\n");
+        md.append("### 🏥 Farmácia Magistral AI\n");
+        md.append("Sistema inteligente de pré-orçamento farmacêutico\n");
 
         return md.toString();
     }

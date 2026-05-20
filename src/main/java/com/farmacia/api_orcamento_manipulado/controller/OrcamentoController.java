@@ -4,6 +4,7 @@ import com.farmacia.api_orcamento_manipulado.dto.OrcamentoPendenteDTO;
 import com.farmacia.api_orcamento_manipulado.dto.OrcamentoPendingReviewDTO;
 import com.farmacia.api_orcamento_manipulado.dto.OrcamentoApprovedDTO;
 import com.farmacia.api_orcamento_manipulado.dto.OrcamentoFinalQuoteDTO;
+import com.farmacia.api_orcamento_manipulado.dto.OrcamentoProcessadoDTO;
 import com.farmacia.api_orcamento_manipulado.model.Orcamento;
 import com.farmacia.api_orcamento_manipulado.service.OrcamentoService;
 import lombok.RequiredArgsConstructor;
@@ -29,16 +30,16 @@ public class OrcamentoController {
      * Returns protocol, status "PENDING_REVIEW", and message
      */
     @PostMapping("/upload")
-    public ResponseEntity<OrcamentoPendingReviewDTO> criarOrcamentoPorImagem(
-            @RequestParam("imagem") MultipartFile arquivo)
+    public ResponseEntity<OrcamentoProcessadoDTO> criarOrcamentoPorImagem(
+            @RequestParam("imagem") MultipartFile arquivo,
+            @RequestParam("nome") String clienteNome)
             throws IOException {
-        // AI extracts items from prescription image
-        // PriceCalculationEngine normalizes prices
-        // OrcamentoService creates clean DTO for frontend
-        Orcamento orcamento = orcamentoService.processarNovaReceita(arquivo.getBytes());
+        if (clienteNome == null || clienteNome.trim().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
 
-        // Convert to STEP 1 response DTO
-        OrcamentoPendingReviewDTO response = orcamentoService.criarRespostaPendencia(orcamento);
+        Orcamento orcamento = orcamentoService.processarNovaReceita(arquivo.getBytes(), clienteNome);
+        OrcamentoProcessadoDTO response = orcamentoService.criarRespostaProcessado(orcamento);
 
         return ResponseEntity.ok(response);
     }

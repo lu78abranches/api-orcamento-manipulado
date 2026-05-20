@@ -1,6 +1,6 @@
 package com.farmacia.api_orcamento_manipulado.controller;
 
-import com.farmacia.api_orcamento_manipulado.model.Orcamento;
+import com.farmacia.api_orcamento_manipulado.dto.OrcamentoProcessadoDTO;
 import com.farmacia.api_orcamento_manipulado.service.OrcamentoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,22 +18,22 @@ public class PrescriptionUploadController {
     private final OrcamentoService orcamentoService;
 
     @PostMapping("/upload")
-    public ResponseEntity<?> uploadPrescription(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<?> uploadPrescription(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("nome") String clienteNome) {
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().body("Por favor, selecione um arquivo de receita válido.");
         }
 
+        if (clienteNome == null || clienteNome.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("Por favor, informe o nome do cliente antes de enviar a receita.");
+        }
+
         try {
-            // 1. Transforma o arquivo enviado pelo site em vetor de bytes
             byte[] imagemBytes = file.getBytes();
-
-            // 2. Dispara o fluxo integrado: IA extrai -> Motor calcula -> Salva como
-            // PENDENTE no Postgres
-            Orcamento novoOrcamento = orcamentoService.processarNovaReceita(imagemBytes);
-
-            // 3. Retorna o orçamento preliminar estruturado para o Dashboard atualizar na
-            // tela
-            return ResponseEntity.ok(novoOrcamento);
+            OrcamentoProcessadoDTO resposta = orcamentoService.criarRespostaProcessado(
+                    orcamentoService.processarNovaReceita(imagemBytes, clienteNome));
+            return ResponseEntity.ok(resposta);
 
         } catch (IOException e) {
             return ResponseEntity.internalServerError().body("Erro ao processar os bytes da imagem: " + e.getMessage());

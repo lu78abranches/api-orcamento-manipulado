@@ -3,18 +3,21 @@ import { useState } from "react";
 import { UploadCloud } from "lucide-react";
 import { api } from "../services/api";
 
-export default function UploadZone() {
+export default function UploadZone({ onResult }) {
 
+    const [name, setName] = useState("");
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState(null);
+    const [error, setError] = useState("");
 
     async function uploadFile(file) {
 
         const formData = new FormData();
         formData.append("file", file);
+        formData.append("nome", name.trim());
 
         try {
-
+            setError("");
             setLoading(true);
 
             const response = await api.post(
@@ -23,25 +26,26 @@ export default function UploadZone() {
             );
 
             setResult(response.data);
+            if (onResult) {
+                onResult(response.data);
+            }
 
         } catch (error) {
-
             console.error(error);
-
-            alert("Erro ao enviar receita");
-
+            setError("Erro ao enviar a receita. Verifique o nome e tente novamente.");
         } finally {
-
             setLoading(false);
-
         }
     }
 
     const onDrop = (acceptedFiles) => {
-
         const file = acceptedFiles[0];
-
         if (!file) return;
+
+        if (!name.trim()) {
+            setError("Por favor, informe o nome do cliente antes de enviar a receita.");
+            return;
+        }
 
         uploadFile(file);
     };
@@ -59,6 +63,46 @@ export default function UploadZone() {
 
     return (
         <div>
+
+            <div style={{ marginBottom: 16 }}>
+                <label
+                    style={{
+                        display: "block",
+                        marginBottom: 8,
+                        color: "#cbd5e1",
+                        fontWeight: 600
+                    }}
+                >
+                    Nome do Cliente
+                </label>
+
+                <input
+                    type="text"
+                    value={name}
+                    onChange={(event) => setName(event.target.value)}
+                    placeholder="João Silva"
+                    style={{
+                        width: "100%",
+                        padding: 12,
+                        borderRadius: 12,
+                        border: "1px solid #334155",
+                        background: "#0f172a",
+                        color: "#f8fafc"
+                    }}
+                />
+            </div>
+
+            {error && (
+                <div
+                    style={{
+                        marginBottom: 16,
+                        color: "#fecaca",
+                        fontWeight: 600
+                    }}
+                >
+                    {error}
+                </div>
+            )}
 
             <div
                 {...getRootProps()}
@@ -133,14 +177,27 @@ export default function UploadZone() {
                         ✅ Receita Processada
                     </h2>
 
-                    <pre
-                        style={{
-                            color: "#cbd5e1",
-                            overflow: "auto"
-                        }}
-                    >
-                        {JSON.stringify(result, null, 2)}
-                    </pre>
+                    {result.markdownContent ? (
+                        <pre
+                            style={{
+                                color: "#cbd5e1",
+                                overflow: "auto",
+                                whiteSpace: "pre-wrap",
+                                wordBreak: "break-word"
+                            }}
+                        >
+                            {result.markdownContent}
+                        </pre>
+                    ) : (
+                        <pre
+                            style={{
+                                color: "#cbd5e1",
+                                overflow: "auto"
+                            }}
+                        >
+                            {JSON.stringify(result, null, 2)}
+                        </pre>
+                    )}
 
                 </div>
             )}
