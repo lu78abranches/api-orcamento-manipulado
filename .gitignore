@@ -36,6 +36,10 @@ build/
 ### VS Code ###
 .vscode/
 
+# Ignore all .txt and .log files
+*.txt
+*.log
+
 # Logs de crash da JVM
 hs_err_pid*.log
 replay_pid*.log
