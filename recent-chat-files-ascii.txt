@@ -1,5 +1,0 @@
-C:\Users\luisa\AppData\Roaming\Code\User\workspaceStorage\c39dd73e852d32c15b1d8e2e38c5d1a0\GitHub.copilot-chat\chat-session-resources\ecef73df-bd3b-4fc6-8db1-abf6c144dc44\call_0rxIPTxIeePAx1BfZJ4XkZAS__vscode-1779234039385\content.txt
-C:\Users\luisa\AppData\Roaming\Code\User\workspaceStorage\c39dd73e852d32c15b1d8e2e38c5d1a0\GitHub.copilot-chat\chat-session-resources\ecef73df-bd3b-4fc6-8db1-abf6c144dc44\call_a7lgvmOwOrVFSUdjgTLNWscr__vscode-1779234039380\content.txt
-C:\Users\luisa\AppData\Roaming\Code\User\workspaceStorage\c39dd73e852d32c15b1d8e2e38c5d1a0\GitHub.copilot-chat\chat-session-resources\ecef73df-bd3b-4fc6-8db1-abf6c144dc44\call_DkuKmr0smqrf5GVQzG4hhrgp__vscode-1779234039347\content.txt
-C:\Users\luisa\AppData\Roaming\Code\User\workspaceStorage\c39dd73e852d32c15b1d8e2e38c5d1a0\GitHub.copilot-chat\chat-session-resources\ecef73df-bd3b-4fc6-8db1-abf6c144dc44\call_EFjXwImKyIU5dxbJnLEmjxLz__vscode-1779234039309\content.txt
-C:\Users\luisa\AppData\Roaming\Code\User\workspaceStorage\c39dd73e852d32c15b1d8e2e38c5d1a0\GitHub.copilot-chat\chat-session-resources\ecef73df-bd3b-4fc6-8db1-abf6c144dc44\call_WORFFOokwAfcqyUecU14k7Ky__vscode-1779234039346\content.txt
