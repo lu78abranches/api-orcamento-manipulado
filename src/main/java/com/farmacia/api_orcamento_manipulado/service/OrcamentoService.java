@@ -291,9 +291,6 @@ public class OrcamentoService {
         md.append("- Você receberá a confirmação final via WhatsApp.\n\n");
         md.append("---\n\n");
         md.append("## 🚀 Próximos passos\n\n");
-        md.append("✅ Receita recebida  \n");
-        md.append("⏳ Revisão farmacêutica em andamento  \n");
-        md.append("📲 Aprovação e envio do pagamento via WhatsApp\n\n");
         md.append("---\n\n");
         md.append("### 🏥 Farmácia Magistral AI\n");
         md.append("Sistema inteligente de pré-orçamento farmacêutico\n");
