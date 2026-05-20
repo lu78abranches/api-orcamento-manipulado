@@ -35,3 +35,14 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Logs de crash da JVM
+hs_err_pid*.log
+replay_pid*.log
+
+# Outputs temporários de compilação/testes
+mvnw-*-output.txt
+
+# Arquivos temporários/chat
+recent-chat-files.txt
+recent-chat-files-ascii.txt
