@@ -36,8 +36,13 @@ public class SecurityConfig {
                         .dispatcherTypeMatchers(jakarta.servlet.DispatcherType.ERROR).permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/webhooks/whatsapp").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
-                        // Rota pública de upload direto para o Dashboard dos recrutadores
+                        // Public endpoints for prescription upload (STEP 1)
                         .requestMatchers(HttpMethod.POST, "/api/prescriptions/upload").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/orcamentos/upload").permitAll()
+                        // Secured endpoints require JWT authentication
+                        // STEP 2: PUT /api/orcamentos/{id}/aprovar - Pharmacist approval (JWT required)
+                        // STEP 3: GET /api/orcamentos/{id}/final-quote - Final quote generation (JWT
+                        // required)
                         .anyRequest().authenticated())
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))

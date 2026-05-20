@@ -2,6 +2,7 @@ package com.farmacia.api_orcamento_manipulado.controller;
 
 import com.farmacia.api_orcamento_manipulado.dto.ItemExtraidoDTO;
 import com.farmacia.api_orcamento_manipulado.dto.OrcamentoPendenteDTO;
+import com.farmacia.api_orcamento_manipulado.dto.OrcamentoApprovedDTO;
 import com.farmacia.api_orcamento_manipulado.model.Orcamento;
 import com.farmacia.api_orcamento_manipulado.model.OrcamentoStatus;
 import com.farmacia.api_orcamento_manipulado.service.OrcamentoService;
@@ -77,16 +78,21 @@ public class OrcamentoControllerTest {
                 Orcamento orcamentoAprovado = new Orcamento();
                 orcamentoAprovado.setId(orcamentoId);
                 orcamentoAprovado.setClienteWhatsapp("whatsapp:+5511999999999");
+                orcamentoAprovado.setStatus(OrcamentoStatus.APROVADO);
 
                 // Configura o comportamento esperado do mock do Service
                 when(orcamentoService.aprovarOrcamento(orcamentoId)).thenReturn(orcamentoAprovado);
 
+                // Mock the DTO conversion method
+                OrcamentoApprovedDTO dtoResponse = new OrcamentoApprovedDTO("APROVADO");
+                when(orcamentoService.criarRespostaAprovacao(orcamentoAprovado)).thenReturn(dtoResponse);
+
                 // Executa a chamada PUT simulando o clique de aprovação do painel do
                 // farmacêutico
+                // STEP 2: Pharmacist approval (JWT required) returns only status
                 mockMvc.perform(put("/api/orcamentos/" + orcamentoId + "/aprovar"))
                                 .andExpect(status().isOk())
-                                .andExpect(jsonPath("$.id").value(orcamentoId))
-                                .andExpect(jsonPath("$.clienteWhatsapp").value("whatsapp:+5511999999999"));
+                                .andExpect(jsonPath("$.status").value("APROVADO"));
         }
 
         @Test
