@@ -49,6 +49,10 @@ public class OrcamentoService {
         return criarOrcamentoPreliminar(clienteNome, null, itens);
     }
 
+    public Orcamento processarNovaReceita(byte[] imagem) {
+        return processarNovaReceita(imagem, null);
+    }
+
     public Orcamento criarOrcamentoPreliminar(String clienteNome, String clienteWhatsapp, List<ItemOrcamento> itens) {
         if (itens == null) {
             itens = List.of();
@@ -64,6 +68,10 @@ public class OrcamentoService {
         orcamento.setStatus(OrcamentoStatus.PENDENTE_REVISAO);
 
         return repository.save(orcamento);
+    }
+
+    public Orcamento criarOrcamentoPreliminar(String clienteWhatsapp, List<ItemOrcamento> itens) {
+        return criarOrcamentoPreliminar(null, clienteWhatsapp, itens);
     }
 
     private void normalizarItens(List<ItemOrcamento> itens) {
