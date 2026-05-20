@@ -1,0 +1,611 @@
+﻿[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------< com.farmacia:api-orcamento-manipulado >----------------
+[INFO] Building  0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ api-orcamento-manipulado ---
+[INFO] Copying 4 resources from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ api-orcamento-manipulado ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ api-orcamento-manipulado ---
+[INFO] skip non existing resourceDirectory C:\api-orcamento-manipulado\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ api-orcamento-manipulado ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.5:test (default-test) @ api-orcamento-manipulado ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.farmacia.api_orcamento_manipulado.ApiOrcamentoManipuladoApplicationTests
+20:51:15.955 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.farmacia.api_orcamento_manipulado.ApiOrcamentoManipuladoApplicationTests]: ApiOrcamentoManipuladoApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+20:51:16.521 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.farmacia.api_orcamento_manipulado.ApiOrcamentoManipuladoApplication for test class com.farmacia.api_orcamento_manipulado.ApiOrcamentoManipuladoApplicationTests
+20:51:17.222 [main] INFO org.springframework.boot.devtools.restart.RestartApplicationListener -- Restart disabled due to context in which it is running
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.13)
+
+2026-05-19T20:51:18.079-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] a.ApiOrcamentoManipuladoApplicationTests : Starting ApiOrcamentoManipuladoApplicationTests using Java 17.0.15 with PID 932 (started by luisa in C:\api-orcamento-manipulado)
+2026-05-19T20:51:18.080-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] a.ApiOrcamentoManipuladoApplicationTests : The following 1 profile is active: "local"
+2026-05-19T20:51:19.475-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-19T20:51:19.827-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 329 ms. Found 2 JPA repository interfaces.
+.\mvnw : OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot 
+loader classes because bootstrap classpath has been appended
+No linha:1 caractere:1
++ .\mvnw test 2>&1 | Out-File -Encoding utf8 .\mvnw-test-output2.txt; G ...
++ ~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (OpenJDK 64-Bit ...s been appended 
+   :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+2026-05-19T20:51:24.400-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-05-19T20:51:24.574-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.45.Final
+2026-05-19T20:51:24.682-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-05-19T20:51:25.086-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-19T20:51:25.171-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-05-19T20:51:25.528-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:testdb user=SA
+2026-05-19T20:51:25.536-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-05-19T20:51:25.596-03:00  WARN 932 --- [api-orcamento-manipulado] [           main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-19T20:51:25.651-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-19T20:51:27.572-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: create table item_orcamento (id bigint generated by default as identity, nome varchar(255), preco numeric(38,2), primary key (id))
+Hibernate: create table orcamento (id bigint generated by default as identity, cliente_whatsapp varchar(255), status enum ('APROVADO','PENDENTE_REVISAO','REJEITADO'), valor_total numeric(38,2), primary key (id))
+Hibernate: create table orcamento_itens (orcamento_id bigint not null, itens_id bigint not null)
+Hibernate: create table "tb_usuarios" (id bigint generated by default as identity, "password" varchar(255) not null, "role_name" varchar(255) not null, "username" varchar(255) not null, primary key (id))
+Hibernate: alter table if exists orcamento_itens drop constraint if exists UK112k2rgxrwo7hmdlo7ahabrs8
+Hibernate: alter table if exists orcamento_itens add constraint UK112k2rgxrwo7hmdlo7ahabrs8 unique (itens_id)
+Hibernate: alter table if exists "tb_usuarios" drop constraint if exists UKe10shscnki8157kbrc704vobn
+Hibernate: alter table if exists "tb_usuarios" add constraint UKe10shscnki8157kbrc704vobn unique ("username")
+Hibernate: alter table if exists orcamento_itens add constraint FKmuy3wt6lkohhgn5awbibjw8ot foreign key (itens_id) references item_orcamento
+Hibernate: alter table if exists orcamento_itens add constraint FKmxt089qpjsi121stbu5cswbbd foreign key (orcamento_id) references orcamento
+2026-05-19T20:51:27.737-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-19T20:51:28.386-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-05-19T20:51:28.572-03:00  WARN 932 --- [api-orcamento-manipulado] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-05-19T20:51:30.103-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] a.ApiOrcamentoManipuladoApplicationTests : Started ApiOrcamentoManipuladoApplicationTests in 12.927 seconds (process running for 16.519)
+Hibernate: select count(*) from "tb_usuarios" u1_0
+Hibernate: select u1_0.id,u1_0."password",u1_0."role_name",u1_0."username" from "tb_usuarios" u1_0 where u1_0."username"=?
+Hibernate: insert into "tb_usuarios" ("password","role_name","username",id) values (?,?,?,default)
+>>> SEED: Usußrio padrÒo 'farmaceutico1' configurado com sucesso com a senha 'senha123'!
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 16.21 s -- in com.farmacia.api_orcamento_manipulado.ApiOrcamentoManipuladoApplicationTests
+[INFO] Running com.farmacia.api_orcamento_manipulado.config.DataInitializerTest
+2026-05-19T20:51:31.398-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.farmacia.api_orcamento_manipulado.config.DataInitializerTest]: DataInitializerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-05-19T20:51:31.425-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.farmacia.api_orcamento_manipulado.ApiOrcamentoManipuladoApplication for test class com.farmacia.api_orcamento_manipulado.config.DataInitializerTest
+2026-05-19T20:51:31.436-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.s.b.d.r.RestartApplicationListener     : Restart disabled due to context in which it is running
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.13)
+
+2026-05-19T20:51:31.499-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] c.f.a.config.DataInitializerTest         : Starting DataInitializerTest using Java 17.0.15 with PID 932 (started by luisa in C:\api-orcamento-manipulado)
+2026-05-19T20:51:31.503-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] c.f.a.config.DataInitializerTest         : The following 1 profile is active: "test"
+2026-05-19T20:51:31.805-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-19T20:51:31.817-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 9 ms. Found 2 JPA repository interfaces.
+2026-05-19T20:51:31.990-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-05-19T20:51:31.999-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-05-19T20:51:32.019-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-19T20:51:32.022-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2026-05-19T20:51:32.025-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection conn10: url=jdbc:h2:mem:testdb user=SA
+2026-05-19T20:51:32.025-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2026-05-19T20:51:32.027-03:00  WARN 932 --- [api-orcamento-manipulado] [           main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-19T20:51:32.029-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-2)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-19T20:51:32.110-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-19T20:51:32.141-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-19T20:51:32.286-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-05-19T20:51:32.338-03:00  WARN 932 --- [api-orcamento-manipulado] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-05-19T20:51:32.605-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] c.f.a.config.DataInitializerTest         : Started DataInitializerTest in 1.168 seconds (process running for 19.019)
+>>> SEED: Usußrio padrÒo 'farmaceutico1' configurado com sucesso com a senha 'senha123'!
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.420 s -- in com.farmacia.api_orcamento_manipulado.config.DataInitializerTest
+[INFO] Running com.farmacia.api_orcamento_manipulado.config.ProfileIntegrationTest
+2026-05-19T20:51:32.818-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.farmacia.api_orcamento_manipulado.config.ProfileIntegrationTest]: ProfileIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-05-19T20:51:32.821-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.farmacia.api_orcamento_manipulado.ApiOrcamentoManipuladoApplication for test class com.farmacia.api_orcamento_manipulado.config.ProfileIntegrationTest
+2026-05-19T20:51:32.826-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.s.b.d.r.RestartApplicationListener     : Restart disabled due to context in which it is running
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.13)
+
+2026-05-19T20:51:32.866-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] c.f.a.config.ProfileIntegrationTest      : Starting ProfileIntegrationTest using Java 17.0.15 with PID 932 (started by luisa in C:\api-orcamento-manipulado)
+2026-05-19T20:51:32.866-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] c.f.a.config.ProfileIntegrationTest      : The following 1 profile is active: "test"
+2026-05-19T20:51:33.080-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-19T20:51:33.087-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 8 ms. Found 2 JPA repository interfaces.
+2026-05-19T20:51:33.261-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-05-19T20:51:33.263-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-05-19T20:51:33.277-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-19T20:51:33.277-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
+2026-05-19T20:51:33.281-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Added connection conn20: url=jdbc:h2:mem:testdb user=SA
+2026-05-19T20:51:33.281-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
+2026-05-19T20:51:33.281-03:00  WARN 932 --- [api-orcamento-manipulado] [           main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-19T20:51:33.281-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-3)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-19T20:51:33.342-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-19T20:51:33.352-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-19T20:51:33.400-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-05-19T20:51:33.437-03:00  WARN 932 --- [api-orcamento-manipulado] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-05-19T20:51:33.621-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] c.f.a.config.ProfileIntegrationTest      : Started ProfileIntegrationTest in 0.795 seconds (process running for 20.036)
+>>> SEED: Usußrio padrÒo 'farmaceutico1' configurado com sucesso com a senha 'senha123'!
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.056 s -- in com.farmacia.api_orcamento_manipulado.config.ProfileIntegrationTest
+[INFO] Running com.farmacia.api_orcamento_manipulado.controller.AuthControllerTest
+2026-05-19T20:51:33.881-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.farmacia.api_orcamento_manipulado.controller.AuthControllerTest]: AuthControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-05-19T20:51:33.922-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.farmacia.api_orcamento_manipulado.ApiOrcamentoManipuladoApplication for test class com.farmacia.api_orcamento_manipulado.controller.AuthControllerTest
+2026-05-19T20:51:33.922-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.s.b.d.r.RestartApplicationListener     : Restart disabled due to context in which it is running
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.13)
+
+2026-05-19T20:51:33.977-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] c.f.a.controller.AuthControllerTest      : Starting AuthControllerTest using Java 17.0.15 with PID 932 (started by luisa in C:\api-orcamento-manipulado)
+2026-05-19T20:51:33.977-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] c.f.a.controller.AuthControllerTest      : The following 1 profile is active: "test"
+2026-05-19T20:51:34.243-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-19T20:51:34.254-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 10 ms. Found 2 JPA repository interfaces.
+2026-05-19T20:51:34.447-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-05-19T20:51:34.455-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-05-19T20:51:34.469-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-19T20:51:34.472-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Starting...
+2026-05-19T20:51:34.472-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-4 - Added connection conn30: url=jdbc:h2:mem:testdb user=SA
+2026-05-19T20:51:34.475-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Start completed.
+2026-05-19T20:51:34.475-03:00  WARN 932 --- [api-orcamento-manipulado] [           main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-19T20:51:34.475-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-4)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-19T20:51:34.559-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-19T20:51:34.573-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-19T20:51:34.591-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-05-19T20:51:34.648-03:00  WARN 932 --- [api-orcamento-manipulado] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-05-19T20:51:34.980-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-05-19T20:51:34.980-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-19T20:51:34.986-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 6 ms
+2026-05-19T20:51:35.005-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] c.f.a.controller.AuthControllerTest      : Started AuthControllerTest in 1.081 seconds (process running for 21.419)
+>>> SEED: Usußrio padrÒo 'farmaceutico1' configurado com sucesso com a senha 'senha123'!
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.164 s -- in com.farmacia.api_orcamento_manipulado.controller.AuthControllerTest
+[INFO] Running com.farmacia.api_orcamento_manipulado.controller.OrcamentoControllerTest
+2026-05-19T20:51:36.053-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.farmacia.api_orcamento_manipulado.controller.OrcamentoControllerTest]: OrcamentoControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-05-19T20:51:36.098-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.farmacia.api_orcamento_manipulado.ApiOrcamentoManipuladoApplication for test class com.farmacia.api_orcamento_manipulado.controller.OrcamentoControllerTest
+2026-05-19T20:51:36.105-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.s.b.d.r.RestartApplicationListener     : Restart disabled due to context in which it is running
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.13)
+
+2026-05-19T20:51:36.153-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] c.f.a.c.OrcamentoControllerTest          : Starting OrcamentoControllerTest using Java 17.0.15 with PID 932 (started by luisa in C:\api-orcamento-manipulado)
+2026-05-19T20:51:36.155-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] c.f.a.c.OrcamentoControllerTest          : The following 1 profile is active: "local"
+2026-05-19T20:51:36.773-03:00  WARN 932 --- [api-orcamento-manipulado] [           main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 1c69f68c-d95b-48ae-9017-97b791b214fc
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-05-19T20:51:36.777-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-05-19T20:51:36.851-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-05-19T20:51:36.853-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-19T20:51:36.854-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-05-19T20:51:36.875-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] c.f.a.c.OrcamentoControllerTest          : Started OrcamentoControllerTest in 0.771 seconds (process running for 23.29)
+[ERROR] Tests run: 4, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 1.000 s <<< FAILURE! -- in com.farmacia.api_orcamento_manipulado.controller.OrcamentoControllerTest
+[ERROR] com.farmacia.api_orcamento_manipulado.controller.OrcamentoControllerTest.deveRecusarOrcamentoComSucesso -- Time elapsed: 0.008 s <<< ERROR!
+java.lang.Error: 
+Unresolved compilation problem: 
+	RECUSADO cannot be resolved or is not a field
+
+	at com.farmacia.api_orcamento_manipulado.model.Orcamento.setStatus(Orcamento.java:97)
+	at com.farmacia.api_orcamento_manipulado.controller.OrcamentoControllerTest.deveRecusarOrcamentoComSucesso(OrcamentoControllerTest.java:100)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+[ERROR] com.farmacia.api_orcamento_manipulado.controller.OrcamentoControllerTest.deveAprovarOrcamentoComSucesso -- Time elapsed: 0.030 s <<< ERROR!
+jakarta.servlet.ServletException: 
+Handler dispatch failed: java.lang.Error: Unresolved compilation problem: 
+	The constructor OrcamentoAprovadoResponseDTO(Long, OrcamentoStatus, String, List<ItemExtraidoDTO>, BigDecimal, BigDecimal, BigDecimal, String) is undefined
+
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1104)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doPut(FrameworkServlet.java:925)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:593)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at org.springframework.test.web.servlet.TestDispatcherServlet.service(TestDispatcherServlet.java:72)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.springframework.mock.web.MockFilterChain$ServletFilterProxy.doFilter(MockFilterChain.java:165)
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132)
+	at org.springframework.test.web.servlet.MockMvc.perform(MockMvc.java:201)
+	at com.farmacia.api_orcamento_manipulado.controller.OrcamentoControllerTest.deveAprovarOrcamentoComSucesso(OrcamentoControllerTest.java:85)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+Caused by: java.lang.Error: Unresolved compilation problem: 
+	The constructor OrcamentoAprovadoResponseDTO(Long, OrcamentoStatus, String, List<ItemExtraidoDTO>, BigDecimal, BigDecimal, BigDecimal, String) is undefined
+
+	at com.farmacia.api_orcamento_manipulado.controller.OrcamentoController.aprovarOrcamento(OrcamentoController.java:64)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:991)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:896)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	... 14 more
+
+[INFO] Running com.farmacia.api_orcamento_manipulado.controller.TwilioWebhookControllerTest
+2026-05-19T20:51:37.058-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.farmacia.api_orcamento_manipulado.controller.TwilioWebhookControllerTest]: TwilioWebhookControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-05-19T20:51:37.064-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.farmacia.api_orcamento_manipulado.ApiOrcamentoManipuladoApplication for test class com.farmacia.api_orcamento_manipulado.controller.TwilioWebhookControllerTest
+2026-05-19T20:51:37.074-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.s.b.d.r.RestartApplicationListener     : Restart disabled due to context in which it is running
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.13)
+
+2026-05-19T20:51:37.123-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] c.f.a.c.TwilioWebhookControllerTest      : Starting TwilioWebhookControllerTest using Java 17.0.15 with PID 932 (started by luisa in C:\api-orcamento-manipulado)
+2026-05-19T20:51:37.124-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] c.f.a.c.TwilioWebhookControllerTest      : The following 1 profile is active: "test"
+2026-05-19T20:51:37.460-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-19T20:51:37.474-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 10 ms. Found 2 JPA repository interfaces.
+2026-05-19T20:51:37.787-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-05-19T20:51:37.806-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-05-19T20:51:37.824-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-19T20:51:37.829-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Starting...
+2026-05-19T20:51:37.829-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-5 - Added connection conn40: url=jdbc:h2:mem:testdb user=SA
+2026-05-19T20:51:37.832-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Start completed.
+2026-05-19T20:51:37.832-03:00  WARN 932 --- [api-orcamento-manipulado] [           main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-19T20:51:37.832-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-5)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-19T20:51:37.944-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-19T20:51:37.963-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-19T20:51:38.061-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-05-19T20:51:38.115-03:00  WARN 932 --- [api-orcamento-manipulado] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-05-19T20:51:38.420-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-05-19T20:51:38.420-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-19T20:51:38.420-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-05-19T20:51:38.439-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] c.f.a.c.TwilioWebhookControllerTest      : Started TwilioWebhookControllerTest in 1.365 seconds (process running for 24.854)
+>>> SEED: Usußrio padrÒo 'farmaceutico1' configurado com sucesso com a senha 'senha123'!
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.149 s -- in com.farmacia.api_orcamento_manipulado.controller.TwilioWebhookControllerTest
+[INFO] Running com.farmacia.api_orcamento_manipulado.model.OrcamentoTest
+[ERROR] Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.024 s <<< FAILURE! -- in com.farmacia.api_orcamento_manipulado.model.OrcamentoTest
+[ERROR] com.farmacia.api_orcamento_manipulado.model.OrcamentoTest.deveIniciarOrcamentoComStatusPendente -- Time elapsed: 0 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: java.lang.String@2f8288b2<PENDENTE_REVISAO> but was: com.farmacia.api_orcamento_manipulado.model.OrcamentoStatus@626d2e9b<PENDENTE_REVISAO>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+	at com.farmacia.api_orcamento_manipulado.model.OrcamentoTest.deveIniciarOrcamentoComStatusPendente(OrcamentoTest.java:18)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+[INFO] Running com.farmacia.api_orcamento_manipulado.repository.OrcamentoRepositoryTest
+2026-05-19T20:51:40.234-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.farmacia.api_orcamento_manipulado.repository.OrcamentoRepositoryTest]: OrcamentoRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-05-19T20:51:40.268-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.farmacia.api_orcamento_manipulado.ApiOrcamentoManipuladoApplication for test class com.farmacia.api_orcamento_manipulado.repository.OrcamentoRepositoryTest
+2026-05-19T20:51:40.270-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.s.b.d.r.RestartApplicationListener     : Restart disabled due to context in which it is running
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.13)
+
+2026-05-19T20:51:40.308-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] c.f.a.r.OrcamentoRepositoryTest          : Starting OrcamentoRepositoryTest using Java 17.0.15 with PID 932 (started by luisa in C:\api-orcamento-manipulado)
+2026-05-19T20:51:40.308-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] c.f.a.r.OrcamentoRepositoryTest          : The following 1 profile is active: "local"
+2026-05-19T20:51:40.438-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-19T20:51:40.462-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 22 ms. Found 2 JPA repository interfaces.
+2026-05-19T20:51:40.528-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-05-19T20:51:40.536-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-05-19T20:51:40.553-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-19T20:51:40.553-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Starting...
+2026-05-19T20:51:41.084-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-6 - Added connection com.mysql.cj.jdbc.ConnectionImpl@46650468
+2026-05-19T20:51:41.086-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Start completed.
+2026-05-19T20:51:41.240-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-6)']
+	Database driver: undefined/unknown
+	Database version: 8.0.31
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-19T20:51:41.391-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-19T20:51:41.489-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-19T20:51:41.553-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] c.f.a.r.OrcamentoRepositoryTest          : Started OrcamentoRepositoryTest in 1.283 seconds (process running for 27.967)
+Hibernate: select count(*) from orcamento o1_0
+Hibernate: insert into orcamento (cliente_whatsapp,status,valor_total) values (?,?,?)
+Hibernate: insert into item_orcamento (nome,preco) values (?,?)
+Hibernate: select count(*) from orcamento o1_0
+[ERROR] Tests run: 2, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 1.403 s <<< FAILURE! -- in com.farmacia.api_orcamento_manipulado.repository.OrcamentoRepositoryTest
+[ERROR] com.farmacia.api_orcamento_manipulado.repository.OrcamentoRepositoryTest.deveBuscarApenasOrcamentosPendentes -- Time elapsed: 0.018 s <<< ERROR!
+java.lang.Error: 
+Unresolved compilation problem: 
+	RECUSADO cannot be resolved or is not a field
+
+	at com.farmacia.api_orcamento_manipulado.model.Orcamento.setStatus(Orcamento.java:97)
+	at com.farmacia.api_orcamento_manipulado.repository.OrcamentoRepositoryTest.deveBuscarApenasOrcamentosPendentes(OrcamentoRepositoryTest.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+[INFO] Running com.farmacia.api_orcamento_manipulado.repository.UsuarioRepositoryTest
+2026-05-19T20:51:41.645-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.farmacia.api_orcamento_manipulado.repository.UsuarioRepositoryTest]: UsuarioRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-05-19T20:51:41.661-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.farmacia.api_orcamento_manipulado.ApiOrcamentoManipuladoApplication for test class com.farmacia.api_orcamento_manipulado.repository.UsuarioRepositoryTest
+2026-05-19T20:51:41.661-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.s.b.d.r.RestartApplicationListener     : Restart disabled due to context in which it is running
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.13)
+
+2026-05-19T20:51:41.703-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] c.f.a.repository.UsuarioRepositoryTest   : Starting UsuarioRepositoryTest using Java 17.0.15 with PID 932 (started by luisa in C:\api-orcamento-manipulado)
+2026-05-19T20:51:41.703-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] c.f.a.repository.UsuarioRepositoryTest   : The following 1 profile is active: "test"
+2026-05-19T20:51:41.864-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-19T20:51:41.892-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 27 ms. Found 2 JPA repository interfaces.
+2026-05-19T20:51:41.906-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] beddedDataSourceBeanFactoryPostProcessor : Replacing 'dataSource' DataSource bean with embedded version
+2026-05-19T20:51:41.939-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.s.j.d.e.EmbeddedDatabaseFactory        : Starting embedded database: url='jdbc:h2:mem:20c0cad5-ac35-4f86-a5d9-68697445beac;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false', username='sa'
+2026-05-19T20:51:41.972-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-05-19T20:51:41.977-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-05-19T20:51:41.989-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-19T20:51:41.989-03:00  WARN 932 --- [api-orcamento-manipulado] [           main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-19T20:51:41.989-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseFactory$EmbeddedDataSourceProxy@15eb82fc']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-19T20:51:42.052-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: drop table if exists item_orcamento cascade 
+Hibernate: drop table if exists orcamento cascade 
+Hibernate: drop table if exists orcamento_itens cascade 
+Hibernate: drop table if exists "tb_usuarios" cascade 
+Hibernate: create table item_orcamento (preco numeric(38,2), id bigint generated by default as identity, nome varchar(255), primary key (id))
+Hibernate: create table orcamento (valor_total numeric(38,2), id bigint generated by default as identity, cliente_whatsapp varchar(255), status enum ('APROVADO','PENDENTE_REVISAO','REJEITADO'), primary key (id))
+Hibernate: create table orcamento_itens (itens_id bigint not null unique, orcamento_id bigint not null)
+Hibernate: create table "tb_usuarios" (id bigint generated by default as identity, "password" varchar(255) not null, "role_name" varchar(255) not null, "username" varchar(255) not null unique, primary key (id))
+Hibernate: alter table if exists orcamento_itens add constraint FKmuy3wt6lkohhgn5awbibjw8ot foreign key (itens_id) references item_orcamento
+Hibernate: alter table if exists orcamento_itens add constraint FKmxt089qpjsi121stbu5cswbbd foreign key (orcamento_id) references orcamento
+2026-05-19T20:51:42.061-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-19T20:51:42.120-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] c.f.a.repository.UsuarioRepositoryTest   : Started UsuarioRepositoryTest in 0.459 seconds (process running for 28.534)
+Hibernate: insert into "tb_usuarios" ("password","role_name","username",id) values (?,?,?,default)
+Hibernate: select u1_0.id,u1_0."password",u1_0."role_name",u1_0."username" from "tb_usuarios" u1_0 where u1_0."username"=?
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.501 s -- in com.farmacia.api_orcamento_manipulado.repository.UsuarioRepositoryTest
+[INFO] Running com.farmacia.api_orcamento_manipulado.security.PasswordCryptoTest
+2026-05-19T20:51:42.142-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.farmacia.api_orcamento_manipulado.security.PasswordCryptoTest]: PasswordCryptoTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-05-19T20:51:42.158-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.farmacia.api_orcamento_manipulado.ApiOrcamentoManipuladoApplication for test class com.farmacia.api_orcamento_manipulado.security.PasswordCryptoTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.239 s -- in com.farmacia.api_orcamento_manipulado.security.PasswordCryptoTest
+[INFO] Running com.farmacia.api_orcamento_manipulado.security.SecurityIntegrationTest
+2026-05-19T20:51:42.387-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.farmacia.api_orcamento_manipulado.security.SecurityIntegrationTest]: SecurityIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-05-19T20:51:42.388-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.farmacia.api_orcamento_manipulado.ApiOrcamentoManipuladoApplication for test class com.farmacia.api_orcamento_manipulado.security.SecurityIntegrationTest
+2026-05-19T20:51:42.388-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.s.b.d.r.RestartApplicationListener     : Restart disabled due to context in which it is running
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.13)
+
+2026-05-19T20:51:42.437-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] c.f.a.security.SecurityIntegrationTest   : Starting SecurityIntegrationTest using Java 17.0.15 with PID 932 (started by luisa in C:\api-orcamento-manipulado)
+2026-05-19T20:51:42.437-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] c.f.a.security.SecurityIntegrationTest   : The following 1 profile is active: "test"
+2026-05-19T20:51:42.702-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-19T20:51:42.711-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 7 ms. Found 2 JPA repository interfaces.
+2026-05-19T20:51:43.121-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 0 (http)
+2026-05-19T20:51:43.154-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-05-19T20:51:43.154-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.53]
+2026-05-19T20:51:43.299-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-05-19T20:51:43.301-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 864 ms
+2026-05-19T20:51:43.421-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-05-19T20:51:43.430-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-05-19T20:51:43.442-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-19T20:51:43.442-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Starting...
+2026-05-19T20:51:43.442-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-7 - Added connection conn55: url=jdbc:h2:mem:testdb user=SA
+2026-05-19T20:51:43.442-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Start completed.
+2026-05-19T20:51:43.442-03:00  WARN 932 --- [api-orcamento-manipulado] [           main] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-19T20:51:43.442-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-7)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-05-19T20:51:43.502-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-19T20:51:43.508-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-19T20:51:43.546-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-05-19T20:51:43.581-03:00  WARN 932 --- [api-orcamento-manipulado] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-05-19T20:51:43.875-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 58662 (http) with context path '/'
+2026-05-19T20:51:43.883-03:00  INFO 932 --- [api-orcamento-manipulado] [           main] c.f.a.security.SecurityIntegrationTest   : Started SecurityIntegrationTest in 1.495 seconds (process running for 30.298)
+>>> SEED: Usußrio padrÒo 'farmaceutico1' configurado com sucesso com a senha 'senha123'!
+2026-05-19T20:51:44.260-03:00  INFO 932 --- [api-orcamento-manipulado] [o-auto-1-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-05-19T20:51:44.260-03:00  INFO 932 --- [api-orcamento-manipulado] [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-05-19T20:51:44.260-03:00  INFO 932 --- [api-orcamento-manipulado] [o-auto-1-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2026-05-19T20:51:44.292-03:00  WARN 932 --- [api-orcamento-manipulado] [o-auto-1-exec-1] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.HttpMediaTypeNotSupportedException: Content-Type is not supported]
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.101 s -- in com.farmacia.api_orcamento_manipulado.security.SecurityIntegrationTest
+[INFO] Running com.farmacia.api_orcamento_manipulado.service.OrcamentoServiceTest
+[ERROR] Tests run: 5, Failures: 0, Errors: 5, Skipped: 0, Time elapsed: 0.127 s <<< FAILURE! -- in com.farmacia.api_orcamento_manipulado.service.OrcamentoServiceTest
+[ERROR] com.farmacia.api_orcamento_manipulado.service.OrcamentoServiceTest.deveRecusarOrcamentoComSucesso -- Time elapsed: 0.106 s <<< ERROR!
+java.lang.Error: 
+Unresolved compilation problem: 
+	RECUSADO cannot be resolved or is not a field
+
+	at com.farmacia.api_orcamento_manipulado.service.OrcamentoService.recusarOrcamento(OrcamentoService.java:77)
+	at com.farmacia.api_orcamento_manipulado.service.OrcamentoServiceTest.deveRecusarOrcamentoComSucesso(OrcamentoServiceTest.java:136)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+[ERROR] com.farmacia.api_orcamento_manipulado.service.OrcamentoServiceTest.deveRetornarListaDePendentesMapeados -- Time elapsed: 0.004 s <<< ERROR!
+java.lang.Error: 
+Unresolved compilation problem: 
+	RECUSADO cannot be resolved or is not a field
+
+	at com.farmacia.api_orcamento_manipulado.model.Orcamento.setStatus(Orcamento.java:97)
+	at com.farmacia.api_orcamento_manipulado.service.OrcamentoServiceTest.deveRetornarListaDePendentesMapeados(OrcamentoServiceTest.java:154)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+[ERROR] com.farmacia.api_orcamento_manipulado.service.OrcamentoServiceTest.deveAprovarOrcamentoComSucesso -- Time elapsed: 0.006 s <<< ERROR!
+java.lang.Error: 
+Unresolved compilation problem: 
+	The method setStatus(String) in the type Orcamento is not applicable for the arguments (OrcamentoStatus)
+
+	at com.farmacia.api_orcamento_manipulado.service.OrcamentoService.aprovarOrcamento(OrcamentoService.java:65)
+	at com.farmacia.api_orcamento_manipulado.service.OrcamentoServiceTest.deveAprovarOrcamentoComSucesso(OrcamentoServiceTest.java:108)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+[ERROR] com.farmacia.api_orcamento_manipulado.service.OrcamentoServiceTest.deveProcessarReceitaESalvarOrcamento -- Time elapsed: 0 s <<< ERROR!
+java.lang.Error: 
+Unresolved compilation problem: 
+	The method setStatus(String) in the type Orcamento is not applicable for the arguments (OrcamentoStatus)
+
+	at com.farmacia.api_orcamento_manipulado.service.OrcamentoService.criarOrcamentoPreliminar(OrcamentoService.java:56)
+	at com.farmacia.api_orcamento_manipulado.service.OrcamentoService.processarNovaReceita(OrcamentoService.java:44)
+	at com.farmacia.api_orcamento_manipulado.service.OrcamentoServiceTest.deveProcessarReceitaESalvarOrcamento(OrcamentoServiceTest.java:52)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+[ERROR] com.farmacia.api_orcamento_manipulado.service.OrcamentoServiceTest.deveCriarOrcamentoPreliminarComSucesso -- Time elapsed: 0 s <<< ERROR!
+java.lang.Error: 
+Unresolved compilation problem: 
+	The method setStatus(String) in the type Orcamento is not applicable for the arguments (OrcamentoStatus)
+
+	at com.farmacia.api_orcamento_manipulado.service.OrcamentoService.criarOrcamentoPreliminar(OrcamentoService.java:56)
+	at com.farmacia.api_orcamento_manipulado.service.OrcamentoServiceTest.deveCriarOrcamentoPreliminarComSucesso(OrcamentoServiceTest.java:79)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+
+[INFO] Running com.farmacia.api_orcamento_manipulado.service.PriceCalculationEngineTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.020 s -- in com.farmacia.api_orcamento_manipulado.service.PriceCalculationEngineTest
+[INFO] Running com.farmacia.api_orcamento_manipulado.service.TokenServiceTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s -- in com.farmacia.api_orcamento_manipulado.service.TokenServiceTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[ERROR] Failures: 
+[ERROR]   OrcamentoTest.deveIniciarOrcamentoComStatusPendente:18 expected: java.lang.String@2f8288b2<PENDENTE_REVISAO> but was: com.farmacia.api_orcamento_manipulado.model.OrcamentoStatus@626d2e9b<PENDENTE_REVISAO>
+[ERROR] Errors: 
+[ERROR]   OrcamentoControllerTest.deveAprovarOrcamentoComSucesso:85 ╗ Servlet Handler dispatch failed: java.lang.Error: Unresolved compilation problem: 
+	The constructor OrcamentoAprovadoResponseDTO(Long, OrcamentoStatus, String, List<ItemExtraidoDTO>, BigDecimal, BigDecimal, BigDecimal, String) is undefined
+
+[ERROR]   OrcamentoControllerTest.deveRecusarOrcamentoComSucesso:100 ╗  Unresolved compilation problem: 
+	RECUSADO cannot be resolved or is not a field
+
+[ERROR]   OrcamentoRepositoryTest.deveBuscarApenasOrcamentosPendentes:43 ╗  Unresolved compilation problem: 
+	RECUSADO cannot be resolved or is not a field
+
+[ERROR]   OrcamentoServiceTest.deveAprovarOrcamentoComSucesso:108 ╗  Unresolved compilation problem: 
+	The method setStatus(String) in the type Orcamento is not applicable for the arguments (OrcamentoStatus)
+
+[ERROR]   OrcamentoServiceTest.deveCriarOrcamentoPreliminarComSucesso:79 ╗  Unresolved compilation problem: 
+	The method setStatus(String) in the type Orcamento is not applicable for the arguments (OrcamentoStatus)
+
+[ERROR]   OrcamentoServiceTest.deveProcessarReceitaESalvarOrcamento:52 ╗  Unresolved compilation problem: 
+	The method setStatus(String) in the type Orcamento is not applicable for the arguments (OrcamentoStatus)
+
+[ERROR]   OrcamentoServiceTest.deveRecusarOrcamentoComSucesso:136 ╗  Unresolved compilation problem: 
+	RECUSADO cannot be resolved or is not a field
+
+[ERROR]   OrcamentoServiceTest.deveRetornarListaDePendentesMapeados:154 ╗  Unresolved compilation problem: 
+	RECUSADO cannot be resolved or is not a field
+
+[INFO] 
+[ERROR] Tests run: 26, Failures: 1, Errors: 8, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  36.201 s
+[INFO] Finished at: 2026-05-19T20:51:45-03:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.5.5:test (default-test) on project api-orcamento-manipulado: There are test failures.
+[ERROR] 
+[ERROR] See C:\api-orcamento-manipulado\target\surefire-reports for the individual test results.
+[ERROR] See dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

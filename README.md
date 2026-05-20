@@ -1,4 +1,4 @@
-# 💊 AI-Powered Pharmacy Budget API (API Orçamento Manipulado)
+﻿# 💊 AI-Powered Pharmacy Budget API (API Orçamento Manipulado)
 
 [![Java 17](https://img.shields.io/badge/Java-17-orange.svg)](https://www.oracle.com/java/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.x-brightgreen.svg)](https://spring.io/projects/spring-boot)

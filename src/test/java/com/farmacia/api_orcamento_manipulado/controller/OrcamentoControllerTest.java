@@ -3,6 +3,7 @@ package com.farmacia.api_orcamento_manipulado.controller;
 import com.farmacia.api_orcamento_manipulado.dto.ItemExtraidoDTO;
 import com.farmacia.api_orcamento_manipulado.dto.OrcamentoPendenteDTO;
 import com.farmacia.api_orcamento_manipulado.model.Orcamento;
+import com.farmacia.api_orcamento_manipulado.model.OrcamentoStatus;
 import com.farmacia.api_orcamento_manipulado.service.OrcamentoService;
 
 import org.junit.jupiter.api.DisplayName;
@@ -97,7 +98,7 @@ public class OrcamentoControllerTest {
                 Orcamento orcamentoRecusado = new Orcamento();
                 orcamentoRecusado.setId(orcamentoId);
                 orcamentoRecusado.setClienteWhatsapp("whatsapp:+5511999999999");
-                orcamentoRecusado.setStatus("RECUSADO"); // Define o status simulado de retorno
+                orcamentoRecusado.setStatus(OrcamentoStatus.RECUSADO);
 
                 // Configura o comportamento esperado do mock do Service
                 when(orcamentoService.recusarOrcamento(orcamentoId)).thenReturn(orcamentoRecusado);

@@ -1,12 +1,11 @@
 package com.farmacia.api_orcamento_manipulado.model;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.farmacia.api_orcamento_manipulado.model.Orcamento;
 import com.farmacia.api_orcamento_manipulado.model.ItemOrcamento;
 
-
 import java.math.BigDecimal;
-
 
 // Local: src/test/java/com/farmacia/model/OrcamentoTest.java
 public class OrcamentoTest {
@@ -15,19 +14,23 @@ public class OrcamentoTest {
     void deveIniciarOrcamentoComStatusPendente() {
         Orcamento orcamento = new Orcamento();
         // O teste vai falhar porque a classe Orcamento nem existe ainda! (Fase RED)
-        assertEquals("PENDENTE_REVISAO", orcamento.getStatus());
+        assertEquals("PENDENTE_REVISAO", orcamento.getStatus().name());
     }
 
-    //método adicionado ao OrcamentoTest.java. O objetivo é: adicionar dois itens de
-    // R\( 20,00 cada e verificar se o total é R\) 50,00 (considerando uma taxa fixa de R$ 10,00).
+    // método adicionado ao OrcamentoTest.java. O objetivo é: adicionar dois itens
+    // de
+    // R\( 20,00 cada e verificar se o total é R\) 50,00 (considerando uma taxa fixa
+    // de R$ 10,00).
 
     @Test
     void deveCalcularValorTotalComTaxaFixa() {
         Orcamento orcamento = new Orcamento();
 
-        /* Imagine que temos um método para adicionar itens
-        orcamento.adicionarItem("Vitamina C", new BigDecimal("20.00"));
-        orcamento.adicionarItem("Zinco", new BigDecimal("20.00"));*/
+        /*
+         * Imagine que temos um método para adicionar itens
+         * orcamento.adicionarItem("Vitamina C", new BigDecimal("20.00"));
+         * orcamento.adicionarItem("Zinco", new BigDecimal("20.00"));
+         */
 
         // Ajuste para o novo objeto
         orcamento.adicionarItem(new ItemOrcamento("Vitamina C", new BigDecimal("20.00")));

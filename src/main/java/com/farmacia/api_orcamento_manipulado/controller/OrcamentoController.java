@@ -43,7 +43,8 @@ public class OrcamentoController {
 
         // Converte os itens para DTO
         List<ItemExtraidoDTO> itensDTO = orcamento.getItens().stream()
-                .map(item -> new ItemExtraidoDTO(item.getNome(), item.getPreco() != null ? item.getPreco() : BigDecimal.ZERO))
+                .map(item -> new ItemExtraidoDTO(item.getNome(),
+                        item.getPreco() != null ? item.getPreco() : BigDecimal.ZERO))
                 .toList();
 
         // Constrói a mensagem amigável e legível para o cliente
@@ -63,14 +64,13 @@ public class OrcamentoController {
 
         OrcamentoAprovadoResponseDTO response = new OrcamentoAprovadoResponseDTO(
                 orcamento.getId(),
-                orcamento.getStatus(),
+                orcamento.getStatus().name(),
                 orcamento.getClienteWhatsapp(),
                 itensDTO,
                 subtotal,
                 taxaManipulacao,
                 total,
-                sb.toString()
-        );
+                sb.toString());
 
         return ResponseEntity.ok(response);
     }

@@ -1,0 +1,23 @@
+﻿[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------< com.farmacia:api-orcamento-manipulado >----------------
+[INFO] Building  0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.4.1:clean (default-clean) @ api-orcamento-manipulado ---
+[INFO] Deleting C:\api-orcamento-manipulado\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ api-orcamento-manipulado ---
+[INFO] Copying 4 resources from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ api-orcamento-manipulado ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 30 source files with javac [debug parameters release 17] to target\classes
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  7.401 s
+[INFO] Finished at: 2026-05-19T20:56:06-03:00
+[INFO] ------------------------------------------------------------------------

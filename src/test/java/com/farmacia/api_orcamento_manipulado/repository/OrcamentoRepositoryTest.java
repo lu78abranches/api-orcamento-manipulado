@@ -2,6 +2,7 @@ package com.farmacia.api_orcamento_manipulado.repository;
 
 import com.farmacia.api_orcamento_manipulado.model.ItemOrcamento;
 import com.farmacia.api_orcamento_manipulado.model.Orcamento;
+import com.farmacia.api_orcamento_manipulado.model.OrcamentoStatus;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE) // Usa o MySQL real, não o H2
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
 public class OrcamentoRepositoryTest {
 
     // Dependency Injection (Injeção de Dependência)
@@ -40,17 +41,17 @@ public class OrcamentoRepositoryTest {
     @DisplayName("Deve buscar apenas orçamentos com status PENDENTE")
     void deveBuscarApenasOrcamentosPendentes() {
         Orcamento p1 = new Orcamento();
-        p1.setStatus("PENDENTE");
+        p1.setStatus(OrcamentoStatus.PENDENTE_REVISAO);
         p1.setClienteWhatsapp("123");
 
         Orcamento p2 = new Orcamento();
-        p2.setStatus("APROVADO");
+        p2.setStatus(OrcamentoStatus.APROVADO);
         p2.setClienteWhatsapp("456");
 
         repository.save(p1);
         repository.save(p2);
 
-        List<Orcamento> pendentes = repository.findByStatus("PENDENTE");
+        List<Orcamento> pendentes = repository.findByStatus(OrcamentoStatus.PENDENTE_REVISAO);
 
         assertEquals(1, pendentes.size());
         assertEquals("123", pendentes.get(0).getClienteWhatsapp());
