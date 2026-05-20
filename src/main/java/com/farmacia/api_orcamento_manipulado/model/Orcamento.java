@@ -22,6 +22,7 @@ public class Orcamento {
     @Enumerated(EnumType.STRING)
     private OrcamentoStatus status = OrcamentoStatus.PENDENTE_REVISAO;
 
+    private String clienteNome;
     private String clienteWhatsapp;
 
     private BigDecimal valorTotal;

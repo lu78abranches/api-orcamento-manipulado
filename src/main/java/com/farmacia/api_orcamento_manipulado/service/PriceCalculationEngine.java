@@ -30,30 +30,33 @@ public class PriceCalculationEngine {
         BigDecimal somaInsumos = BigDecimal.ZERO;
 
         for (ItemOrcamento item : itens) {
-
             BigDecimal preco = item.getPreco();
 
             if (preco == null || preco.compareTo(BigDecimal.ZERO) == 0) {
-
-                String nomeLimpo = item.getNome() != null
-                        ? item.getNome().toLowerCase().trim()
-                        : "";
-
-                preco = TABELA_PRECOS.entrySet().stream()
-                        .filter(entry -> nomeLimpo.contains(entry.getKey()))
-                        .map(java.util.Map.Entry::getValue)
-                        .findFirst()
-                        .orElseGet(() -> {
-                            int tamanho = nomeLimpo.length();
-                            double valor = (tamanho * 1.20) + 5.00;
-                            return BigDecimal.valueOf(valor)
-                                    .setScale(2, java.math.RoundingMode.HALF_UP);
-                        });
+                preco = normalizarPreco(item.getNome());
+                item.setPreco(preco);
             }
 
             somaInsumos = somaInsumos.add(preco);
         }
 
         return somaInsumos.add(TAXA_FIXA);
+    }
+
+    public BigDecimal normalizarPreco(String nome) {
+        String nomeLimpo = nome != null
+                ? nome.toLowerCase().trim()
+                : "";
+
+        return TABELA_PRECOS.entrySet().stream()
+                .filter(entry -> !nomeLimpo.isBlank() && nomeLimpo.contains(entry.getKey()))
+                .map(java.util.Map.Entry::getValue)
+                .findFirst()
+                .orElseGet(() -> {
+                    int tamanho = nomeLimpo.length();
+                    double valor = (tamanho * 1.20) + 5.00;
+                    return BigDecimal.valueOf(valor)
+                            .setScale(2, java.math.RoundingMode.HALF_UP);
+                });
     }
 }

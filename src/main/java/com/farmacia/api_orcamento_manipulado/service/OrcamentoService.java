@@ -5,6 +5,7 @@ import com.farmacia.api_orcamento_manipulado.dto.OrcamentoPendenteDTO;
 import com.farmacia.api_orcamento_manipulado.dto.OrcamentoPendingReviewDTO;
 import com.farmacia.api_orcamento_manipulado.dto.OrcamentoApprovedDTO;
 import com.farmacia.api_orcamento_manipulado.dto.OrcamentoFinalQuoteDTO;
+import com.farmacia.api_orcamento_manipulado.dto.OrcamentoProcessadoDTO;
 import com.farmacia.api_orcamento_manipulado.model.ItemOrcamento;
 import com.farmacia.api_orcamento_manipulado.model.Orcamento;
 import com.farmacia.api_orcamento_manipulado.model.OrcamentoStatus;
@@ -31,6 +32,7 @@ public class OrcamentoService {
     }
 
     public Orcamento processarOrcamento(List<ItemOrcamento> itens) {
+        normalizarItens(itens);
 
         BigDecimal total = priceCalculationEngine.calcular(itens);
 
@@ -42,23 +44,34 @@ public class OrcamentoService {
         return orcamento;
     }
 
-    public Orcamento processarNovaReceita(byte[] imagem) {
+    public Orcamento processarNovaReceita(byte[] imagem, String clienteNome) {
         List<ItemOrcamento> itens = iaReceitaService.extrairItens(imagem);
-        return criarOrcamentoPreliminar(null, itens);
+        return criarOrcamentoPreliminar(clienteNome, null, itens);
     }
 
-    public Orcamento criarOrcamentoPreliminar(String clienteWhatsapp, List<ItemOrcamento> itens) {
+    public Orcamento criarOrcamentoPreliminar(String clienteNome, String clienteWhatsapp, List<ItemOrcamento> itens) {
         if (itens == null) {
             itens = List.of();
         }
 
+        normalizarItens(itens);
+
         Orcamento orcamento = new Orcamento();
+        orcamento.setClienteNome(clienteNome);
         orcamento.setClienteWhatsapp(clienteWhatsapp);
         orcamento.setItens(itens);
         orcamento.setValorTotal(priceCalculationEngine.calcular(itens));
         orcamento.setStatus(OrcamentoStatus.PENDENTE_REVISAO);
 
         return repository.save(orcamento);
+    }
+
+    private void normalizarItens(List<ItemOrcamento> itens) {
+        for (ItemOrcamento item : itens) {
+            if (item.getPreco() == null || item.getPreco().compareTo(BigDecimal.ZERO) == 0) {
+                item.setPreco(priceCalculationEngine.normalizarPreco(item.getNome()));
+            }
+        }
     }
 
     public Orcamento aprovarOrcamento(Long id) {
