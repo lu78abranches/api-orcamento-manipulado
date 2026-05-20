@@ -290,8 +290,6 @@ public class OrcamentoService {
         md.append("- Os valores podem sofrer ajustes após validação farmacêutica.\n");
         md.append("- Você receberá a confirmação final via WhatsApp.\n\n");
         md.append("---\n\n");
-        md.append("## 🚀 Próximos passos\n\n");
-        md.append("---\n\n");
         md.append("### 🏥 Farmácia Magistral AI\n");
         md.append("Sistema inteligente de pré-orçamento farmacêutico\n");
 

@@ -1,5 +1,5 @@
 import { useDropzone } from "react-dropzone";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { UploadCloud } from "lucide-react";
 import { api } from "../services/api";
 
@@ -8,7 +8,27 @@ export default function UploadZone({ onResult }) {
     const [name, setName] = useState("");
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState(null);
+    const [previewResult, setPreviewResult] = useState(null);
     const [error, setError] = useState("");
+    const timerRef = useRef(null);
+
+    const processingMarkdown = `# 💊 Orçamento de Manipulação
+
+## ⏳ Processando receita e aguardando aprovação farmacêutica
+
+Por favor, aguarde enquanto nosso farmacêutico verifica os itens e calcula o orçamento.
+
+---
+
+Aguarde alguns instantes...`;
+
+    useEffect(() => {
+        return () => {
+            if (timerRef.current) {
+                clearTimeout(timerRef.current);
+            }
+        };
+    }, []);
 
     async function uploadFile(file) {
 
@@ -16,22 +36,46 @@ export default function UploadZone({ onResult }) {
         formData.append("file", file);
         formData.append("nome", name.trim());
 
-        try {
-            setError("");
-            setLoading(true);
+        if (timerRef.current) {
+            clearTimeout(timerRef.current);
+        }
 
+        setPreviewResult({ markdownContent: processingMarkdown });
+        setResult(null);
+        setError("");
+        setLoading(true);
+
+        const startTime = Date.now();
+
+        try {
             const response = await api.post(
                 "/prescriptions/upload",
                 formData
             );
 
-            setResult(response.data);
-            if (onResult) {
-                onResult(response.data);
+            const elapsed = Date.now() - startTime;
+            const finalResponse = response.data;
+
+            const showFinal = () => {
+                setResult(finalResponse);
+                setPreviewResult(null);
+                if (onResult) {
+                    onResult(finalResponse);
+                }
+            };
+
+            if (elapsed >= 6000) {
+                showFinal();
+            } else {
+                timerRef.current = setTimeout(showFinal, 6000 - elapsed);
             }
 
         } catch (error) {
+            if (timerRef.current) {
+                clearTimeout(timerRef.current);
+            }
             console.error(error);
+            setPreviewResult(null);
             setError("Erro ao enviar a receita. Verifique o nome e tente novamente.");
         } finally {
             setLoading(false);
@@ -163,7 +207,7 @@ export default function UploadZone({ onResult }) {
                 </div>
             )}
 
-            {result && (
+            {(previewResult || result) && (
                 <div
                     style={{
                         marginTop: 30,
@@ -174,30 +218,19 @@ export default function UploadZone({ onResult }) {
                 >
 
                     <h2 style={{ marginBottom: 16 }}>
-                        ✅ Receita Processada
+                        {previewResult ? "⏳ Processando Receita" : "✅ Receita Processada"}
                     </h2>
 
-                    {result.markdownContent ? (
-                        <pre
-                            style={{
-                                color: "#cbd5e1",
-                                overflow: "auto",
-                                whiteSpace: "pre-wrap",
-                                wordBreak: "break-word"
-                            }}
-                        >
-                            {result.markdownContent}
-                        </pre>
-                    ) : (
-                        <pre
-                            style={{
-                                color: "#cbd5e1",
-                                overflow: "auto"
-                            }}
-                        >
-                            {JSON.stringify(result, null, 2)}
-                        </pre>
-                    )}
+                    <pre
+                        style={{
+                            color: "#cbd5e1",
+                            overflow: "auto",
+                            whiteSpace: "pre-wrap",
+                            wordBreak: "break-word"
+                        }}
+                    >
+                        {(previewResult || result).markdownContent}
+                    </pre>
 
                 </div>
             )}
