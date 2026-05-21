@@ -36,40 +36,46 @@ public class PrescriptionUploadController {
 
         String contentType = detectContentType(file);
 
-        if (contentType != null && contentType.startsWith("image/")) {
-            byte[] imagemBytes = file.getBytes();
-            OrcamentoProcessadoDTO resposta = orcamentoService.criarRespostaProcessado(
-                    orcamentoService.processarNovaReceita(imagemBytes, clienteNome));
-            return ResponseEntity.ok(resposta);
-        }
+        try {
+            if (contentType != null && contentType.startsWith("image/")) {
+                byte[] imagemBytes = file.getBytes();
+                OrcamentoProcessadoDTO resposta = orcamentoService.criarRespostaProcessado(
+                        orcamentoService.processarNovaReceita(imagemBytes, clienteNome));
+                return ResponseEntity.ok(resposta);
+            }
 
-        if (contentType != null && contentType.equals("application/pdf")) {
-            try (var pdfStream = file.getInputStream();
-                    var doc = org.apache.pdfbox.pdmodel.PDDocument.load(pdfStream)) {
-                org.apache.pdfbox.text.PDFTextStripper stripper = new org.apache.pdfbox.text.PDFTextStripper();
-                String texto = stripper.getText(doc);
-                if (texto == null || texto.isBlank()) {
-                    throw new IllegalArgumentException(
-                            "Não foi possível extrair texto do PDF. Verifique o arquivo e tente novamente.");
+            if (contentType != null && contentType.equals("application/pdf")) {
+                try (var pdfStream = file.getInputStream();
+                        var doc = org.apache.pdfbox.pdmodel.PDDocument.load(pdfStream)) {
+                    org.apache.pdfbox.text.PDFTextStripper stripper = new org.apache.pdfbox.text.PDFTextStripper();
+                    String texto = stripper.getText(doc);
+                    if (texto == null || texto.isBlank()) {
+                        throw new IllegalArgumentException(
+                                "Não foi possível extrair texto do PDF. Verifique o arquivo e tente novamente.");
+                    }
+
+                    var itens = orcamentoService.extrairItensFromText(texto);
+                    var orcamento = orcamentoService.criarOrcamentoPreliminar(clienteNome, null, itens);
+                    OrcamentoProcessadoDTO resposta = orcamentoService.criarRespostaProcessado(orcamento);
+                    return ResponseEntity.ok(resposta);
                 }
+            }
 
+            if (contentType != null && contentType.startsWith("text/")) {
+                String texto = new String(file.getBytes(), java.nio.charset.StandardCharsets.UTF_8);
+                if (texto.isBlank()) {
+                    throw new IllegalArgumentException(
+                            "O arquivo de texto está vazio. Envie um arquivo contendo a receita.");
+                }
                 var itens = orcamentoService.extrairItensFromText(texto);
                 var orcamento = orcamentoService.criarOrcamentoPreliminar(clienteNome, null, itens);
                 OrcamentoProcessadoDTO resposta = orcamentoService.criarRespostaProcessado(orcamento);
                 return ResponseEntity.ok(resposta);
             }
-        }
-
-        if (contentType != null && contentType.startsWith("text/")) {
-            String texto = new String(file.getBytes(), java.nio.charset.StandardCharsets.UTF_8);
-            if (texto.isBlank()) {
-                throw new IllegalArgumentException(
-                        "O arquivo de texto está vazio. Envie um arquivo contendo a receita.");
-            }
-            var itens = orcamentoService.extrairItensFromText(texto);
-            var orcamento = orcamentoService.criarOrcamentoPreliminar(clienteNome, null, itens);
-            OrcamentoProcessadoDTO resposta = orcamentoService.criarRespostaProcessado(orcamento);
-            return ResponseEntity.ok(resposta);
+        } catch (IOException e) {
+            logger.error("Erro ao processar arquivo enviado", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao processar o arquivo: " + e.getMessage());
         }
 
         logger.warn("Upload rejeitado por tipo de conteúdo não suportado: {}", contentType);
