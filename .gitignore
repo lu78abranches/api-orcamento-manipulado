@@ -5,6 +5,9 @@ target/
 !**/src/test/**/target/
 Documento_de_Requisitos_API_Farmacia.docx
 instrucoes-teste-api-orcamento-manipulado.txt
+API_FLOW_DOCUMENTATION.md
+IMPLEMENTATION_SUMMARY.md
+QUICK_TEST_GUIDE.md
 
 ### STS ###
 .apt_generated
