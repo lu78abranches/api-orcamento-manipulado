@@ -15,10 +15,13 @@ This project demonstrates strong capabilities in **backend engineering, system i
 ---
 
 ### 🔄 Interactive End-to-End Workflow
+## 🌐 **Access the Interactive Dashboard:** [MiniMarket AI Dashboard](https://api-orcamento-manipulado.netlify.app/)
 1. **Upload Prescription:** Send a medical prescription image directly to the cloud backend.
 2. **AI Automated Processing:** Google Gemini Vision reads the image, running NLP data extraction in the background.
 3. **Instant Budget Engine:** The system structures the data, runs the specialized pricing engine, and automatically saves a new record to the PostgreSQL instance.
 4. **Real-Time Data Sync:** The record is instantly made available for real-time dashboard polling.
+---
+> ⚠️ **Technical Note About Hosting (Free Plan):** The application is hosted on Render’s free-tier infrastructure. If the system remains inactive for a few minutes, the server will enter hibernation mode (cold start). The first API request (such as trying to log in or sending the webhook payload) may take around **45 to 60 seconds** to wake up the Java/Spring Boot environment and establish the connection with the managed PostgreSQL instance. Subsequent requests will process instantaneously.
 
 ## 🚀 Key Features
 
