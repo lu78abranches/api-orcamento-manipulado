@@ -57,9 +57,7 @@ public class GeminiReceitaService implements IAReceitaService {
                         Map.of("content", List.of(textPart, imagePart))));
 
         try {
-            var headers = new org.springframework.http.HttpHeaders();
-            headers.setContentType(org.springframework.http.MediaType.APPLICATION_JSON);
-            var entity = new org.springframework.http.HttpEntity<>(requestBody, headers);
+            var entity = createGeminiEntity(requestBody);
             var response = restTemplate.postForObject(urlFinal, entity, Map.class);
             String text = getTextFromGeminiResponse(response);
 
@@ -105,9 +103,7 @@ public class GeminiReceitaService implements IAReceitaService {
                         Map.of("content", List.of(promptPart, userTextPart))));
 
         try {
-            var headers = new org.springframework.http.HttpHeaders();
-            headers.setContentType(org.springframework.http.MediaType.APPLICATION_JSON);
-            var entity = new org.springframework.http.HttpEntity<>(requestBody, headers);
+            var entity = createGeminiEntity(requestBody);
             var response = restTemplate.postForObject(urlFinal, entity, Map.class);
             String text = getTextFromGeminiResponse(response);
 
@@ -174,5 +170,16 @@ public class GeminiReceitaService implements IAReceitaService {
         }
 
         throw new RuntimeException("Resposta inválida do Gemini");
+    }
+
+    private org.springframework.http.HttpEntity<Map<String, Object>> createGeminiEntity(
+            Map<String, Object> requestBody) {
+        var headers = new org.springframework.http.HttpHeaders();
+        headers.setContentType(org.springframework.http.MediaType.APPLICATION_JSON);
+        headers.set("X-Goog-Api-Key", apiKey);
+        headers.set("Accept", "application/json");
+        headers.set("User-Agent",
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36");
+        return new org.springframework.http.HttpEntity<>(requestBody, headers);
     }
 }
