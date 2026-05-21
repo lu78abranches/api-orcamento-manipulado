@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -16,12 +17,13 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
+@ConditionalOnProperty(prefix = "gemini.api", name = "enabled", havingValue = "true", matchIfMissing = false)
 public class GeminiReceitaService implements IAReceitaService {
 
-    @Value("${gemini.api.url}")
+    @Value("${gemini.api.url:}")
     private String apiUrl;
 
-    @Value("${gemini.api.key}")
+    @Value("${gemini.api.key:}")
     private String apiKey;
 
     private final RestTemplate restTemplate;
