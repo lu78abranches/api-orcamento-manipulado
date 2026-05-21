@@ -49,7 +49,7 @@ public class GeminiReceitaService implements IAReceitaService {
 
         Map<String, Object> imagePart = Map.of(
                 "type", "image",
-                "image_bytes", Map.of("data", base64Imagem),
+                "image_bytes", base64Imagem,
                 "mime_type", "image/jpeg");
 
         Map<String, Object> requestBody = Map.of(
@@ -176,7 +176,6 @@ public class GeminiReceitaService implements IAReceitaService {
             Map<String, Object> requestBody) {
         var headers = new org.springframework.http.HttpHeaders();
         headers.setContentType(org.springframework.http.MediaType.APPLICATION_JSON);
-        headers.set("X-Goog-Api-Key", apiKey);
         headers.set("Accept", "application/json");
         headers.set("User-Agent",
                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36");
