@@ -42,19 +42,14 @@ public class GeminiReceitaService implements IAReceitaService {
         String base64Imagem = Base64.getEncoder().encodeToString(imagem);
         String urlFinal = apiUrl + "?key=" + apiKey;
 
-        Map<String, Object> textPart = Map.of(
-                "type", "text",
-                "text",
-                "Liste os itens e preços desta receita. Retorne APENAS um JSON no formato: {\"itens\": [{\"nome\": \"...\", \"preco\": 0.00}]}");
-
-        Map<String, Object> imagePart = Map.of(
-                "type", "image",
-                "image_bytes", base64Imagem,
-                "mime_type", "image/jpeg");
-
         Map<String, Object> requestBody = Map.of(
-                "instances", List.of(
-                        Map.of("content", List.of(textPart, imagePart))));
+                "contents", List.of(
+                        Map.of("parts", List.of(
+                                Map.of("text",
+                                        "Liste os itens e preços desta receita. Retorne APENAS um JSON no formato: {\"itens\": [{\"nome\": \"...\", \"preco\": 0.00}]}"),
+                                Map.of("inline_data", Map.of(
+                                        "mime_type", "image/jpeg",
+                                        "data", base64Imagem))))));
 
         try {
             var entity = createGeminiEntity(requestBody);
@@ -91,16 +86,12 @@ public class GeminiReceitaService implements IAReceitaService {
     public List<ItemOrcamento> extrairItensFromText(String texto) {
         String urlFinal = apiUrl + "?key=" + apiKey;
 
-        Map<String, Object> promptPart = Map.of(
-                "type", "text",
-                "text",
-                "Liste os itens e preços desta receita. Retorne APENAS um JSON no formato: {\"itens\": [{\"nome\": \"...\", \"preco\": 0.00}]}");
-        Map<String, Object> userTextPart = Map.of(
-                "type", "text",
-                "text", texto);
         Map<String, Object> requestBody = Map.of(
-                "instances", List.of(
-                        Map.of("content", List.of(promptPart, userTextPart))));
+                "contents", List.of(
+                        Map.of("parts", List.of(
+                                Map.of("text",
+                                        "Liste os itens e preços desta receita. Retorne APENAS um JSON no formato: {\"itens\": [{\"nome\": \"...\", \"preco\": 0.00}]}"),
+                                Map.of("text", texto)))));
 
         try {
             var entity = createGeminiEntity(requestBody);
