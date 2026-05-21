@@ -5,10 +5,14 @@ import com.farmacia.api_orcamento_manipulado.model.ItemOrcamento;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -23,6 +27,8 @@ import java.util.stream.Collectors;
 @Primary
 public class OpenAIReceitaService implements IAReceitaService {
 
+        private static final Logger logger = LoggerFactory.getLogger(OpenAIReceitaService.class);
+
         @Value("${openai.api.url:https://api.openai.com/v1/chat/completions}")
         private String apiUrl;
 
@@ -30,9 +36,12 @@ public class OpenAIReceitaService implements IAReceitaService {
         private String apiKey;
 
         private final RestTemplate restTemplate;
+        private final ObjectProvider<GeminiReceitaService> geminiReceitaServiceProvider;
 
-        public OpenAIReceitaService(RestTemplate restTemplate) {
+        public OpenAIReceitaService(RestTemplate restTemplate,
+                        ObjectProvider<GeminiReceitaService> geminiReceitaServiceProvider) {
                 this.restTemplate = restTemplate;
+                this.geminiReceitaServiceProvider = geminiReceitaServiceProvider;
         }
 
         @Override
@@ -93,6 +102,20 @@ public class OpenAIReceitaService implements IAReceitaService {
                                         .collect(Collectors.toList());
                         // --- FIM DO PARSE ---
 
+                } catch (HttpClientErrorException e) {
+                        String body = e.getResponseBodyAsString();
+                        if (e.getStatusCode() == HttpStatus.TOO_MANY_REQUESTS ||
+                                        (body != null && body.contains("insufficient_quota"))) {
+                                var gemini = geminiReceitaServiceProvider.getIfAvailable();
+                                if (gemini != null) {
+                                        logger.warn("OpenAI quota exhausted; falling back to Gemini for image extraction.");
+                                        return gemini.extrairItens(imagem);
+                                }
+                                throw new RuntimeException(
+                                                "Quota da OpenAI esgotada. Aguarde alguns minutos ou confira seu plano e billing.");
+                        }
+                        throw new RuntimeException("Erro na OpenAI: " + e.getStatusCode() + ". " + e.getStatusText(),
+                                        e);
                 } catch (Exception e) {
                         e.printStackTrace(); // Isso vai imprimir o erro completo no seu terminal
                         throw new RuntimeException("Falha na extração: " + e.getMessage(), e);
@@ -147,6 +170,20 @@ public class OpenAIReceitaService implements IAReceitaService {
                                         .map(dto -> new ItemOrcamento(dto.nome(), dto.preco()))
                                         .collect(Collectors.toList());
 
+                } catch (HttpClientErrorException e) {
+                        String body = e.getResponseBodyAsString();
+                        if (e.getStatusCode() == HttpStatus.TOO_MANY_REQUESTS ||
+                                        (body != null && body.contains("insufficient_quota"))) {
+                                var gemini = geminiReceitaServiceProvider.getIfAvailable();
+                                if (gemini != null) {
+                                        logger.warn("OpenAI quota exhausted; falling back to Gemini for text extraction.");
+                                        return gemini.extrairItensFromText(texto);
+                                }
+                                throw new RuntimeException(
+                                                "Quota da OpenAI esgotada. Aguarde alguns minutos ou confira seu plano e billing.");
+                        }
+                        throw new RuntimeException(
+                                        "Erro na OpenAI (texto): " + e.getStatusCode() + ". " + e.getStatusText(), e);
                 } catch (Exception e) {
                         e.printStackTrace();
                         throw new RuntimeException("Falha na extração (texto): " + e.getMessage(), e);
