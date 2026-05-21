@@ -21,12 +21,7 @@ export default function UploadCard() {
 
             const result = await api.post(
                 "/prescriptions/upload",
-                formData,
-                {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                }
+                formData
             );
 
             setResponse(result.data);

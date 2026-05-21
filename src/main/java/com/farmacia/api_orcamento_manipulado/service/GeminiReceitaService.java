@@ -86,4 +86,51 @@ public class GeminiReceitaService implements IAReceitaService {
             throw new RuntimeException("Erro no Gemini: " + e.getMessage(), e);
         }
     }
+
+    @Override
+    public List<ItemOrcamento> extrairItensFromText(String texto) {
+        // Reusa a lógica de chamada, enviando o texto em vez de inline_data
+        String urlFinal = apiUrl + "?key=" + apiKey;
+
+        Map<String, Object> requestBody = Map.of(
+                "contents", List.of(
+                        Map.of("parts", List.of(
+                                Map.of("text",
+                                        "Liste os itens e preços desta receita. Retorne APENAS um JSON no formato: {\\\"itens\\\": [{\\\"nome\\\": \\\"...\\\", \\\"preco\\\": 0.00}]}"),
+                                Map.of("text", texto)))));
+
+        try {
+            var response = restTemplate.postForObject(urlFinal, requestBody, Map.class);
+
+            if (response == null || !response.containsKey("candidates")) {
+                throw new RuntimeException("Resposta inválida do Gemini");
+            }
+
+            @SuppressWarnings("unchecked")
+            List<Map<String, Object>> candidates = (List<Map<String, Object>>) response.get("candidates");
+            @SuppressWarnings("unchecked")
+            Map<String, Object> content = (Map<String, Object>) candidates.get(0).get("content");
+            List<Map<String, Object>> parts = (List<Map<String, Object>>) content.get("parts");
+            String text = (String) parts.get(0).get("text");
+
+            String jsonLimpo = text.replace("```json", "").replace("```", "").trim();
+
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode rootNode = mapper.readTree(jsonLimpo);
+            JsonNode itensNode = rootNode.has("itens") ? rootNode.get("itens") : rootNode;
+
+            List<ItemExtraidoDTO> dtos = mapper.readValue(
+                    itensNode.toString(),
+                    new TypeReference<List<ItemExtraidoDTO>>() {
+                    });
+
+            return dtos.stream()
+                    .map(dto -> new ItemOrcamento(dto.nome(), dto.preco()))
+                    .collect(Collectors.toList());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Erro no Gemini (texto): " + e.getMessage(), e);
+        }
+    }
 }

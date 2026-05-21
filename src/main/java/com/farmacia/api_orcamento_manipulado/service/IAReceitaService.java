@@ -10,4 +10,6 @@ import java.util.List;
 // (OpenAI, Google Vision, AWS Textract) facilmente.
 public interface IAReceitaService {
     List<ItemOrcamento> extrairItens(byte[] imagem);
+
+    List<ItemOrcamento> extrairItensFromText(String texto);
 }
