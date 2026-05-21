@@ -188,9 +188,12 @@ Aguarde alguns instantes...`;
             if (timerRef.current) {
                 clearTimeout(timerRef.current);
             }
-            console.error(error);
+            console.error("Upload error", error);
             setPreviewResult(null);
-            setError("Erro ao enviar a receita. Verifique o nome e tente novamente.");
+            const serverMessage = error?.response?.data?.message || error?.response?.data || error?.message;
+            setError(
+                `Erro ao enviar a receita. ${serverMessage || "Verifique o nome e tente novamente."}`
+            );
         } finally {
             setLoading(false);
         }
