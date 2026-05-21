@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Primary;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-@Primary
+@ConditionalOnProperty(prefix = "openai.api", name = "enabled", havingValue = "true", matchIfMissing = false)
 public class OpenAIReceitaService implements IAReceitaService {
 
         private static final Logger logger = LoggerFactory.getLogger(OpenAIReceitaService.class);

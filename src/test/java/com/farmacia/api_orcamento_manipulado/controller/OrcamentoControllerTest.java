@@ -41,7 +41,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 @TestPropertySource(properties = {
                 "DB_USERNAME=teste",
                 "DB_PASSWORD=teste",
-                "OPENAI_API_KEY=teste"
+                "GEMINI_API_KEY=teste"
 })
 @ImportAutoConfiguration(exclude = {
                 DataSourceAutoConfiguration.class,
