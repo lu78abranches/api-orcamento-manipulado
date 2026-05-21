@@ -209,16 +209,16 @@ public class OrcamentoService {
 
         StringBuilder md = new StringBuilder();
 
-        md.append("# 💊 Orçamento de Manipulação\n\n");
-        md.append("## ✅ Orçamento aprovado com sucesso\n\n");
-        md.append(String.format("**Protocolo:** #%d  \n", orcamento.getId()));
-        md.append(String.format("**Status:** %s  \n", status));
-        md.append(String.format("**Cliente:** %s  \n", cliente));
+        md.append("# 💊 Orçamento de Manipulação\n\n\n");
+        md.append("## ✅ Orçamento aprovado com sucesso\n\n\n");
+        md.append(String.format("**Protocolo:** #%d  \n\n", orcamento.getId()));
+        md.append(String.format("**Status:** %s  \n\n", status));
+        md.append(String.format("**Cliente:** %s  \n\n", cliente));
         md.append(String.format("**Data:** %s\n\n", data));
-        md.append("---\n\n");
-        md.append("## 🧾 Itens identificados na receita\n\n");
-        md.append("| Medicamento | Valor |\n");
-        md.append("|---|---:|\n");
+        md.append("---\n\n\n");
+        md.append("## 🧾 Itens identificados na receita\n\n\n");
+        md.append("| Medicamento | Valor |\n\n");
+        md.append("|---|---:|\n\n");
 
         BigDecimal subtotal = BigDecimal.ZERO;
         for (ItemOrcamento item : orcamento.getItens()) {
@@ -233,22 +233,22 @@ public class OrcamentoService {
         md.append("## 💰 Resumo financeiro\n\n");
         md.append("| Descrição | Valor |\n");
         md.append("|---|---:|\n");
-        md.append(String.format("| Subtotal dos insumos | R$ %.2f |\n", subtotal));
-        md.append(String.format("| Taxa de manipulação | R$ %.2f |\n", taxaManipulacao));
-        md.append(String.format("| **Total estimado** | **R$ %.2f** |\n\n", totalValue));
+        md.append(String.format("| Subtotal dos insumos | R$ %.2f |\n\n", subtotal));
+        md.append(String.format("| Taxa de manipulação | R$ %.2f |\n\n", taxaManipulacao));
+        md.append(String.format("| **Total estimado** | **R$ %.2f** |\n\n\n", totalValue));
         md.append("---\n\n");
         md.append("## 📌 Observações\n\n");
-        md.append("- Este orçamento foi gerado automaticamente por IA.\n");
-        md.append("- Os valores podem sofrer ajustes após validação farmacêutica.\n");
-        md.append("- Você receberá a confirmação final via WhatsApp.\n\n");
-        md.append("---\n\n");
-        md.append("## 🚀 Próximos passos\n\n");
-        md.append("✅ Receita recebida  \n");
-        md.append("⏳ Revisão farmacêutica em andamento  \n");
-        md.append("📲 Aprovação e envio do pagamento via WhatsApp\n\n");
-        md.append("---\n\n");
-        md.append("### 🏥 Farmácia Magistral AI\n");
-        md.append("Sistema inteligente de pré-orçamento farmacêutico\n");
+        md.append("- Este orçamento foi gerado automaticamente por IA.\n\n");
+        md.append("- Os valores podem sofrer ajustes após validação farmacêutica.\n\n");
+        md.append("- Você receberá a confirmação final via WhatsApp.\n\n\n");
+        md.append("---\n\n\n");
+        md.append("## 🚀 Próximos passos\n\n\n");
+        md.append("✅ Receita recebida  \n\n");
+        md.append("⏳ Revisão farmacêutica em andamento  \n\n");
+        md.append("📲 Aprovação e envio do pagamento via WhatsApp\n\n\n");
+        md.append("---\n\n\n");
+        md.append("### 🏥 Farmácia Magistral AI\n\n");
+        md.append("Sistema inteligente de pré-orçamento farmacêutico\n\n");
 
         return md.toString();
     }
@@ -257,16 +257,16 @@ public class OrcamentoService {
             BigDecimal totalValue) {
         StringBuilder md = new StringBuilder();
 
-        md.append("# 💊 Orçamento de Manipulação\n\n");
-        md.append("## ✅ Receita processada com sucesso\n\n");
-        md.append(String.format("**Protocolo:** #%d  \n", orcamento.getId()));
-        md.append(String.format("**Status:** %s  \n", status));
-        md.append(String.format("**Cliente:** %s  \n", cliente));
-        md.append(String.format("**Data:** %s\n\n", data));
-        md.append("---\n\n");
-        md.append("## 🧾 Itens identificados na receita\n\n");
-        md.append("| Medicamento | Valor |\n");
-        md.append("|---|---:|\n");
+        md.append("# 💊 Orçamento de Manipulação\n\n\n");
+        md.append("## ✅ Receita processada com sucesso\n\n\n");
+        md.append(String.format("**Protocolo:** #%d  \n\n", orcamento.getId()));
+        md.append(String.format("**Status:** %s  \n\n", status));
+        md.append(String.format("**Cliente:** %s  \n\n", cliente));
+        md.append(String.format("**Data:** %s\n\n\n", data));
+        md.append("---\n\n\n");
+        md.append("## 🧾 Itens identificados na receita\n\n\n");
+        md.append("| Medicamento | Valor |\n\n");
+        md.append("|---|---:|\n\n");
 
         BigDecimal subtotal = BigDecimal.ZERO;
         for (ItemOrcamento item : orcamento.getItens()) {
@@ -277,21 +277,21 @@ public class OrcamentoService {
 
         BigDecimal taxaManipulacao = BigDecimal.valueOf(10.00);
 
-        md.append("\n---\n\n");
-        md.append("## 💰 Resumo financeiro\n\n");
-        md.append("| Descrição | Valor |\n");
-        md.append("|---|---:|\n");
-        md.append(String.format("| Subtotal dos insumos | R$ %.2f |\n", subtotal));
-        md.append(String.format("| Taxa de manipulação | R$ %.2f |\n", taxaManipulacao));
-        md.append(String.format("| **Total estimado** | **R$ %.2f** |\n\n", totalValue));
+        md.append("\n---\n\n\n");
+        md.append("## 💰 Resumo financeiro\n\n\n");
+        md.append("| Descrição | Valor |\n\n");
+        md.append("|---|---:|\n\n");
+        md.append(String.format("| Subtotal dos insumos | R$ %.2f |\n\n", subtotal));
+        md.append(String.format("| Taxa de manipulação | R$ %.2f |\n\n", taxaManipulacao));
+        md.append(String.format("| **Total estimado** | **R$ %.2f** |\n\n\n", totalValue));
         md.append("---\n\n");
-        md.append("## 📌 Observações\n\n");
-        md.append("- Este orçamento foi gerado automaticamente por IA.\n");
-        md.append("- Os valores podem sofrer ajustes após validação farmacêutica.\n");
+        md.append("## 📌 Observações\n\n\n");
+        md.append("- Este orçamento foi gerado automaticamente por IA.\n\n");
+        md.append("- Os valores podem sofrer ajustes após validação farmacêutica.\n\n");
         md.append("- Você receberá a confirmação final via WhatsApp.\n\n");
         md.append("---\n\n");
-        md.append("### 🏥 Farmácia Magistral AI\n");
-        md.append("Sistema inteligente de pré-orçamento farmacêutico\n");
+        md.append("### 🏥 Farmácia Magistral AI\n\n");
+        md.append("Sistema inteligente de pré-orçamento farmacêutico\n\n");
 
         return md.toString();
     }

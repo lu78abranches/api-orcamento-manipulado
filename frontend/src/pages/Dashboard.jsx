@@ -7,7 +7,7 @@ import ProcessingState from "../components/ProcessingState";
 export default function Dashboard() {
 
     const [result, setResult] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [loading] = useState(false);
 
     return (
         <DashboardLayout>
