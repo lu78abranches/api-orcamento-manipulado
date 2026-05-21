@@ -39,6 +39,8 @@ public class GeminiReceitaService implements IAReceitaService {
     @SuppressWarnings("unchecked")
     @Override
     public List<ItemOrcamento> extrairItens(byte[] imagem) {
+        logger.info("URL Gemini: {}", apiUrl);
+        logger.info("API Key presente: {}", apiKey != null && !apiKey.isEmpty());
         String base64Imagem = Base64.getEncoder().encodeToString(imagem);
         String urlFinal = apiUrl + "?key=" + apiKey;
 
