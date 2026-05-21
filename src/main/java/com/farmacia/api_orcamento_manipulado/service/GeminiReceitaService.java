@@ -6,6 +6,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -19,6 +21,8 @@ import java.util.stream.Collectors;
 @Service
 @ConditionalOnProperty(prefix = "gemini.api", name = "enabled", havingValue = "true", matchIfMissing = false)
 public class GeminiReceitaService implements IAReceitaService {
+
+    private static final Logger logger = LoggerFactory.getLogger(GeminiReceitaService.class);
 
     @Value("${gemini.api.url:}")
     private String apiUrl;
@@ -36,38 +40,30 @@ public class GeminiReceitaService implements IAReceitaService {
     @Override
     public List<ItemOrcamento> extrairItens(byte[] imagem) {
         String base64Imagem = Base64.getEncoder().encodeToString(imagem);
-
-        // CORREÇÃO AQUI: Usamos a apiUrl do properties e concatenamos a chave
-        // corretamente
         String urlFinal = apiUrl + "?key=" + apiKey;
 
+        Map<String, Object> textPart = Map.of(
+                "type", "text",
+                "text",
+                "Liste os itens e preços desta receita. Retorne APENAS um JSON no formato: {\"itens\": [{\"nome\": \"...\", \"preco\": 0.00}]}");
+
+        Map<String, Object> imagePart = Map.of(
+                "type", "image",
+                "image_bytes", Map.of("data", base64Imagem),
+                "mime_type", "image/jpeg");
+
         Map<String, Object> requestBody = Map.of(
-                "contents", List.of(
-                        Map.of("parts", List.of(
-                                Map.of("text",
-                                        "Liste os itens e preços desta receita. Retorne APENAS um JSON no formato: {\"itens\": [{\"nome\": \"...\", \"preco\": 0.00}]}"),
-                                Map.of("inline_data", Map.of(
-                                        "mime_type", "image/jpeg",
-                                        "data", base64Imagem))))));
+                "instances", List.of(
+                        Map.of("content", List.of(textPart, imagePart))));
 
         try {
-            // Usamos a urlFinal corrigida
-            var response = restTemplate.postForObject(urlFinal, requestBody, Map.class);
+            var headers = new org.springframework.http.HttpHeaders();
+            headers.setContentType(org.springframework.http.MediaType.APPLICATION_JSON);
+            var entity = new org.springframework.http.HttpEntity<>(requestBody, headers);
+            var response = restTemplate.postForObject(urlFinal, entity, Map.class);
+            String text = getTextFromGeminiResponse(response);
 
-            if (response == null || !response.containsKey("candidates")) {
-                throw new RuntimeException("Resposta inválida do Gemini");
-            }
-
-            @SuppressWarnings("unchecked")
-            List<Map<String, Object>> candidates = (List<Map<String, Object>>) response.get("candidates");
-            @SuppressWarnings("unchecked")
-            Map<String, Object> content = (Map<String, Object>) candidates.get(0).get("content");
-            List<Map<String, Object>> parts = (List<Map<String, Object>>) content.get("parts");
-            String text = (String) parts.get(0).get("text");
-
-            // Limpeza de Markdown
             String jsonLimpo = text.replace("```json", "").replace("```", "").trim();
-
             ObjectMapper mapper = new ObjectMapper();
             JsonNode rootNode = mapper.readTree(jsonLimpo);
             JsonNode itensNode = rootNode.has("itens") ? rootNode.get("itens") : rootNode;
@@ -82,7 +78,6 @@ public class GeminiReceitaService implements IAReceitaService {
                     .collect(Collectors.toList());
 
         } catch (HttpClientErrorException e) {
-            String body = e.getResponseBodyAsString();
             if (e.getStatusCode().value() == 429) {
                 throw new RuntimeException(
                         "Quota do Gemini esgotada. Aguarde alguns minutos ou use outra conta/API key.");
@@ -96,32 +91,27 @@ public class GeminiReceitaService implements IAReceitaService {
 
     @Override
     public List<ItemOrcamento> extrairItensFromText(String texto) {
-        // Reusa a lógica de chamada, enviando o texto em vez de inline_data
         String urlFinal = apiUrl + "?key=" + apiKey;
 
+        Map<String, Object> promptPart = Map.of(
+                "type", "text",
+                "text",
+                "Liste os itens e preços desta receita. Retorne APENAS um JSON no formato: {\"itens\": [{\"nome\": \"...\", \"preco\": 0.00}]}");
+        Map<String, Object> userTextPart = Map.of(
+                "type", "text",
+                "text", texto);
         Map<String, Object> requestBody = Map.of(
-                "contents", List.of(
-                        Map.of("parts", List.of(
-                                Map.of("text",
-                                        "Liste os itens e preços desta receita. Retorne APENAS um JSON no formato: {\\\"itens\\\": [{\\\"nome\\\": \\\"...\\\", \\\"preco\\\": 0.00}]}"),
-                                Map.of("text", texto)))));
+                "instances", List.of(
+                        Map.of("content", List.of(promptPart, userTextPart))));
 
         try {
-            var response = restTemplate.postForObject(urlFinal, requestBody, Map.class);
-
-            if (response == null || !response.containsKey("candidates")) {
-                throw new RuntimeException("Resposta inválida do Gemini");
-            }
-
-            @SuppressWarnings("unchecked")
-            List<Map<String, Object>> candidates = (List<Map<String, Object>>) response.get("candidates");
-            @SuppressWarnings("unchecked")
-            Map<String, Object> content = (Map<String, Object>) candidates.get(0).get("content");
-            List<Map<String, Object>> parts = (List<Map<String, Object>>) content.get("parts");
-            String text = (String) parts.get(0).get("text");
+            var headers = new org.springframework.http.HttpHeaders();
+            headers.setContentType(org.springframework.http.MediaType.APPLICATION_JSON);
+            var entity = new org.springframework.http.HttpEntity<>(requestBody, headers);
+            var response = restTemplate.postForObject(urlFinal, entity, Map.class);
+            String text = getTextFromGeminiResponse(response);
 
             String jsonLimpo = text.replace("```json", "").replace("```", "").trim();
-
             ObjectMapper mapper = new ObjectMapper();
             JsonNode rootNode = mapper.readTree(jsonLimpo);
             JsonNode itensNode = rootNode.has("itens") ? rootNode.get("itens") : rootNode;
@@ -145,5 +135,44 @@ public class GeminiReceitaService implements IAReceitaService {
             e.printStackTrace();
             throw new RuntimeException("Erro no Gemini (texto): " + e.getMessage(), e);
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    private String getTextFromGeminiResponse(Map<String, Object> response) {
+        if (response == null) {
+            throw new RuntimeException("Resposta inválida do Gemini");
+        }
+
+        if (response.containsKey("predictions")) {
+            List<Map<String, Object>> predictions = (List<Map<String, Object>>) response.get("predictions");
+            if (predictions.isEmpty()) {
+                throw new RuntimeException("Resposta inválida do Gemini");
+            }
+            Map<String, Object> prediction = predictions.get(0);
+            List<Map<String, Object>> content = (List<Map<String, Object>>) prediction.get("content");
+            if (content == null || content.isEmpty()) {
+                throw new RuntimeException("Resposta inválida do Gemini");
+            }
+            return (String) content.get(0).get("text");
+        }
+
+        if (response.containsKey("candidates")) {
+            List<Map<String, Object>> candidates = (List<Map<String, Object>>) response.get("candidates");
+            if (candidates.isEmpty()) {
+                throw new RuntimeException("Resposta inválida do Gemini");
+            }
+            Map<String, Object> candidate = candidates.get(0);
+            Map<String, Object> content = (Map<String, Object>) candidate.get("content");
+            if (content == null || !content.containsKey("parts")) {
+                throw new RuntimeException("Resposta inválida do Gemini");
+            }
+            List<Map<String, Object>> parts = (List<Map<String, Object>>) content.get("parts");
+            if (parts == null || parts.isEmpty()) {
+                throw new RuntimeException("Resposta inválida do Gemini");
+            }
+            return (String) parts.get(0).get("text");
+        }
+
+        throw new RuntimeException("Resposta inválida do Gemini");
     }
 }
