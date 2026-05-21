@@ -15,7 +15,7 @@ This project demonstrates strong capabilities in **backend engineering, system i
 ---
 
 ### 🔄 Interactive End-to-End Workflow
-## 🌐 **Access the Interactive Dashboard:** [MiniMarket AI Dashboard](https://api-orcamento-manipulado.netlify.app/)
+## 🌐 **Access the Interactive Dashboard:** [AI-Powered Pharmacy-Dashboard](https://api-orcamento-manipulado.netlify.app/)
 1. **Upload Prescription:** Send a medical prescription image directly to the cloud backend.
 2. **AI Automated Processing:** Google Gemini Vision reads the image, running NLP data extraction in the background.
 3. **Instant Budget Engine:** The system structures the data, runs the specialized pricing engine, and automatically saves a new record to the PostgreSQL instance.
