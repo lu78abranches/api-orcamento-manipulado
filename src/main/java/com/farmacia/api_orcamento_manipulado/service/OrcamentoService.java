@@ -155,6 +155,13 @@ public class OrcamentoService {
             totalValue = priceCalculationEngine.calcular(orcamento.getItens());
         }
 
+        List<String> medications = orcamento.getItens().stream()
+                .map(item -> {
+                    BigDecimal preco = item.getPreco() != null ? item.getPreco() : BigDecimal.ZERO;
+                    return String.format("%s — R$ %.2f", item.getNome(), preco);
+                })
+                .collect(Collectors.toList());
+
         String markdownContent = construirMarkdownProcessado(orcamento, cliente, status, data, totalValue);
 
         return new OrcamentoProcessadoDTO(
@@ -162,6 +169,8 @@ public class OrcamentoService {
                 status,
                 cliente,
                 data,
+                totalValue,
+                medications,
                 markdownContent);
     }
 
@@ -207,93 +216,127 @@ public class OrcamentoService {
         String data = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
         String status = "Aprovado pelo Farmacêutico responsável.";
 
-        StringBuilder md = new StringBuilder();
-
-        md.append("# 💊 Orçamento de Manipulação\n\n\n");
-        md.append("## ✅ Orçamento aprovado com sucesso\n\n\n");
-        md.append(String.format("**Protocolo:** #%d  \n\n", orcamento.getId()));
-        md.append(String.format("**Status:** %s  \n\n", status));
-        md.append(String.format("**Cliente:** %s  \n\n", cliente));
-        md.append(String.format("**Data:** %s\n\n", data));
-        md.append("---\n\n\n");
-        md.append("## 🧾 Itens identificados na receita\n\n\n");
-        md.append("| Medicamento | Valor |\n\n");
-        md.append("|---|---:|\n\n");
-
-        BigDecimal subtotal = BigDecimal.ZERO;
-        for (ItemOrcamento item : orcamento.getItens()) {
-            BigDecimal preco = item.getPreco() != null ? item.getPreco() : BigDecimal.ZERO;
-            md.append(String.format("| %s | R$ %.2f |\n", item.getNome(), preco));
-            subtotal = subtotal.add(preco);
-        }
-
-        BigDecimal taxaManipulacao = BigDecimal.valueOf(10.00);
-
-        md.append("\n---\n\n");
-        md.append("## 💰 Resumo financeiro\n\n");
-        md.append("| Descrição | Valor |\n");
-        md.append("|---|---:|\n");
-        md.append(String.format("| Subtotal dos insumos | R$ %.2f |\n\n", subtotal));
-        md.append(String.format("| Taxa de manipulação | R$ %.2f |\n\n", taxaManipulacao));
-        md.append(String.format("| **Total estimado** | **R$ %.2f** |\n\n\n", totalValue));
-        md.append("---\n\n");
-        md.append("## 📌 Observações\n\n");
-        md.append("- Este orçamento foi gerado automaticamente por IA.\n\n");
-        md.append("- Os valores podem sofrer ajustes após validação farmacêutica.\n\n");
-        md.append("- Você receberá a confirmação final via WhatsApp.\n\n\n");
-        md.append("---\n\n\n");
-        md.append("## 🚀 Próximos passos\n\n\n");
-        md.append("✅ Receita recebida  \n\n");
-        md.append("⏳ Revisão farmacêutica em andamento  \n\n");
-        md.append("📲 Aprovação e envio do pagamento via WhatsApp\n\n\n");
-        md.append("---\n\n\n");
-        md.append("### 🏥 Farmácia Magistral AI\n\n");
-        md.append("Sistema inteligente de pré-orçamento farmacêutico\n\n");
-
-        return md.toString();
+        return construirMarkdownRelatorio(
+                "# 💊 Orçamento de Manipulação",
+                "## ✅ Orçamento aprovado com sucesso",
+                orcamento,
+                cliente,
+                status,
+                data,
+                totalValue,
+                true);
     }
 
     private String construirMarkdownProcessado(Orcamento orcamento, String cliente, String status, String data,
             BigDecimal totalValue) {
+        return construirMarkdownRelatorio(
+                "# 💊 Orçamento de Manipulação",
+                "## ✅ Receita processada com sucesso",
+                orcamento,
+                cliente,
+                status,
+                data,
+                totalValue,
+                false);
+    }
+
+    private String construirMarkdownRelatorio(
+            String titulo,
+            String subtitulo,
+            Orcamento orcamento,
+            String cliente,
+            String status,
+            String data,
+            BigDecimal totalValue,
+            boolean incluirProximosPassos) {
         StringBuilder md = new StringBuilder();
 
-        md.append("# 💊 Orçamento de Manipulação\n\n\n");
-        md.append("## ✅ Receita processada com sucesso\n\n\n");
-        md.append(String.format("**Protocolo:** #%d  \n\n", orcamento.getId()));
-        md.append(String.format("**Status:** %s  \n\n", status));
-        md.append(String.format("**Cliente:** %s  \n\n", cliente));
-        md.append(String.format("**Data:** %s\n\n\n", data));
-        md.append("---\n\n\n");
-        md.append("## 🧾 Itens identificados na receita\n\n\n");
-        md.append("| Medicamento | Valor |\n\n");
-        md.append("|---|---:|\n\n");
+        md.append(titulo).append('\n');
+        md.append('\n');
+        md.append(subtitulo).append('\n');
+        md.append('\n');
+        md.append(String.format("**Protocolo:** #%d", orcamento.getId())).append('\n');
+        md.append('\n');
+        md.append(String.format("**Status:** %s", status)).append('\n');
+        md.append('\n');
+        md.append(String.format("**Cliente:** %s", cliente)).append('\n');
+        md.append('\n');
+        md.append(String.format("**Data:** %s", data)).append('\n');
+        md.append('\n');
+        md.append("---").append('\n');
+        md.append('\n');
+        md.append("## 🧾 Itens identificados na receita").append('\n');
+        md.append('\n');
+        appendTabelaMedicamentos(md, orcamento.getItens());
 
-        BigDecimal subtotal = BigDecimal.ZERO;
-        for (ItemOrcamento item : orcamento.getItens()) {
-            BigDecimal preco = item.getPreco() != null ? item.getPreco() : BigDecimal.ZERO;
-            md.append(String.format("| %s | R$ %.2f |\n", item.getNome(), preco));
-            subtotal = subtotal.add(preco);
-        }
-
+        BigDecimal subtotal = somarItens(orcamento.getItens());
         BigDecimal taxaManipulacao = BigDecimal.valueOf(10.00);
 
-        md.append("\n---\n\n\n");
-        md.append("## 💰 Resumo financeiro\n\n\n");
-        md.append("| Descrição | Valor |\n\n");
-        md.append("|---|---:|\n\n");
-        md.append(String.format("| Subtotal dos insumos | R$ %.2f |\n\n", subtotal));
-        md.append(String.format("| Taxa de manipulação | R$ %.2f |\n\n", taxaManipulacao));
-        md.append(String.format("| **Total estimado** | **R$ %.2f** |\n\n\n", totalValue));
-        md.append("---\n\n");
-        md.append("## 📌 Observações\n\n\n");
-        md.append("- Este orçamento foi gerado automaticamente por IA.\n\n");
-        md.append("- Os valores podem sofrer ajustes após validação farmacêutica.\n\n");
-        md.append("- Você receberá a confirmação final via WhatsApp.\n\n");
-        md.append("---\n\n");
-        md.append("### 🏥 Farmácia Magistral AI\n\n");
-        md.append("Sistema inteligente de pré-orçamento farmacêutico\n\n");
+        md.append('\n');
+        md.append("---").append('\n');
+        md.append('\n');
+        md.append("## 💰 Resumo financeiro").append('\n');
+        md.append('\n');
+        appendTabelaResumoFinanceiro(md, subtotal, taxaManipulacao, totalValue);
+
+        md.append('\n');
+        md.append("---").append('\n');
+        md.append('\n');
+        md.append("## 📌 Observações").append('\n');
+        md.append('\n');
+        md.append("- Este orçamento foi gerado automaticamente por IA.").append('\n');
+        md.append("- Os valores podem sofrer ajustes após validação farmacêutica.").append('\n');
+        md.append("- Você receberá a confirmação final via WhatsApp.").append('\n');
+
+        if (incluirProximosPassos) {
+            md.append('\n');
+            md.append("---").append('\n');
+            md.append('\n');
+            md.append("## 🚀 Próximos passos").append('\n');
+            md.append('\n');
+            md.append("✅ Receita recebida").append('\n');
+            md.append("⏳ Revisão farmacêutica em andamento").append('\n');
+            md.append("📲 Aprovação e envio do pagamento via WhatsApp").append('\n');
+        }
+
+        md.append('\n');
+        md.append("---").append('\n');
+        md.append('\n');
+        md.append("### 🏥 Farmácia Magistral AI").append('\n');
+        md.append('\n');
+        md.append("Sistema inteligente de pré-orçamento farmacêutico").append('\n');
 
         return md.toString();
+    }
+
+    private void appendTabelaMedicamentos(StringBuilder md, List<ItemOrcamento> itens) {
+        md.append("| Medicamento | Valor |").append('\n');
+        md.append("| --- | ---: |").append('\n');
+        for (ItemOrcamento item : itens) {
+            BigDecimal preco = item.getPreco() != null ? item.getPreco() : BigDecimal.ZERO;
+            md.append(String.format("| %s | R$ %.2f |", item.getNome(), preco)).append('\n');
+        }
+    }
+
+    private void appendTabelaResumoFinanceiro(
+            StringBuilder md,
+            BigDecimal subtotal,
+            BigDecimal taxaManipulacao,
+            BigDecimal totalValue) {
+        md.append("| Descrição | Valor |").append('\n');
+        md.append("| --- | ---: |").append('\n');
+        md.append(String.format("| Subtotal dos insumos | R$ %.2f |", subtotal)).append('\n');
+        md.append(String.format("| Taxa de manipulação | R$ %.2f |", taxaManipulacao)).append('\n');
+        md.append(String.format("| **Total estimado** | **R$ %.2f** |", totalValue)).append('\n');
+    }
+
+    private BigDecimal somarItens(List<ItemOrcamento> itens) {
+        BigDecimal subtotal = BigDecimal.ZERO;
+        for (ItemOrcamento item : itens) {
+            BigDecimal preco = item.getPreco() != null ? item.getPreco() : BigDecimal.ZERO;
+            subtotal = subtotal.add(preco);
+        }
+        return subtotal;
     }
 
     /**

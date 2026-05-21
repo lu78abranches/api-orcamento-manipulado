@@ -2,6 +2,7 @@ import { useDropzone } from "react-dropzone";
 import { useState, useRef, useEffect } from "react";
 import { UploadCloud } from "lucide-react";
 import { api } from "../services/api";
+import { markdownToHtml } from "../utils/markdownToHtml";
 
 export default function UploadZone({ onResult }) {
 
@@ -21,118 +22,6 @@ Por favor, aguarde enquanto nosso farmacêutico verifica os itens e calcula o or
 ---
 
 Aguarde alguns instantes...`;
-
-    const markdownToHtml = (markdown) => {
-        if (!markdown) {
-            return "";
-        }
-
-        const rows = markdown.split("\n");
-        const htmlLines = [];
-        let inList = false;
-        let inTable = false;
-        const tableLines = [];
-
-        const flushTable = () => {
-            if (!inTable) {
-                return;
-            }
-            inTable = false;
-            const header = tableLines[0]?.split("|").map((cell) => cell.trim()).filter(Boolean) || [];
-            const body = tableLines.slice(2).map((line) => line.split("|").map((cell) => cell.trim()).filter(Boolean));
-            htmlLines.push("<table>");
-            htmlLines.push("<thead><tr>" + header.map((cell) => `<th>${cell}</th>`).join("") + "</tr></thead>");
-            if (body.length) {
-                htmlLines.push("<tbody>");
-                body.forEach((row) => {
-                    htmlLines.push("<tr>" + row.map((cell) => `<td>${cell}</td>`).join("") + "</tr>");
-                });
-                htmlLines.push("</tbody>");
-            }
-            htmlLines.push("</table>");
-            tableLines.length = 0;
-        };
-
-        rows.forEach((line) => {
-            const trimmed = line.trim();
-
-            if (trimmed === "") {
-                if (inList) {
-                    htmlLines.push("</ul>");
-                    inList = false;
-                }
-                flushTable();
-                return;
-            }
-
-            if (/^---+$/.test(trimmed)) {
-                if (inList) {
-                    htmlLines.push("</ul>");
-                    inList = false;
-                }
-                flushTable();
-                htmlLines.push("<hr />");
-                return;
-            }
-
-            if (/^#{3}\s+/.test(trimmed)) {
-                if (inList) {
-                    htmlLines.push("</ul>");
-                    inList = false;
-                }
-                flushTable();
-                htmlLines.push(`<h3>${trimmed.substring(4)}</h3>`);
-                return;
-            }
-
-            if (/^#{2}\s+/.test(trimmed)) {
-                if (inList) {
-                    htmlLines.push("</ul>");
-                    inList = false;
-                }
-                flushTable();
-                htmlLines.push(`<h2>${trimmed.substring(3)}</h2>`);
-                return;
-            }
-
-            if (/^#\s+/.test(trimmed)) {
-                if (inList) {
-                    htmlLines.push("</ul>");
-                    inList = false;
-                }
-                flushTable();
-                htmlLines.push(`<h1>${trimmed.substring(2)}</h1>`);
-                return;
-            }
-
-            if (/^\|.*\|/.test(trimmed)) {
-                inTable = true;
-                tableLines.push(trimmed);
-                return;
-            }
-
-            if (/^-\s+/.test(trimmed)) {
-                if (!inList) {
-                    inList = true;
-                    htmlLines.push("<ul>");
-                }
-                const content = trimmed.substring(2);
-                htmlLines.push(`<li>${content}</li>`);
-                return;
-            }
-
-            const strong = trimmed.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-            htmlLines.push(`<p>${strong}</p>`);
-        });
-
-        if (inList) {
-            htmlLines.push("</ul>");
-            inList = false;
-        }
-        flushTable();
-
-        return htmlLines.join("");
-    };
 
     const renderMarkdown = (markdown) => ({ __html: markdownToHtml(markdown) });
 
@@ -327,26 +216,14 @@ Aguarde alguns instantes...`;
             )}
 
             {(previewResult || result) && (
-                <div
-                    style={{
-                        marginTop: 30,
-                        background: "#111827",
-                        padding: 24,
-                        borderRadius: 20
-                    }}
-                >
+                <div className="report-panel">
 
-                    <h2 style={{ marginBottom: 16 }}>
+                    <h2 className="report-panel__title">
                         {previewResult ? "⏳ Processando Receita" : "✅ Receita Processada"}
                     </h2>
 
                     <div
-                        style={{
-                            color: "#cbd5e1",
-                            overflow: "auto",
-                            whiteSpace: "normal",
-                            wordBreak: "break-word"
-                        }}
+                        className="markdown-content"
                         dangerouslySetInnerHTML={renderMarkdown((previewResult || result).markdownContent)}
                     />
 

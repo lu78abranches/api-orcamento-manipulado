@@ -13,3 +13,86 @@ body {
 #root {
     min-height: 100vh;
 }
+
+.report-panel {
+    margin-top: 30px;
+    background: #111827;
+    padding: 24px 28px;
+    border-radius: 20px;
+}
+
+.report-panel__title {
+    margin-bottom: 16px;
+}
+
+.markdown-content {
+    color: #cbd5e1;
+    overflow: auto;
+    word-break: break-word;
+    line-height: 1.6;
+}
+
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3 {
+    margin: 1.25rem 0 0.75rem;
+    color: #f8fafc;
+}
+
+.markdown-content h1:first-child,
+.markdown-content h2:first-child,
+.markdown-content h3:first-child {
+    margin-top: 0;
+}
+
+.markdown-content p {
+    margin: 0.5rem 0;
+    line-height: 1.6;
+}
+
+.markdown-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+}
+
+.markdown-content th,
+.markdown-content td {
+    padding: 8px 12px;
+    border: 1px solid #1f2937;
+    text-align: left;
+}
+
+.markdown-content th:last-child,
+.markdown-content td:last-child {
+    text-align: right;
+}
+
+.markdown-content hr {
+    margin: 1.5rem 0;
+    border: none;
+    border-top: 1px solid #1f2937;
+}
+
+.markdown-content ul {
+    margin: 0.5rem 0 0.5rem 1.25rem;
+}
+
+.markdown-content li {
+    margin: 0.25rem 0;
+}
+
+.markdown-content strong {
+    color: #f1f5f9;
+}
+
+.result-cards {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.result-cards h3 {
+    margin-bottom: 4px;
+}
