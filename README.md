@@ -14,6 +14,12 @@ This project demonstrates strong capabilities in **backend engineering, system i
 
 ---
 
+### 🔄 Interactive End-to-End Workflow
+1. **Upload Prescription:** Send a medical prescription image directly to the cloud backend.
+2. **AI Automated Processing:** Google Gemini Vision reads the image, running NLP data extraction in the background.
+3. **Instant Budget Engine:** The system structures the data, runs the specialized pricing engine, and automatically saves a new record to the PostgreSQL instance.
+4. **Real-Time Data Sync:** The record is instantly made available for real-time dashboard polling.
+
 ## 🚀 Key Features
 
 * **AI Image Processing**: Integrates with the **Google Gemini API** (using the multimodal `gemini-2.5-flash` model) to read uploaded medical prescription images and intelligently parse text, medications, and pricing.
@@ -102,122 +108,6 @@ Based on the **System Requirements Document (DRS)**, the following modules are e
 * **Controlled Substances Alert (RN-04):** Logic to check if the mapped active ingredient is under Ordinance 344/98 (Brazil) and trigger a system warning.
 * **Cloud Object Storage (RF-06):** Permanent storage of the original file (prescription photo) in Amazon S3 / Google Cloud Storage with a URL linked to the budget.
 * **Advanced Authentication (RNF-01, RNF-02):** Further refinement of access using Spring Security (profiles and JWT tokens), and encrypting user passwords with BCrypt.
-
----
-
-### 🔄 Interactive End-to-End Workflow
-1. **Upload Prescription:** Send a medical prescription image directly to the cloud backend.
-2. **AI Automated Processing:** Google Gemini Vision reads the image, running NLP data extraction in the background.
-3. **Instant Budget Engine:** The system structures the data, runs the specialized pricing engine, and automatically saves a new record to the PostgreSQL instance.
-4. **Real-Time Data Sync:** The record is instantly made available for real-time dashboard polling.
-
-## 🌐 Live Demo & Recruiter Testing Guide (Render Cloud)
-
-The API is fully deployed in a cloud production environment using **Render** and integrated with a managed **PostgreSQL** database instances. As a reviewer or recruiter, you do not need to clone the repository or run the application locally to test its behavior.
-
-> ⚠️ **Technical Note About Hosting (Free Plan):** The application is hosted on Render’s free-tier infrastructure. If the system remains inactive for a few minutes, the server will enter hibernation mode (cold start). The first API request (such as trying to log in or sending the webhook payload) may take around **45 to 60 seconds** to wake up the Java/Spring Boot environment and establish the connection with the managed PostgreSQL instance. Subsequent requests will process instantaneously.
-
-
-### 🔗 Live Production Base URL
-```text
-https://onrender.com
-```
----
-
-### 🔐 1. Authentication Endpoint (`POST /api/auth/login`)
-
-The application seeds a default pharmacist user into the cloud database upon its first boot execution via `CommandLineRunner`. You can request an access token using these pre-configured credentials:
-
-* **Username:** `farmaceutico1`
-* **Password:** `senha123`
-
-#### 💻 cURL Request:
-```bash
-curl -X POST https://onrender.com/api/auth/login \
-     -H "Content-Type: application/json" \
-     -d '{"username": "farmaceutico1", "password": "senha123"}'
-```
-
-#### 📦 Postman / Insomnia JSON Payload:
-```json
-{
-  "username": "farmaceutico1",
-  "password": "senha123"
-}
-```
-
-#### 📥 Expected JSON Response (200 OK):
-```json
-{
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  "type": "Bearer"
-}
-```
-
----
-
-### 💬 2. WhatsApp Incoming Simulator Webhook (`POST /api/webhooks/whatsapp`)
-
-This public endpoint handles production asynchronous requests forwarded from the Twilio/Meta Sandbox. You can simulate an incoming user chat message containing a medical prescription image attachment.
-
-#### 💻 cURL Request:
-```bash
-curl -X POST https://onrender.com/api/webhooks/whatsapp \
-     -H "Content-Type: application/x-www-form-urlencoded" \
-     --data-urlencode "From=whatsapp:+5511999999999" \
-     --data-urlencode "MediaUrl0=https://examples.com" \
-     --data-urlencode "NumMedia=1"
-```
-
-#### 📦 Postman / Insomnia Form URL-Encoded Body:
-
-| Key | Value | Description |
-| :--- | :--- | :--- |
-| `From` | `whatsapp:+5511999999999` | The sender's simulated phone number |
-| `MediaUrl0` | `https://examples.com` | A public URL of a prescription image |
-| `NumMedia` | `1` | Forces the attachment processor logic |
-
-#### 📥 Expected TwiML XML Response (200 OK):
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<Response>
-    <Message>Receita recebida com sucesso! 📝 Nossa inteligência artificial está extraindo os dados e nosso farmacêutico já vai validar o seu orçamento. Você receberá o valor em breve!</Message>
-</Response>
-```
-### 💊 3. Pharmacist Budget Approval Endpoint (`PUT /api/orcamentos/{id}/aprovar`)
-
-In compliance with Brazilian health regulations (Anvisa Ordinance 344/98 & LGPD), no automated AI budget is dispatched directly to the customer without a human professional review. 
-
-Once an entry is generated via the WhatsApp Webhook, a pharmacist uses this protected route to review the extracted items and authorize the dispatch. The system automatically triggers the calculation engine (Supplies + Fixed Handling Fee of R$ 10,00) and returns the final pricing.
-
-* **Security:** Requires the `Authorization: Bearer <JWT_TOKEN>` header obtained in Step 1.
-
-#### 💻 cURL Request:
-```bash
-curl -X PUT https://onrender.com \
-     -H "Authorization: Bearer INSERT_YOUR_JWT_TOKEN_HERE" \
-     -H "Content-Type: application/json"
-```
-
-#### 📥 Expected JSON Response (200 OK):
-```json
-{
-  "id": 1,
-  "clienteWhatsapp": "whatsapp:+5511999999999",
-  "status": "APROVADO",
-  "valorTotal": 35.00,
-  "itens": [
-    {
-      "id": 1,
-      "nome": "Amoxicilina 500mg",
-      "preco": 25.00
-    }
-  ]
-}
-```
-
-> 🌟 **Workflow Complete:** Once approved, the backend triggers the communication dispatcher to forward this final formatted quote directly back to the customer's WhatsApp chat screen.
-
 
 ---
 
