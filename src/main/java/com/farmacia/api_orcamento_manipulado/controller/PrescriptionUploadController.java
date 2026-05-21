@@ -2,7 +2,6 @@ package com.farmacia.api_orcamento_manipulado.controller;
 
 import com.farmacia.api_orcamento_manipulado.dto.OrcamentoProcessadoDTO;
 import com.farmacia.api_orcamento_manipulado.service.OrcamentoService;
-import com.farmacia.api_orcamento_manipulado.service.IAReceitaService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +19,6 @@ import java.io.IOException;
 public class PrescriptionUploadController {
 
     private final OrcamentoService orcamentoService;
-    private final IAReceitaService iaReceitaService;
     private static final Logger logger = LoggerFactory.getLogger(PrescriptionUploadController.class);
 
     @PostMapping("/upload")
@@ -54,7 +52,7 @@ public class PrescriptionUploadController {
                     String texto = stripper.getText(doc);
                     doc.close();
 
-                    var itens = orcamentoService.iaReceitaService.extrairItensFromText(texto);
+                    var itens = orcamentoService.extrairItensFromText(texto);
                     var orcamento = orcamentoService.criarOrcamentoPreliminar(clienteNome, null, itens);
                     OrcamentoProcessadoDTO resposta = orcamentoService.criarRespostaProcessado(orcamento);
                     return ResponseEntity.ok(resposta);
@@ -63,7 +61,7 @@ public class PrescriptionUploadController {
 
             if (contentType != null && contentType.startsWith("text/")) {
                 String texto = new String(file.getBytes(), java.nio.charset.StandardCharsets.UTF_8);
-                var itens = orcamentoService.iaReceitaService.extrairItensFromText(texto);
+                var itens = orcamentoService.extrairItensFromText(texto);
                 var orcamento = orcamentoService.criarOrcamentoPreliminar(clienteNome, null, itens);
                 OrcamentoProcessadoDTO resposta = orcamentoService.criarRespostaProcessado(orcamento);
                 return ResponseEntity.ok(resposta);

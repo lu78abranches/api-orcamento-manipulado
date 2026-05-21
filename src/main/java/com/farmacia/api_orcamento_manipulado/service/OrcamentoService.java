@@ -303,4 +303,12 @@ public class OrcamentoService {
         return repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Orçamento não encontrado: " + id));
     }
+
+    /**
+     * Helper to extract items from plain text via the IA service.
+     * This exposes IA functionality without leaking internal fields.
+     */
+    public List<ItemOrcamento> extrairItensFromText(String texto) {
+        return iaReceitaService.extrairItensFromText(texto);
+    }
 }
