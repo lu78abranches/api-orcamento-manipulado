@@ -2,13 +2,16 @@ package com.farmacia.api_orcamento_manipulado.service;
 
 import com.farmacia.api_orcamento_manipulado.dto.ItemExtraidoDTO;
 import com.farmacia.api_orcamento_manipulado.model.ItemOrcamento;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
-import com.fasterxml.jackson.core.type.TypeReference;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Base64;
@@ -16,7 +19,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Service
+@Primary
 public class OpenAIReceitaService implements IAReceitaService {
+
+        @Value("${openai.api.url:https://api.openai.com/v1/chat/completions}")
+        private String apiUrl;
 
         @Value("${openai.api.key}")
         private String apiKey;
@@ -30,18 +38,19 @@ public class OpenAIReceitaService implements IAReceitaService {
         @Override
         public List<ItemOrcamento> extrairItens(byte[] imagem) {
                 String base64Imagem = Base64.getEncoder().encodeToString(imagem);
-                String url = "https://openai.com"; // URL CORRETA
+                String url = apiUrl;
+
+                List<Map<String, Object>> messages = List.of(
+                                Map.of("role", "system", "content",
+                                                "Você é um assistente que extrai itens e preços de receitas médicas."),
+                                Map.of("role", "user", "content",
+                                                "Liste os itens e preços desta receita. Retorne APENAS um JSON no formato: {\"itens\": [{\"nome\": \"...\", \"preco\": 0.00}]}\n\nReceita em base64: data:image/jpeg;base64,"
+                                                                + base64Imagem));
 
                 Map<String, Object> requestBody = Map.of(
                                 "model", "gpt-4o",
-                                "messages", List.of(
-                                                Map.of("role", "user", "content", List.of(
-                                                                Map.of("type", "text", "text",
-                                                                                "Liste os itens e preços desta receita. Retorne APENAS um JSON no formato: {\"itens\": [{\"nome\": \"...\", \"preco\": 0.00}]}"),
-                                                                Map.of("type", "image_url", "image_url",
-                                                                                Map.of("url", "data:image/jpeg;base64,"
-                                                                                                + base64Imagem))))),
-                                "response_format", Map.of("type", "json_object"));
+                                "messages", messages,
+                                "temperature", 0);
 
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.APPLICATION_JSON);
@@ -59,7 +68,7 @@ public class OpenAIReceitaService implements IAReceitaService {
 
                 try {
                         System.out.println("DEBUG: Tentando conectar na URL: " + url);
-                        var responseBody = restTemplate.postForObject("https://openai.com", entity, Map.class);
+                        var responseBody = restTemplate.postForObject(url, entity, Map.class);
                         System.out.println("Resposta da OpenAI: " + responseBody);
 
                         // --- INÍCIO DO PARSE (O que faltava para retornar) ---
@@ -92,16 +101,19 @@ public class OpenAIReceitaService implements IAReceitaService {
 
         @Override
         public List<ItemOrcamento> extrairItensFromText(String texto) {
-                String url = "https://openai.com"; // URL CORRETA
+                String url = apiUrl;
+
+                List<Map<String, Object>> messages = List.of(
+                                Map.of("role", "system", "content",
+                                                "Você é um assistente que extrai itens e preços de receitas médicas."),
+                                Map.of("role", "user", "content",
+                                                "Liste os itens e preços desta receita. Retorne APENAS um JSON no formato: {\"itens\": [{\"nome\": \"...\", \"preco\": 0.00}]}\n\nReceita:\n"
+                                                                + texto));
 
                 Map<String, Object> requestBody = Map.of(
                                 "model", "gpt-4o",
-                                "messages", List.of(
-                                                Map.of("role", "user", "content", List.of(
-                                                                Map.of("type", "text", "text",
-                                                                                "Liste os itens e preços desta receita. Retorne APENAS um JSON no formato: {\"itens\": [{\"nome\": \"...\", \"preco\": 0.00}]}"),
-                                                                Map.of("type", "text", "text", texto)))),
-                                "response_format", Map.of("type", "json_object"));
+                                "messages", messages,
+                                "temperature", 0);
 
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.APPLICATION_JSON);
@@ -116,7 +128,7 @@ public class OpenAIReceitaService implements IAReceitaService {
                 try {
                         var responseBody = restTemplate.postForObject(url, entity, Map.class);
 
-                        @SuppressWarnings({ "unchecked", "null" })
+                        @SuppressWarnings({ "unchecked" })
                         List<Map<String, Object>> choices = (List<Map<String, Object>>) responseBody.get("choices");
                         @SuppressWarnings("unchecked")
                         String contentJson = (String) ((Map<String, Object>) choices.get(0).get("message"))

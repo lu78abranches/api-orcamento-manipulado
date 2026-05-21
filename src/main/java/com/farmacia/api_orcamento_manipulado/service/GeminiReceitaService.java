@@ -6,8 +6,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Base64;
@@ -16,7 +16,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-@Primary
 public class GeminiReceitaService implements IAReceitaService {
 
     @Value("${gemini.api.url}")
@@ -80,8 +79,14 @@ public class GeminiReceitaService implements IAReceitaService {
                     .map(dto -> new ItemOrcamento(dto.nome(), dto.preco()))
                     .collect(Collectors.toList());
 
+        } catch (HttpClientErrorException e) {
+            String body = e.getResponseBodyAsString();
+            if (e.getStatusCode().value() == 429) {
+                throw new RuntimeException(
+                        "Quota do Gemini esgotada. Aguarde alguns minutos ou use outra conta/API key.");
+            }
+            throw new RuntimeException("Erro no Gemini: " + e.getStatusCode() + ". " + e.getStatusText(), e);
         } catch (Exception e) {
-            // Imprime o erro no console para facilitar o seu debug
             e.printStackTrace();
             throw new RuntimeException("Erro no Gemini: " + e.getMessage(), e);
         }
@@ -128,6 +133,12 @@ public class GeminiReceitaService implements IAReceitaService {
                     .map(dto -> new ItemOrcamento(dto.nome(), dto.preco()))
                     .collect(Collectors.toList());
 
+        } catch (HttpClientErrorException e) {
+            if (e.getStatusCode().value() == 429) {
+                throw new RuntimeException(
+                        "Quota do Gemini esgotada. Aguarde alguns minutos ou use outra conta/API key.");
+            }
+            throw new RuntimeException("Erro no Gemini (texto): " + e.getStatusCode() + ". " + e.getStatusText(), e);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Erro no Gemini (texto): " + e.getMessage(), e);
