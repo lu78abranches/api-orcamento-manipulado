@@ -2,10 +2,14 @@
 
 [![Java 17](https://img.shields.io/badge/Java-17-orange.svg)](https://www.oracle.com/java/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.x-brightgreen.svg)](https://spring.io/projects/spring-boot)
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=flat&logo=react&logoColor=white)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-8-646CFF?style=flat&logo=vite&logoColor=white)](https://vite.dev/)
+[![Axios](https://img.shields.io/badge/Axios-HTTP-5A29E4?style=flat)](https://axios-http.com/)
 [![Gemini AI](https://img.shields.io/badge/Google%20Gemini-AI%20Integration-blue.svg)](https://ai.google.dev/)
 [![MySQL](https://img.shields.io/badge/Database-MySQL-lightgrey.svg)](https://www.mysql.com/)
-[![PostgreSQL](https://shields.io)](https://postgresql.org)
-[![Render](https://shields.io)](https://render.com)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-336791?style=flat&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Netlify](https://img.shields.io/badge/Netlify-Frontend-00C7B7?style=flat&logo=netlify&logoColor=white)](https://www.netlify.com/)
+[![Render](https://img.shields.io/badge/Render-Backend-46E3B2?style=flat&logo=render&logoColor=white)](https://render.com/)
 
 
 A modern, highly efficient RESTful API designed for compounding pharmacies (farmácias de manipulação). This application leverages **Google's Generative AI (Gemini)** to automatically scan, analyze, and extract structured data (items and prices) directly from images of medical prescriptions and receipts.
@@ -35,8 +39,14 @@ This project demonstrates strong capabilities in **backend engineering, system i
 
 * **Backend Framework**: Java 17, Spring Boot 3.5
 * **Artificial Intelligence**: Google Generative AI (Gemini 2.5 REST API)
-* **Database & ORM**: MySQL, Spring Data JPA, Hibernate (with H2 for testing)
-* **Utilities**: Lombok, Jackson (JSON Parsing), Maven
+* **Database & ORM**: MySQL / PostgreSQL (production), Spring Data JPA, Hibernate (H2 for tests)
+* **Backend Utilities**: Lombok, Jackson (JSON parsing), Maven, Spring Security (JWT)
+
+* **Frontend (`frontend/`)**: React 19, Vite 8, Axios
+* **Frontend UI**: `react-dropzone` (prescription upload), `lucide-react` (icons), `framer-motion` (animations)
+* **Frontend Styling**: CSS modules in `index.css` (`.markdown-content`, `.report-panel`, `.result-cards` grid)
+* **Frontend Tooling**: ESLint, `@vitejs/plugin-react`
+* **Frontend Hosting**: Netlify (dashboard); API base URL via `VITE_API_URL` in `.env`
 
 ---
 
@@ -53,39 +63,76 @@ This project demonstrates strong capabilities in **backend engineering, system i
 
 ```text
 api-orcamento-manipulado/
+├── frontend/                              # React dashboard (deployed on Netlify)
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── DashboardLayout.jsx
+│   │   │   ├── ProcessingState.jsx
+│   │   │   ├── ResultCard.jsx             # Cards: Medicamentos / Orçamento / Status
+│   │   │   ├── UploadCard.jsx
+│   │   │   └── UploadZone.jsx             # Upload + relatório Markdown
+│   │   ├── pages/
+│   │   │   └── Dashboard.jsx
+│   │   ├── services/
+│   │   │   └── api.js                     # Axios client (VITE_API_URL)
+│   │   ├── utils/
+│   │   │   └── markdownToHtml.js
+│   │   ├── App.jsx
+│   │   ├── main.jsx
+│   │   └── index.css                      # .markdown-content, .result-cards
+│   ├── index.html
+│   ├── package.json
+│   ├── vite.config.js
+│   └── eslint.config.js
 ├── src/
 │   ├── main/
 │   │   ├── java/com/farmacia/api_orcamento_manipulado/
 │   │   │   ├── config/
-│   │   │   │   └── JpaConfig.java
+│   │   │   │   ├── DataInitializer.java
+│   │   │   │   ├── JpaConfig.java
+│   │   │   │   └── security/
+│   │   │   │       ├── CustomUserDetailsService.java
+│   │   │   │       ├── SecurityConfig.java
+│   │   │   │       └── SecurityFilter.java
 │   │   │   ├── controller/
-│   │   │   │   └── OrcamentoController.java
+│   │   │   │   ├── AuthController.java
+│   │   │   │   ├── GlobalExceptionHandler.java
+│   │   │   │   ├── OrcamentoController.java
+│   │   │   │   ├── PrescriptionUploadController.java
+│   │   │   │   └── TwilioWebhookController.java
 │   │   │   ├── dto/
-│   │   │   │   └── ItemExtraidoDTO.java
+│   │   │   │   ├── ItemExtraidoDTO.java
+│   │   │   │   ├── OrcamentoProcessadoDTO.java
+│   │   │   │   ├── OrcamentoPendenteDTO.java
+│   │   │   │   └── ...
+│   │   │   ├── mapper/
+│   │   │   │   └── OrcamentoMapper.java
 │   │   │   ├── model/
 │   │   │   │   ├── ItemOrcamento.java
-│   │   │   │   └── Orcamento.java
+│   │   │   │   ├── Orcamento.java
+│   │   │   │   ├── OrcamentoStatus.java
+│   │   │   │   └── Usuario.java
 │   │   │   ├── repository/
-│   │   │   │   └── OrcamentoRepository.java
+│   │   │   │   ├── OrcamentoRepository.java
+│   │   │   │   └── UsuarioRepository.java
 │   │   │   ├── service/
 │   │   │   │   ├── GeminiReceitaService.java
 │   │   │   │   ├── IAReceitaService.java
 │   │   │   │   ├── OpenAIReceitaService.java
-│   │   │   │   └── OrcamentoService.java
+│   │   │   │   ├── OrcamentoService.java
+│   │   │   │   ├── PriceCalculationEngine.java
+│   │   │   │   └── TokenService.java
 │   │   │   └── ApiOrcamentoManipuladoApplication.java
 │   │   └── resources/
 │   │       └── application.properties
 │   └── test/
 │       └── java/com/farmacia/api_orcamento_manipulado/
 │           ├── controller/
-│           │   └── OrcamentoControllerTest.java
+│           ├── config/
 │           ├── model/
-│           │   └── OrcamentoTest.java
 │           ├── repository/
-│           │   └── OrcamentoRepositoryTest.java
-│           ├── service/
-│           │   └── OrcamentoServiceTest.java
-│           └── ApiOrcamentoManipuladoApplicationTests.java
+│           ├── security/
+│           └── service/
 ├── pom.xml
 ├── README.md
 ├── HELP.md
@@ -99,18 +146,23 @@ api-orcamento-manipulado/
 Based on the **System Requirements Document (DRS)**, the following modules are either functional or pending implementation.
 
 ### ✅ What has been developed
-* **AI Data Extraction (RF-02):** Functional integration with Google Gemini Vision to extract medications, concentrations, and quantities from images sent via HTTP REST.
-* **Base Data Persistence:** Initial database configuration (MySQL/H2) via Spring Data JPA with robustly mapped business entities.
-* **Credentials Security (RNF-05):** Structural protection through secure reading of the `.env` file.
-* **Automated Testing & Security Foundation (RNF-03):** All 26s tests are now passing with BUILD SUCCESS. We have consolidated the foundation of our information security, which is essential for compliance with the Brazilian LGPD and the secure handling of prescriptions controlled by Ordinance 344/98.
+* **AI Data Extraction (RF-02):** Google Gemini Vision extracts medications and prices from prescription images via REST (`/prescriptions/upload` and related flows).
+* **Price Calculation Engine (RF-03, RN-03):** `PriceCalculationEngine` sums item prices (with normalization table) and applies the fixed handling fee (R$ 10,00).
+* **React Dashboard (`frontend/`):** Vite + React app with drag-and-drop upload (`react-dropzone`), Markdown budget report (`.markdown-content`), and structured summary cards (Medicamentos / Orçamento / Status) fed by `OrcamentoProcessadoDTO`.
+* **Budget API & DTOs:** Pending, processed, approval, and final-quote responses; GFM-friendly Markdown generation on the backend plus `budget` and `medications` fields for the UI.
+* **Pharmacist workflow (backend):** Budgets saved as `PENDENTE_REVISAO` with approve/reject endpoints and pending listing.
+* **WhatsApp intake (partial RF-01):** `TwilioWebhookController` receives inbound messages and triggers preliminary budget creation.
+* **Authentication foundation (RNF-01):** JWT login (`AuthController`, `TokenService`), Spring Security filter chain, and BCrypt-backed users.
+* **Data persistence & security:** Spring Data JPA (MySQL/PostgreSQL in production, H2 in tests), `.env` for secrets, and automated test suite (controllers, services, security).
 
 ### 🚧 What is left to develop
-* **WhatsApp Webhook Integration (RF-01, RF-05):** Enable receiving messages and directly sending approved budgets through the Meta WhatsApp Business API.
-* **Pharmacist Validation Panel (RF-04, RN-01, RN-02):** The extracted budget needs to be pending; every submission requires human review and authorization before being sent to the client.
-* **Price Calculation Engine (RF-03, RN-03):** Create/Configure the logic that calculates: `(Supplies Cost + Packaging) * Markup + Fixed Handling Fee (R$ 10)`.
-* **Controlled Substances Alert (RN-04):** Logic to check if the mapped active ingredient is under Ordinance 344/98 (Brazil) and trigger a system warning.
-* **Cloud Object Storage (RF-06):** Permanent storage of the original file (prescription photo) in Amazon S3 / Google Cloud Storage with a URL linked to the budget.
-* **Advanced Authentication (RNF-01, RNF-02):** Further refinement of access using Spring Security (profiles and JWT tokens), and encrypting user passwords with BCrypt.
+* **Pharmacist Validation Panel UI (RF-04, RN-01, RN-02):** Dashboard screens to review pending budgets, edit items, and approve or reject before client delivery (backend rules exist; UI workflow is incomplete).
+* **WhatsApp outbound (RF-05):** Send approved quotes and payment links to the customer after pharmacist validation (inbound webhook only today).
+* **Full pricing formula (RN-03):** Extend the engine with packaging, markup, and configurable rules beyond subtotal + fixed fee.
+* **Controlled Substances Alert (RN-04):** Detect active ingredients under Brazilian Ordinance 344/98 and surface warnings in API and dashboard.
+* **Cloud Object Storage (RF-06):** Store original prescription images in S3 or GCS and link URLs to each budget record.
+* **Advanced Authentication (RNF-02):** Role-based profiles (e.g. pharmacist vs admin), token refresh, and tighter endpoint policies.
+* **Real-time sync:** Live polling or WebSocket updates on the dashboard for pending-queue changes without manual refresh.
 
 ---
 
