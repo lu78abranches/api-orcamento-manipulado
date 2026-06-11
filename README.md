@@ -198,6 +198,45 @@ Based on the **System Requirements Document (DRS)**, the following modules are e
    ```
    The API will be available at `http://localhost:8082`.
 
+   ---
+
+   ## ☁️ Deploy no Render + Neon (PostgreSQL)
+
+   Se você implanta o backend no Render usando um banco Neon (PostgreSQL gerenciado), siga estas recomendações para evitar erros de conexão JDBC/SSL:
+
+   - **Variáveis de ambiente essenciais** (defina no painel do Render):
+      - `SPRING_DATASOURCE_URL` — Ex: `jdbc:postgresql://<host>:5432/<dbname>?sslmode=require`
+      - `DB_USERNAME` — usuário do banco (ex: `neondb_owner`)
+      - `DB_PASSWORD` — senha do banco
+      - `SPRING_PROFILES_ACTIVE=prod`
+
+   - **Exemplo de URL JDBC recomendado** (não inclua parâmetros com underline como `channel_binding`):
+
+      jdbc:postgresql://ep-jolly-smoke-ackhmqb2-pooler.sa-east-1.aws.neon.tech:5432/neondb?sslmode=require
+
+   - **Teste de conexão com psql (local ou container com psql instalado)**:
+
+   ```bash
+   psql "host=ep-jolly-smoke-ackhmqb2-pooler.sa-east-1.aws.neon.tech port=5432 dbname=neondb user=neondb_owner password='SUA_SENHA' sslmode=require"
+   ```
+
+   - **Problemas comuns e soluções rápidas**:
+      - `The connection attempt failed` / SQLState 08001: verifique se a URL contém a porta (`:5432`) e se `sslmode=require` está presente.
+      - Se a URL contiver `channel_binding=require` (com underline), remova esse parâmetro — algumas versões do driver JDBC não aceitam o nome com underline e falham no handshake.
+      - Confirme no painel do Render que não há espaços em branco extras nas variáveis (ex.: `DB_USERNAME= neondb_owner` causa erro).
+      - Se o Neon tiver configurações de allowlist, confirme que o serviço da Render tem acesso à instância (mas o pooler público do Neon normalmente permite conexões externas com SSL).
+
+   - **Debug temporário**: se precisar de logs detalhados da inicialização e do pool de conexões, adicione temporariamente em `src/main/resources/application-prod.properties` as linhas abaixo (remova após a investigação):
+
+   ```
+   logging.level.org.springframework=DEBUG
+   logging.level.org.hibernate=DEBUG
+   logging.level.com.zaxxer.hikari=DEBUG
+   spring.jpa.show-sql=true
+   ```
+
+   Se quiser, eu adiciono essa configuração temporária ao projeto (já incluída para debug pelo branch atual). Remova-as depois que o problema for resolvido para evitar logs verbosos em produção.
+
 ---
 
 ## 📬 Contact & Developer
