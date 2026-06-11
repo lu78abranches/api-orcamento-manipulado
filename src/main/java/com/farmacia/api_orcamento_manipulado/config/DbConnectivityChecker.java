@@ -15,6 +15,19 @@ public class DbConnectivityChecker implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+        // Detect and mitigate environment JVM flags that prefer IPv6, which
+        // can cause "Network unreachable" in environments without IPv6.
+        try {
+            String javaToolOpts = System.getenv("JAVA_TOOL_OPTIONS");
+            if (javaToolOpts != null && javaToolOpts.contains("preferIPv6Addresses=true")) {
+                log.warn(
+                        "Detected JAVA_TOOL_OPTIONS contains preferIPv6Addresses=true. Overriding to prefer IPv4 stack to avoid connectivity issues.");
+                System.setProperty("java.net.preferIPv4Stack", "true");
+            }
+        } catch (Exception ex) {
+            log.debug("Unable to inspect or set network properties: {}", ex.toString());
+        }
+
         try {
             String jdbc = System.getenv("SPRING_DATASOURCE_URL");
             String host = System.getenv("DB_HOST");
