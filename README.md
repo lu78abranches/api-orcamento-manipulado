@@ -57,7 +57,7 @@ This project demonstrates strong capabilities in **backend engineering, system i
 2. **Prescription Validation**: The backend verifies that the uploaded file contains a valid medical prescription and rejects non-prescription content with a friendly Portuguese message.
 3. **AI Analysis**: The API encodes the image in Base64 and sends a prompt to the Google Gemini AI, instructing it to extract the items and pricing into a strictly formatted JSON.
 4. **Data Parsing**: The Spring backend receives the AI's markdown/JSON response, parses it using Jackson, and maps it to Java DTOs.
-5. **Persistence**: The extracted items are processed, persisted into the MySQL database, and returned to the client as a structured financial budget.
+5. **Persistence**: The extracted items are processed, persisted into the PostgreSQL database, and returned to the client as a structured financial budget.
 
 ---
 
