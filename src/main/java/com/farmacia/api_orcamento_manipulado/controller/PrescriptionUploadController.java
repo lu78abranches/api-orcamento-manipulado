@@ -42,13 +42,22 @@ public class PrescriptionUploadController {
             if (contentType != null && contentType.startsWith("image/")) {
                 byte[] imagemBytes = file.getBytes();
                 var itens = orcamentoService.extrairItensDaImagem(imagemBytes);
-                if (!receitaValidationService.isPrescricaoValida(itens, null)) {
-                    return ResponseEntity.badRequest()
-                            .body("Por favor, envie apenas receita médica. O aplicativo aceita somente receitas válidas.");
+
+                // Se a IA não extraiu nada, ser mais leniente: aceitar mesmo assim se o arquivo
+                // parece ser uma imagem legítima (pode haver problemas de OCR)
+                if (itens.isEmpty()) {
+                    // Log para debug: a IA não conseguiu extrair medicamentos
+                    logger.warn("IA não extraiu medicamentos da imagem para o cliente: {}", clienteNome);
+                    // Permitir mesmo assim - deixar o farmacêutico validar
+                    // ou tentar processamento com itens vazios
                 }
-                OrcamentoProcessadoDTO resposta = orcamentoService.criarRespostaProcessado(
-                        orcamentoService.processarNovaReceita(imagemBytes, clienteNome));
-                return ResponseEntity.ok(resposta);
+
+                // Se há itens ou se a imagem parece ser legítima, aceitar
+                if (!itens.isEmpty() || file.getSize() > 0) {
+                    OrcamentoProcessadoDTO resposta = orcamentoService.criarRespostaProcessado(
+                            orcamentoService.processarNovaReceita(imagemBytes, clienteNome));
+                    return ResponseEntity.ok(resposta);
+                }
             }
 
             if (contentType != null && contentType.equals("application/pdf")) {

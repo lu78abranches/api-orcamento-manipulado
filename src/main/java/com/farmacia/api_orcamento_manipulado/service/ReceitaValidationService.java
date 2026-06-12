@@ -110,23 +110,59 @@ public class ReceitaValidationService {
             "lamotrigina",
             "levotiroxina",
             "tiamina",
-            "complexo b");
+            "complexo b",
+            "colecalciferol",
+            "mecobalamina",
+            "vitamina b12",
+            "vitamina e",
+            "vitamina k");
 
     public boolean isPrescricaoValida(List<ItemOrcamento> itens, String textoReceita) {
+        // Se há itens extraídos, verificar se parecem medicamentos
         if (itens != null && !itens.isEmpty()) {
             for (ItemOrcamento item : itens) {
-                if (item != null && item.getNome() != null && containsMedicamentoConhecido(item.getNome())) {
-                    return true;
+                if (item != null && item.getNome() != null) {
+                    // Aceitar se é medicamento conhecido
+                    if (containsMedicamentoConhecido(item.getNome())) {
+                        return true;
+                    }
+                    // Ou se parece ser um medicamento (contém dosagem/unidade)
+                    String itemNorm = normalize(item.getNome());
+                    if (isMedicationLike(itemNorm)) {
+                        return true;
+                    }
                 }
             }
         }
 
+        // Se há texto (PDF/TXT)
         if (textoReceita != null && !textoReceita.isBlank()) {
             String normalizedTexto = normalize(textoReceita);
-            return containsReceitaKeywords(normalizedTexto);
+            if (containsReceitaKeywords(normalizedTexto)) {
+                return true;
+            }
+            // Também aceitar se tem palavras que parecem medicamentos
+            if (looksLikePrescription(normalizedTexto)) {
+                return true;
+            }
         }
 
         return false;
+    }
+
+    private boolean isMedicationLike(String texto) {
+        // Padrão: texto com dosagem (mg, mcg, ui, ml) ou estrutura medicamentosa
+        return (texto.contains("mg") || texto.contains("mcg") || texto.contains("ui") ||
+                texto.contains("ml") || texto.contains("capsula") || texto.contains("comprimido") ||
+                texto.contains("solucao") || texto.contains("suspensao"));
+    }
+
+    private boolean looksLikePrescription(String texto) {
+        // Verificar se há padrões que indicam receita
+        return (texto.contains("posologia") || texto.contains("tomar") ||
+                texto.contains("beber") || texto.contains("aplicar") ||
+                texto.contains("capsula") || texto.contains("comprimido") ||
+                (texto.matches(".*\\d+\\s*(mg|mcg|ui|ml).*")));
     }
 
     private boolean containsMedicamentoConhecido(String texto) {
