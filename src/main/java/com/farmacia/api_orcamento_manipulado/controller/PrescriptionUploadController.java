@@ -2,6 +2,7 @@ package com.farmacia.api_orcamento_manipulado.controller;
 
 import com.farmacia.api_orcamento_manipulado.dto.OrcamentoProcessadoDTO;
 import com.farmacia.api_orcamento_manipulado.service.OrcamentoService;
+import com.farmacia.api_orcamento_manipulado.service.ReceitaValidationService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,7 @@ import java.io.IOException;
 public class PrescriptionUploadController {
 
     private final OrcamentoService orcamentoService;
+    private final ReceitaValidationService receitaValidationService;
     private static final Logger logger = LoggerFactory.getLogger(PrescriptionUploadController.class);
 
     @PostMapping("/upload")
@@ -39,6 +41,11 @@ public class PrescriptionUploadController {
         try {
             if (contentType != null && contentType.startsWith("image/")) {
                 byte[] imagemBytes = file.getBytes();
+                var itens = orcamentoService.extrairItensDaImagem(imagemBytes);
+                if (!receitaValidationService.isPrescricaoValida(itens, null)) {
+                    return ResponseEntity.badRequest()
+                            .body("Por favor, envie apenas receita médica. O aplicativo aceita somente receitas válidas.");
+                }
                 OrcamentoProcessadoDTO resposta = orcamentoService.criarRespostaProcessado(
                         orcamentoService.processarNovaReceita(imagemBytes, clienteNome));
                 return ResponseEntity.ok(resposta);
@@ -55,6 +62,11 @@ public class PrescriptionUploadController {
                     }
 
                     var itens = orcamentoService.extrairItensFromText(texto);
+                    if (!receitaValidationService.isPrescricaoValida(itens, texto)) {
+                        return ResponseEntity.badRequest()
+                                .body("Por favor, envie apenas receita médica. O aplicativo aceita somente receitas válidas.");
+                    }
+
                     var orcamento = orcamentoService.criarOrcamentoPreliminar(clienteNome, null, itens);
                     OrcamentoProcessadoDTO resposta = orcamentoService.criarRespostaProcessado(orcamento);
                     return ResponseEntity.ok(resposta);
@@ -68,6 +80,10 @@ public class PrescriptionUploadController {
                             "O arquivo de texto está vazio. Envie um arquivo contendo a receita.");
                 }
                 var itens = orcamentoService.extrairItensFromText(texto);
+                if (!receitaValidationService.isPrescricaoValida(itens, texto)) {
+                    return ResponseEntity.badRequest()
+                            .body("Por favor, envie apenas receita médica. O aplicativo aceita somente receitas válidas.");
+                }
                 var orcamento = orcamentoService.criarOrcamentoPreliminar(clienteNome, null, itens);
                 OrcamentoProcessadoDTO resposta = orcamentoService.criarRespostaProcessado(orcamento);
                 return ResponseEntity.ok(resposta);

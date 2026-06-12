@@ -51,6 +51,10 @@ public class OrcamentoService {
         return criarOrcamentoPreliminar(clienteNome, null, itens);
     }
 
+    public List<ItemOrcamento> extrairItensDaImagem(byte[] imagem) {
+        return iaReceitaService.extrairItens(imagem);
+    }
+
     public Orcamento processarNovaReceita(byte[] imagem) {
         return processarNovaReceita(imagem, null);
     }

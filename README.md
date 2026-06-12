@@ -30,6 +30,7 @@ This project demonstrates strong capabilities in **backend engineering, system i
 ## 🚀 Key Features
 
 * **AI Image Processing**: Integrates with the **Google Gemini API** (using the multimodal `gemini-2.5-flash` model) to read uploaded medical prescription images and intelligently parse text, medications, and pricing.
+* **Prescription Validation**: Rejects non-prescription uploads with a friendly Portuguese error message, ensuring the application accepts only valid medical prescriptions.
 * **RESTful Architecture**: Clean, scalable, and well-documented HTTP endpoints for uploading files and managing budgets.
 * **Robust Data Persistence**: Utilizes Spring Data JPA and Hibernate to reliably store budget information in a relational MySQL database.
 * **Environment Security**: Uses external `.env` configuration to keep sensitive API keys and database credentials secure and out of the source code.
@@ -53,9 +54,10 @@ This project demonstrates strong capabilities in **backend engineering, system i
 ## ⚙️ How it Works
 
 1. **Client Request**: The user sends a `POST` request containing a multipart file (the image of the prescription/budget).
-2. **AI Analysis**: The API encodes the image in Base64 and sends a prompt to the Google Gemini AI, instructing it to extract the items and pricing into a strictly formatted JSON.
-3. **Data Parsing**: The Spring backend receives the AI's markdown/JSON response, parses it using Jackson, and maps it to Java DTOs.
-4. **Persistence**: The extracted items are processed, persisted into the MySQL database, and returned to the client as a structured financial budget.
+2. **Prescription Validation**: The backend verifies that the uploaded file contains a valid medical prescription and rejects non-prescription content with a friendly Portuguese message.
+3. **AI Analysis**: The API encodes the image in Base64 and sends a prompt to the Google Gemini AI, instructing it to extract the items and pricing into a strictly formatted JSON.
+4. **Data Parsing**: The Spring backend receives the AI's markdown/JSON response, parses it using Jackson, and maps it to Java DTOs.
+5. **Persistence**: The extracted items are processed, persisted into the MySQL database, and returned to the client as a structured financial budget.
 
 ---
 
